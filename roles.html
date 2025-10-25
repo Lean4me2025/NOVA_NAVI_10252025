@@ -4,18 +4,208 @@
   <meta charset="utf-8">
   <title>NOVA — Your Matching Roles</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="See roles matched to your traits with outlook, salary, and why each fit is recommended.">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <header class="bar"><h1>Your Matching Roles</h1></header>
+  <header class="bar">
+    <h1>Your Matching Roles</h1>
+    <nav class="bar-nav" aria-label="Secondary">
+      <a class="link" href="traits.html">Adjust traits</a>
+      <a class="link" href="invest.html">Reveal &amp; Save</a>
+    </nav>
+  </header>
+
   <main class="wrap">
-    <div id="rolesContainer" class="stack"></div>
+    <!-- Summary strip -->
+    <section class="card" id="summary">
+      <div class="grid two">
+        <div>
+          <h2 class="minihead">Your selections</h2>
+          <div id="chosenTraits" class="chips"></div>
+          <p class="micro">You can <a href="traits.html">adjust traits</a> to refine matches.</p>
+        </div>
+        <div>
+          <h2 class="minihead">Results</h2>
+          <p id="resultCount" class="lead"></p>
+          <div class="controls">
+            <label class="control">
+              <span>Sort by</span>
+              <select id="sortBy">
+                <option value="score">Match % (desc)</option>
+                <option value="salary">Median salary (desc)</option>
+                <option value="title">Title (A–Z)</option>
+              </select>
+            </label>
+            <label class="control">
+              <span>Min match</span>
+              <select id="minMatch">
+                <option value="0">Any</option>
+                <option value="50">50%+</option>
+                <option value="60">60%+</option>
+                <option value="70">70%+</option>
+                <option value="80">80%+</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roles list -->
+    <section id="rolesContainer" class="stack" aria-live="polite"></section>
+
     <div class="actions">
-      <a class="btn" href="invest.html">Continue Your Journey</a>
+      <a class="btn" href="invest.html">Continue to Reveal &amp; Save</a>
     </div>
   </main>
 
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/ResultsRenderer.js"></script>
+  <script type="module">
+    import { getJSON, state, log, $, $$ } from './assets/js/app.js';
+
+    // Helpers
+    const outlookClass = (o='')=>{
+      const s=o.toLowerCase();
+      if (s.includes('much faster')) return 'olx-fastest';
+      if (s.includes('faster')) return 'olx-faster';
+      if (s.includes('average')) return 'olx-average';
+      if (s.includes('decline')||s.includes('slower')) return 'olx-slower';
+      return 'olx-unknown';
+    };
+    const fmtUSD = (n)=> typeof n==='number' ? n.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}) : 'n/a';
+
+    function intersect(a=[], b=[]){
+      const setB = new Set(b);
+      return a.filter(x=>setB.has(x));
+    }
+
+    // Score roles (same shape as earlier module but extended here for “why this fits”)
+    function scoreRole(role, pickedTraits){
+      const picked = new Set(pickedTraits);
+      const req = role.requiredTraits || [];
+      const bonus = role.bonusTraits || [];
+
+      const reqHits = req.filter(t=>picked.has(t));
+      const bonHits = bonus.filter(t=>picked.has(t));
+
+      if (req.length && reqHits.length===0) return {score:0, reqHits, bonHits};
+
+      const denom = (req.length*2) + (bonus.length||0) || 1;
+      const score = ((reqHits.length*2) + bonHits.length)/denom;
+      return {score, reqHits, bonHits};
+    }
+
+    // Render chip list
+    function renderChips(el, items){
+      el.innerHTML = items.map(x=>`<span class="chip">${x}</span>`).join('') || '<span class="micro">No traits selected.</span>';
+    }
+
+    // Render role card
+    function roleCard(r){
+      const pct = Math.round(r._score*100);
+      const olxCls = outlookClass(r.outlook||'');
+      const why = [
+        r._reqHits.length ? `<p><strong>Why this fits:</strong> You selected core traits needed for this role — <em>${r._reqHits.join(', ')}</em>.</p>` : '',
+        r._bonHits.length ? `<p><strong>Also matches:</strong> Helpful traits you carry — <em>${r._bonHits.join(', ')}</em>.</p>` : ''
+      ].join('');
+
+      const salaryBand = typeof r.salaryMedian==='number'
+        ? (r.salaryMedian>=100000? 'High' : r.salaryMedian>=60000? 'Mid' : 'Entry')
+        : 'n/a';
+
+      return `
+        <article class="role">
+          <div class="role-head">
+            <div class="match-badge ${pct>=80?'m80':pct>=70?'m70':pct>=60?'m60':'m50'}">${pct}% match</div>
+            <h3>${r.title}</h3>
+            <div class="meta">
+              ${r.soc?`<span class="meta-item">SOC: ${r.soc}</span>`:''}
+              <span class="meta-item outlook ${olxCls}">${r.outlook||'Outlook: n/a'}</span>
+              <span class="meta-item">Median: ${fmtUSD(r.salaryMedian)} <span class="band badge">${salaryBand}</span></span>
+            </div>
+          </div>
+
+          ${r.summary?`<p>${r.summary}</p>`:''}
+          ${why}
+
+          ${r.requiredTraits?.length?`<p class="micro"><strong>Core traits expected:</strong> ${r.requiredTraits.join(', ')}</p>`:''}
+          ${r.bonusTraits?.length?`<p class="micro"><strong>Helpful traits:</strong> ${r.bonusTraits.join(', ')}</p>`:''}
+
+          <div class="next-steps">
+            <button class="btn ghost" data-action="pin" data-title="${r.title}">Pin role</button>
+            <button class="btn ghost" data-action="plan" data-title="${r.title}">Add next step</button>
+            <a class="btn" href="invest.html">Reveal &amp; Save</a>
+          </div>
+        </article>
+      `;
+    }
+
+    // Main init
+    (async function(){
+      const traits = state.traits || [];
+      if (!traits.length){ window.location.replace('traits.html'); return; }
+
+      renderChips($('#chosenTraits'), traits);
+
+      const roles = await getJSON('data/roles_400.json');
+      let ranked = roles.map(r=>{
+        const {score, reqHits, bonHits} = scoreRole(r, traits);
+        return {...r, _score:score, _reqHits:reqHits, _bonHits:bonHits};
+      }).filter(r=>r._score>0);
+
+      const container = $('#rolesContainer');
+      const resultCount = $('#resultCount');
+      const sortBy = $('#sortBy');
+      const minMatch = $('#minMatch');
+
+      function applyRender(){
+        let rows = ranked.slice();
+
+        // filter
+        const mm = Number(minMatch.value||0);
+        rows = rows.filter(r => Math.round(r._score*100) >= mm);
+
+        // sort
+        const key = sortBy.value;
+        rows.sort((a,b)=>{
+          if (key==='salary') return (b.salaryMedian||0)-(a.salaryMedian||0);
+          if (key==='title') return (a.title||'').localeCompare(b.title||'');
+          // default: score
+          return b._score - a._score;
+        });
+
+        resultCount.textContent = `${rows.length} matching role${rows.length===1?'':'s'} found`;
+        container.innerHTML = rows.slice(0,50).map(roleCard).join('') || `<div class="card">No roles at this threshold. Lower “Min match” or adjust traits.</div>`;
+      }
+
+      sortBy.onchange = applyRender;
+      minMatch.onchange = applyRender;
+
+      applyRender();
+
+      // Quick next-steps (lightweight UX stubs)
+      container.addEventListener('click', (e)=>{
+        const btn = e.target.closest('button[data-action]');
+        if (!btn) return;
+        const title = btn.dataset.title;
+        if (btn.dataset.action==='pin'){
+          const pins = JSON.parse(localStorage.getItem('nova:pins')||'[]');
+          if (!pins.includes(title)) pins.push(title);
+          localStorage.setItem('nova:pins', JSON.stringify(pins));
+          btn.textContent = 'Pinned ✓';
+        } else if (btn.dataset.action==='plan'){
+          const plans = JSON.parse(localStorage.getItem('nova:plans')||'[]');
+          plans.push({ title, ts:Date.now(), note:'Next step added' });
+          localStorage.setItem('nova:plans', JSON.stringify(plans));
+          btn.textContent = 'Added ✓';
+        }
+      });
+
+      log('Rendered roles page.');
+    })().catch(err=>{
+      console.error(err);
+      $('#rolesContainer').innerHTML = `<div class="card">We couldn’t load roles right now.</div>`;
+    });
+  </script>
 </body>
 </html>
