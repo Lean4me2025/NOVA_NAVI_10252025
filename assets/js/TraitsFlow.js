@@ -1,51 +1,37 @@
-import { getJSON, state, log, $, $$, toggleSelect } from './app.js';
-
-(async function init(){
-  const MIN = 3, MAX = 7;
-  const cats = state.categories || [];
-  if (!cats.length){ window.location.replace('categories.html'); return; }
-
-  const map = await getJSON('data/traits_with_categories.json'); // { Category: ["Trait A","Trait B", ...], ... }
-  const traitSet = new Set();
-  cats.forEach(c => (map[c]||[]).forEach(t => traitSet.add(t)));
-  const traits = [...traitSet].sort();
-
-  const listEl = $('#traitList');
-  const toRoles = $('#toRoles');
-  const chosen = new Set(state.traits || []);
-
-  // Render
-  listEl.innerHTML = traits.map(t => `
-    <div class="tile ${chosen.has(t) ? 'selected':''}" data-id="${t}" role="button" tabindex="0">
-      <div class="badge">Trait</div>
-      <div><h3>${t}</h3></div>
-    </div>
-  `).join('');
-
-  const evaluate = ()=>{
-    const count = chosen.size;
-    toRoles.disabled = !(count>=MIN && count<=MAX);
-  };
-
-  // Interactions
-  $$('.tile', listEl).forEach(tile=>{
-    tile.addEventListener('click', ()=>{
-      const id = tile.dataset.id;
-      if (chosen.has(id)){ chosen.delete(id); tile.classList.remove('selected'); }
-      else{
-        if (chosen.size>=MAX) return; // cap
-        chosen.add(id); tile.classList.add('selected');
-      }
-      evaluate();
+<script>
+window.TraitsFlow = (function(){
+  function filteredTraits(){
+    const s = new Set(NOVA.state.selectedCategories||[]);
+    const all = NOVA.data.traits || [];
+    if(s.size===0) return [];
+    return all.filter(t => (t.categories||t.categoryIds||[]).some(id=>s.has(id)));
+  }
+  function render(){
+    const wrap = document.getElementById('traitsContainer');
+    wrap.innerHTML='';
+    const sel = new Set(NOVA.state.selectedTraits||[]);
+    filteredTraits().forEach(tr=>{
+      const chip=document.createElement('button');
+      chip.type='button';
+      chip.className='nv-chip'+(sel.has(tr.id)?' active':'');
+      chip.innerHTML=`<strong>${tr.name}</strong>${tr.desc?`<small>${tr.desc}</small>`:''}`;
+      chip.onclick=()=>toggle(tr.id);
+      wrap.appendChild(chip);
     });
-  });
-
-  evaluate();
-
-  toRoles.onclick = ()=>{
-    state.traits = [...chosen];
-    window.location.href = 'roles.html';
-  };
-
-  log('Traits loaded for categories:', cats);
-})().catch(err=>{ console.error(err); alert('Failed to load traits.'); });
+    updateNext();
+  }
+  function toggle(id){
+    const sel = NOVA.state.selectedTraits;
+    const i = sel.indexOf(id);
+    if(i>=0) sel.splice(i,1); else sel.push(id);
+    NOVA.saveState(); render();
+  }
+  function updateNext(){
+    const btn=document.getElementById('toRoles');
+    const ok=(NOVA.state.selectedTraits||[]).length>0;
+    if(btn) btn.toggleAttribute('disabled', !ok);
+  }
+  async function init(){ await NOVA.loadAll(); NOVA.loadState(); render(); }
+  return { init };
+})();
+</script>
