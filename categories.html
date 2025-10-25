@@ -1,21 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>NOVA — Choose Categories</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NOVA — Pick Categories</title>
+  <link rel="stylesheet" href="./assets/css/styles.css"/>
 </head>
-<body>
-  <header class="bar"><h1>Choose up to 3 Categories</h1></header>
-  <main class="wrap">
-    <div id="catList" class="grid"></div>
-    <div class="actions">
-      <button id="next" class="btn" disabled>Next</button>
-    </div>
+<body data-page="categories">
+  <header class="nv-header">
+    <h1>Choose Your Categories</h1>
+    <p class="nv-sub">Pick **all** that fit you. (No 3-category cap.)</p>
+  </header>
+
+  <main class="nv-main">
+    <div id="app-error"></div>
+    <section class="nv-card">
+      <div id="categoriesContainer" class="nv-grid"></div>
+      <div class="nv-actions">
+        <a class="nv-btn light" href="./index.html">← Back</a>
+        <a id="toTraits" class="nv-btn" href="./traits.html" disabled>Next: Traits →</a>
+      </div>
+    </section>
   </main>
 
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/CategoryFlow.js"></script>
+  <footer class="nv-footer">
+    <nav>
+      <a href="./index.html">Welcome</a> ·
+      <a href="./categories.html">Categories</a> ·
+      <a href="./traits.html">Traits</a> ·
+      <a href="./roles.html">Roles</a> ·
+      <a href="./invest.html">Invest</a>
+    </nav>
+  </footer>
+
+  <script src="./js/DataLoader.js"></script>
+  <script src="./js/CategoryFlow.js"></script>
+  <script src="./js/TraitsFlow.js"></script>
+  <script src="./js/ResultsRenderer.js"></script>
+  <script src="./js/SaveReturn.js"></script>
+  <script src="./js/app.js"></script>
 </body>
 </html>
