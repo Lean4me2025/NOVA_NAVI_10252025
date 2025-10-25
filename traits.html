@@ -1,21 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>NOVA — Select Traits (3–7)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NOVA — Select Traits</title>
+  <link rel="stylesheet" href="./assets/css/styles.css"/>
 </head>
-<body>
-  <header class="bar"><h1>Select 3–7 Traits</h1></header>
-  <main class="wrap">
-    <div id="traitList" class="grid"></div>
-    <div class="actions">
-      <button id="toRoles" class="btn" disabled>See Matching Roles</button>
-    </div>
+<body data-page="traits">
+  <header class="nv-header">
+    <h1>Select Traits</h1>
+    <p class="nv-sub">These are filtered by your chosen categories.</p>
+  </header>
+
+  <main class="nv-main">
+    <div id="app-error"></div>
+    <section class="nv-card">
+      <div id="traitsContainer" class="nv-grid"></div>
+      <div class="nv-actions">
+        <a class="nv-btn light" href="./categories.html">← Back</a>
+        <a id="toRoles" class="nv-btn" href="./roles.html" disabled>Next: Matching Roles →</a>
+      </div>
+    </section>
   </main>
 
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/TraitsFlow.js"></script>
+  <footer class="nv-footer">
+    <nav>
+      <a href="./index.html">Welcome</a> ·
+      <a href="./categories.html">Categories</a> ·
+      <a href="./traits.html">Traits</a> ·
+      <a href="./roles.html">Roles</a> ·
+      <a href="./invest.html">Invest</a>
+    </nav>
+  </footer>
+
+  <script src="./js/DataLoader.js"></script>
+  <script src="./js/CategoryFlow.js"></script>
+  <script src="./js/TraitsFlow.js"></script>
+  <script src="./js/ResultsRenderer.js"></script>
+  <script src="./js/SaveReturn.js"></script>
+  <script src="./js/app.js"></script>
 </body>
 </html>
