@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>NOVA — Find Your Purpose with Clarity</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NOVA helps you discover purpose through categories → traits → roles, then guides your next steps.">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <!-- Top bar -->
+  <header class="bar">
+    <img src="assets/img/logo.png" alt="NOVA logo" class="logo">
+    <div class="bar-title">
+      <strong>NOVA</strong>
+      <span class="tagline">Clarity • Direction • Momentum</span>
+    </div>
+    <nav class="bar-nav" aria-label="Primary">
+      <a href="#how" class="link">How it works</a>
+      <a href="#get" class="link">What you get</a>
+      <a href="#privacy" class="link">Privacy</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO: Problem → Promise -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <div class="stat-pill">89% of people do not know their purpose!*</div>
+          <h1>Most people aren’t clear on their purpose.<br><span class="accent">You won’t be “most people.”</span></h1>
+          <p class="lead">
+            NOVA is a guided, step-by-step experience that translates who you are
+            into roles that fit you — and a practical plan to move forward.
+          </p>
+
+          <div class="checks">
+            <div class="check">Define your direction in minutes</div>
+            <div class="check">See roles that match your traits</div>
+            <div class="check">Leave with a concrete next step</div>
+          </div>
+
+          <div class="hero-cta">
+            <audio id="intro" src="assets/audio/intro.mp3" preload="auto"></audio>
+            <button id="begin" class="btn btn-lg">Begin Your Journey</button>
+            <p class="micro">Takes ~6–8 minutes. No fluff — just clarity.</p>
+          </div>
+
+          <p class="footnote">*Your featured stat. We’ll cite your preferred source on the final reveal page.</p>
+        </div>
+
+        <aside class="hero-card card">
+          <h3 class="minihead">Today’s Focus</h3>
+          <ol class="steps">
+            <li><strong>Choose up to 3 categories</strong> you resonate with</li>
+            <li><strong>Select 3–7 traits</strong> that feel true to you</li>
+            <li><strong>See your matched roles</strong> with outlook &amp; pay</li>
+            <li><strong>Save &amp; return</strong> — continue your journey</li>
+          </ol>
+          <div class="divider"></div>
+          <p class="micro">Backed by structured data and a simple, honest process.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Social proof / reassurance -->
+    <section id="how" class="section">
+      <div class="wrap">
+        <h2>How NOVA Works</h2>
+        <div class="grid three">
+          <div class="card step">
+            <div class="badge">1</div>
+            <h3>Start with what’s true</h3>
+            <p>Pick a few categories and traits you naturally carry. No tests or trick questions.</p>
+          </div>
+          <div class="card step">
+            <div class="badge">2</div>
+            <h3>Match to real roles</h3>
+            <p>NOVA translates your traits into role matches, ranked for fit — with summaries, outlook, and median pay.</p>
+          </div>
+          <div class="card step">
+            <div class="badge">3</div>
+            <h3>Move with confidence</h3>
+            <p>Save your results, return anytime, and choose your next step — training, resume help, or focused applications.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What you get -->
+    <section id="get" class="section alt">
+      <div class="wrap">
+        <h2>What You’ll Get Today</h2>
+        <div class="grid two">
+          <div class="card list">
+            <h3>Clarity Pack</h3>
+            <ul>
+              <li>Your top role matches (ranked)</li>
+              <li>Why each role fits your traits</li>
+              <li>Outlook &amp; median salary snapshots</li>
+              <li>Simple action step to continue</li>
+            </ul>
+          </div>
+          <div class="card list">
+            <h3>Keep Going</h3>
+            <ul>
+              <li>Save with email + PIN to revisit</li>
+              <li>Optional: resume &amp; cover letter support</li>
+              <li>Optional: deeper coaching via NAVI Pro</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy & trust -->
+    <section id="privacy" class="section">
+      <div class="wrap">
+        <div class="card trust">
+          <h2>Private. Honest. Yours.</h2>
+          <p>NOVA uses your selections for matching only. You control what you save and when you return. No spam — ever.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <div>
+        <strong>NOVA</strong><br>
+        <span class="micro">© <span id="year"></span> NOVA — All rights reserved.</span>
+      </div>
+      <div class="micro">Purpose belongs to everyone. Start now.</div>
+    </div>
+  </footer>
+
+  <!-- Minimal page logic -->
+  <script>
+    // Year stamp
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Begin flow with graceful audio attempt
+    const intro = document.getElementById('intro');
+    const begin = document.getElementById('begin');
+    begin.addEventListener('click', async () => {
+      try { await intro.play(); } catch (e) { /* Autoplay may be blocked; ignore */ }
+      sessionStorage.clear(); // clean start each time
+      window.location.href = 'categories.html';
+    });
+  </script>
+</body>
+</html>
