@@ -2,29 +2,142 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>NOVA — Invest in Yourself</title>
+  <title>NOVA — Reveal & Invest in Yourself</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Save your NOVA results, return anytime, and choose a plan to keep momentum.">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <header class="bar"><h1>Invest in Yourself</h1></header>
-  <main class="wrap">
-    <p class="lead">Save your results so you can return anytime.</p>
-    <form id="saveForm" class="card">
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="pin" placeholder="4–6 digit PIN" minlength="4" maxlength="6" required>
-      <button type="submit" class="btn">Save & Continue</button>
-    </form>
+  <header class="bar">
+    <h1>Reveal &amp; Invest in Yourself</h1>
+    <nav class="bar-nav" aria-label="Secondary">
+      <a class="link" href="roles.html">Back to matches</a>
+    </nav>
+  </header>
 
+  <main class="wrap">
+    <!-- Reveal / Recap -->
     <section class="card">
-      <h2>Upgrade Options</h2>
-      <script src="https://payhip.com/payhip.js" type="text/javascript"></script>
-      <a href="https://payhip.com/b/re4Hy" class="payhip-buy-button" data-theme="green" data-product="re4Hy">Mastery Plan — Buy Now</a>
-      <a href="https://payhip.com/b/knC1Z" class="payhip-buy-button" data-theme="green" data-product="knC1Z">NAVI PRO — Buy Now</a>
+      <h2 class="minihead">Your journey so far</h2>
+      <div class="grid two">
+        <div>
+          <h3>Chosen Categories</h3>
+          <div id="revealCategories" class="chips"></div>
+
+          <h3>Chosen Traits</h3>
+          <div id="revealTraits" class="chips"></div>
+        </div>
+        <div>
+          <h3>Top Matches</h3>
+          <ol id="revealTop" class="reveal-list"></ol>
+          <p class="micro">Full list available on the matches page.</p>
+        </div>
+      </div>
     </section>
+
+    <!-- Save & Return -->
+    <section class="card">
+      <h2>Save Your Results</h2>
+      <p>Create a simple key to return later. We store your selections locally and use your email+PIN to find them again.</p>
+
+      <form id="saveForm" class="grid two">
+        <div>
+          <label class="micro" for="email">Email</label>
+          <input type="email" id="email" placeholder="you@example.com" required>
+        </div>
+        <div>
+          <label class="micro" for="pin">PIN (4–6 digits)</label>
+          <input type="password" id="pin" placeholder="1234" minlength="4" maxlength="6" required>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn">Save &amp; Continue</button>
+        </div>
+      </form>
+
+      <div id="saveMsg" class="micro"></div>
+    </section>
+
+    <!-- Upgrade / Payhip -->
+    <section class="card">
+      <h2>Keep Your Momentum</h2>
+      <p class="lead">Choose a simple next step. Upgrade is optional — the clarity you gained today is already yours.</p>
+      <script src="https://payhip.com/payhip.js" type="text/javascript"></script>
+      <div class="grid two">
+        <div>
+          <h3>Mastery Plan</h3>
+          <p>Deep guidance, templates, and accountability to move your best-fit role from insight to reality.</p>
+          <a href="https://payhip.com/b/re4Hy" class="payhip-buy-button" data-theme="green" data-product="re4Hy">Buy Now</a>
+        </div>
+        <div>
+          <h3>NAVI Pro</h3>
+          <p>AI resume rewrites, unlimited custom cover letters, company intel briefs, and advanced job filters.</p>
+          <a href="https://payhip.com/b/knC1Z" class="payhip-buy-button" data-theme="green" data-product="knC1Z">Buy Now</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust -->
+    <section class="card trust">
+      <h2>Private. Honest. Yours.</h2>
+      <ul class="bullets">
+        <li>We use your selections only to show matches.</li>
+        <li>You control what you save and when you return.</li>
+        <li>No spam — ever. You can delete your saved snapshot anytime.</li>
+      </ul>
+      <p class="micro">Stat note: You highlighted that “89% don’t feel clear on purpose.” We can cite your preferred source here on request.</p>
+    </section>
+
+    <div class="actions">
+      <a class="btn ghost" href="roles.html">Back to matches</a>
+      <a class="btn" href="index.html">Start over</a>
+    </div>
   </main>
 
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/SaveReturn.js"></script>
+  <script type="module">
+    import { getJSON, state, log, $, $$ } from './assets/js/app.js';
+
+    // Render chosen cats/traits
+    const cats = state.categories || [];
+    const traits = state.traits || [];
+    const chips = arr => arr.map(x=>`<span class="chip">${x}</span>`).join('') || '<span class="micro">None selected.</span>';
+    $('#revealCategories').innerHTML = chips(cats);
+    $('#revealTraits').innerHTML = chips(traits);
+
+    // Render top matches preview (titles + match %)
+    (async function(){
+      try{
+        const roles = await getJSON('data/roles_400.json');
+        // Lightweight scorer (mirror roles page)
+        const picked = new Set(traits);
+        const score = (r)=>{
+          const req = r.requiredTraits||[];
+          const bon = r.bonusTraits||[];
+          const reqHits = req.filter(t=>picked.has(t)).length;
+          if (req.length && reqHits===0) return 0;
+          const bonHits = bon.filter(t=>picked.has(t)).length;
+          const denom = (req.length*2)+(bon.length||0) || 1;
+          return ((reqHits*2)+bonHits)/denom;
+        };
+        const top = roles.map(r=>({...r, _s:score(r)})).filter(r=>r._s>0).sort((a,b)=>b._s-a._s).slice(0,5);
+
+        $('#revealTop').innerHTML = top.length
+          ? top.map(r=>`<li><strong>${r.title}</strong> — ${Math.round(r._s*100)}% match ${r.salaryMedian?`· ${r.salaryMedian.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0})}`:''}</li>`).join('')
+          : '<li>No strong matches yet. Try adjusting your traits.</li>';
+      }catch(e){
+        $('#revealTop').innerHTML = '<li>Could not load preview.</li>';
+      }
+    })();
+
+    // Save & return
+    import './assets/js/SaveReturn.js'; // attaches handler to #saveForm
+    const saveMsg = $('#saveMsg');
+    // Patch a small listener to show friendly confirmation text
+    $('#saveForm')?.addEventListener('submit', ()=>{
+      saveMsg.textContent = 'Saved! You can return anytime using your email + PIN.';
+      setTimeout(()=>saveMsg.textContent='', 5000);
+    });
+
+    log('Reveal & Invest page ready.');
+  </script>
 </body>
 </html>
