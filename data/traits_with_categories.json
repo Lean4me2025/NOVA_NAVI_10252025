@@ -1,0 +1,7 @@
+{
+  "Business": ["Analytical Thinking", "Leadership", "Negotiation", "Detail-Oriented"],
+  "Healthcare": ["Compassion", "Attention to Detail", "Calm Under Pressure", "Teamwork"],
+  "Technology": ["Problem Solving", "Systems Thinking", "Curiosity", "Precision"],
+  "Education": ["Communication", "Patience", "Organization", "Mentoring"],
+  "Creative": ["Design Sense", "Storytelling", "Originality", "Aesthetic Judgment"]
+}
