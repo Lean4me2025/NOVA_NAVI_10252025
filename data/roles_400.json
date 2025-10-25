@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Data Analyst",
+    "soc": "15-2051",
+    "requiredTraits": ["Analytical Thinking", "Problem Solving", "Detail-Oriented"],
+    "bonusTraits": ["Communication", "Systems Thinking"],
+    "salaryMedian": 82000,
+    "outlook": "Faster than average",
+    "summary": "Collects, cleans, and interprets data to inform decisions."
+  },
+  {
+    "title": "Registered Nurse",
+    "soc": "29-1141",
+    "requiredTraits": ["Compassion", "Attention to Detail", "Calm Under Pressure"],
+    "bonusTraits": ["Teamwork", "Communication"],
+    "salaryMedian": 81500,
+    "outlook": "Much faster than average",
+    "summary": "Provides patient care and coordinates with healthcare teams."
+  },
+  {
+    "title": "Software Developer",
+    "soc": "15-1252",
+    "requiredTraits": ["Problem Solving", "Curiosity", "Precision"],
+    "bonusTraits": ["Systems Thinking", "Communication"],
+    "salaryMedian": 120000,
+    "outlook": "Much faster than average",
+    "summary": "Designs and builds software applications and systems."
+  },
+  {
+    "title": "High School Teacher",
+    "soc": "25-2031",
+    "requiredTraits": ["Communication", "Organization", "Patience"],
+    "bonusTraits": ["Mentoring", "Detail-Oriented"],
+    "salaryMedian": 62000,
+    "outlook": "Average",
+    "summary": "Guides students through curriculum and development."
+  },
+  {
+    "title": "UX Designer",
+    "soc": "15-1255",
+    "requiredTraits": ["Design Sense", "Aesthetic Judgment", "Problem Solving"],
+    "bonusTraits": ["Storytelling", "Curiosity"],
+    "salaryMedian": 104000,
+    "outlook": "Faster than average",
+    "summary": "Creates user-centered designs for products and experiences."
+  }
+]
