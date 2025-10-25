@@ -1,111 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Basic -->
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NOVA — Purpose & Roles Explorer</title>
-  <meta name="description" content="NOVA helps you discover categories, select traits, and explore matching roles you can invest in." />
-  <meta name="theme-color" content="#0c1116" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Welcome to NOVA</title>
 
-  <!-- Open Graph / Social -->
-  <meta property="og:title" content="NOVA — Purpose & Roles Explorer" />
-  <meta property="og:description" content="Choose categories → select traits → see matching roles → save your plan." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="./assets/og-image.png" />
-  <meta property="og:url" content="./index.html" />
+  <!-- Self-contained critical styles so this page renders exactly like your photo -->
+  <style>
+    :root{
+      --brand-700:#0ca39a; --brand-500:#36c2b4; --brand-200:#c5f2ed;
+      --ink-900:#1c1c1c; --ink-700:#444; --ink-600:#666;
+      --bg:#f5f9f6; --card:#fff; --border:#e7eeea;
+      --r-lg:18px; --r-md:14px;
+      --shadow-lg:0 14px 32px rgba(0,0,0,.12);
+      --shadow-sm:0 2px 6px rgba(0,0,0,.06);
+      --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--ink-900);font-family:var(--font)}
+    .container{width:min(1120px,92vw);margin:0 auto}
+    .hero{
+      margin:24px auto; border-radius:var(--r-lg); box-shadow:var(--shadow-lg);
+      background:linear-gradient(135deg,var(--brand-700),var(--brand-500));
+      color:#fff; padding:clamp(28px,6vw,56px);
+    }
+    .hero h1{margin:0 0 6px;font-size:clamp(28px,6vw,46px)}
+    .hero .sub{margin:0;font-size:clamp(16px,2.8vw,20px);opacity:.96}
+    .section{margin:24px 0}
+    .fact{
+      margin:16px 0 10px; font-weight:800; font-size:clamp(20px,3.8vw,28px);
+      color:var(--ink-900); background:transparent !important; opacity:1 !important; text-shadow:none !important;
+    }
+    .intro{color:var(--ink-700); font-size:16px}
+    .grid-3{display:grid;gap:18px;grid-template-columns:repeat(3,1fr)}
+    @media(max-width:900px){.grid-3{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);box-shadow:var(--shadow-sm);padding:18px}
+    .card h3{margin:0 0 8px;font-size:20px}
+    .steps{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;color:var(--ink-700);font-size:14px}
+    .steps .dot{width:6px;height:6px;border-radius:50%;background:var(--brand-500);display:inline-block;margin:0 4px}
+    .breadcrumb{margin:28px 0 8px;text-align:center;color:var(--ink-600);font-size:14px}
+    footer{color:#7a7a7a;text-align:center;padding:18px 0 42px;font-size:13px}
+    /* Hide any host 'congratulations' or toast banners */
+    [class*="congrat"],[id*="congrat"],[class*="toast"],[id*="toast"]{display:none!important}
+  </style>
 
-  <!-- Favicons (optional assets) -->
-  <link rel="icon" href="./assets/favicon.ico" />
-  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png" />
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="./assets/css/styles.css" />
-
-  <!-- Preconnect (optional perf) -->
-  <link rel="preconnect" href="https://payhip.com" />
+  <meta name="description" content="NOVA helps you discover why you're here, then maps it to real roles and next steps." />
 </head>
-<body data-page="welcome">
-  <noscript>
-    <div class="note" role="status" aria-live="polite" style="margin:16px">
-      NOVA needs JavaScript to run. Please enable JavaScript and reload.
-    </div>
-  </noscript>
-
-  <!-- Header -->
-  <header class="nv-header" role="banner">
-    <h1>Welcome to NOVA</h1>
-    <p class="nv-sub">
-      Discover your strengths → explore roles → invest in yourself.
-    </p>
-    <!-- PURPOSE FACT -->
-    <div class="note" style="margin-top:12px; background:#0f1a2a; border-left:4px solid var(--accent); padding:12px; border-radius:8px;">
-      <strong>Fact:</strong> <em>89% of people do not know their purpose.</em>  
-      That’s why NOVA exists — to help you define it clearly and take the next step forward.
+<body>
+  <header class="container">
+    <div class="hero">
+      <h1>Welcome to NOVA</h1>
+      <p class="sub">Clarity about your work. Confidence about your next step.</p>
     </div>
   </header>
 
-  <!-- Main content -->
-  <main id="content" class="nv-main" role="main">
-    <section class="nv-card center">
-      <h2>Start Your Journey</h2>
-      <p class="kicker">
-        NOVA guides you through three short steps and reveals matching roles based on your chosen categories and traits.
-        You can save your results and return later with your email and PIN.
-      </p>
+  <main class="container">
+    <!-- Your fact line: exactly as requested, no blackout -->
+    <div class="fact">89% of people do not know their purpose.</div>
 
-      <!-- Quick Steps -->
-      <div class="nv-grid" aria-label="Steps">
-        <article class="nv-card" aria-label="Step 1 Categories">
-          <h3>Step 1 — Categories</h3>
-          <p class="small">Pick as many as fit you. No limits, no boxes — this is about discovering your natural focus areas.</p>
-          <a class="nv-btn" href="./categories.html" aria-label="Start with categories">Choose Categories →</a>
-        </article>
-
-        <article class="nv-card" aria-label="Step 2 Traits">
-          <h3>Step 2 — Traits</h3>
-          <p class="small">We’ll filter traits based on your categories so you can pinpoint what defines you best.</p>
-          <a class="nv-btn light" href="./traits.html" aria-label="Go to traits">Preview Traits</a>
-        </article>
-
-        <article class="nv-card" aria-label="Step 3 Roles">
-          <h3>Step 3 — Roles</h3>
-          <p class="small">See the roles that align with your categories and traits, ranked by your personal match score.</p>
-          <a class="nv-btn light" href="./roles.html" aria-label="Go to roles">See Roles</a>
-        </article>
-      </div>
-
-      <hr class="div" />
-      <p class="small center">
-        Tip: Use <strong>Save &amp; Invest</strong> to store your results and continue your journey anytime.
-      </p>
-      <p class="center">
-        <a class="nv-btn light" href="./invest.html" aria-label="Go to Save and Invest">Save &amp; Invest →</a>
+    <section class="section">
+      <p class="intro">
+        NOVA helps you discover why you're here — then maps it to real roles and next steps.
+        No long tests. No fluff. We surface what your life has already been saying and turn it into a clear path.
       </p>
     </section>
+
+    <section class="section grid-3">
+      <div class="card">
+        <h3>How it works</h3>
+        <p>Pick your focus areas, choose a few traits, then see roles that fit — with outlook and salary context.</p>
+      </div>
+      <div class="card">
+        <h3>What you’ll get</h3>
+        <p>A short list of roles that match you, plus a simple next-step plan.</p>
+      </div>
+      <div class="card">
+        <h3>Time needed</h3>
+        <p>About 2–5 minutes for your first pass. You can always refine later.</p>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h3>Why NOVA</h3>
+      <p>Designed around mind, heart, drive, and spirit — practical, encouraging, and actionable.</p>
+    </section>
+
+    <section class="section card">
+      <h3>What to expect</h3>
+      <div class="steps" aria-label="NOVA steps">
+        <span>Welcome</span><span class="dot"></span>
+        <span>Categories</span><span class="dot"></span>
+        <span>Traits</span><span class="dot"></span>
+        <span>Roles</span><span class="dot"></span>
+        <span>Reflection</span><span class="dot"></span>
+        <span>Invest</span><span class="dot"></span>
+        <span>Login (save with email + PIN)</span>
+      </div>
+    </section>
+
+    <!-- Optional start button (uncomment if you want it visible)
+    <section class="section" style="text-align:center;">
+      <a class="btn" href="categories.html">Start → Categories</a>
+    </section>
+    -->
+
+    <div class="breadcrumb">Welcome → Categories → Traits → Roles → Reflection → Invest → Login</div>
   </main>
 
-  <!-- Footer -->
-  <footer class="nv-footer" role="contentinfo">
-    <nav aria-label="Footer">
-      <a href="./index.html">Welcome</a> ·
-      <a href="./categories.html">Categories</a> ·
-      <a href="./traits.html">Traits</a> ·
-      <a href="./roles.html">Roles</a> ·
-      <a href="./invest.html">Invest</a>
-    </nav>
-    <p class="small" style="margin-top:8px">© <span id="yr"></span> NOVA</p>
+  <footer class="container">
+    <small>© <span id="y"></span> NOVA. All rights reserved.</small>
   </footer>
 
-  <!-- Scripts -->
-  <script>
-    document.getElementById('yr').textContent = new Date().getFullYear();
-  </script>
-  <script src="./js/DataLoader.js"></script>
-  <script src="./js/CategoryFlow.js"></script>
-  <script src="./js/TraitsFlow.js"></script>
-  <script src="./js/ResultsRenderer.js"></script>
-  <script src="./js/SaveReturn.js"></script>
-  <script src="./js/app.js"></script>
+  <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
 </body>
 </html>
