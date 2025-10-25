@@ -23,3 +23,42 @@ body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-se
 .role .meta{color:var(--muted);font-size:.9rem}
 input[type="email"],input[type="password"]{width:100%;padding:.7rem .9rem;border:1px solid var(--line);border-radius:8px;margin:.4rem 0}
 a.payhip-buy-button{display:inline-block;margin-right:10px;margin-top:6px}
+/* --- Welcome page polish --- */
+.bar-title{display:flex;flex-direction:column}
+.tagline{font-size:.8rem;opacity:.9}
+.bar-nav{margin-left:auto;display:flex;gap:1rem}
+.bar-nav .link{color:#fff;text-decoration:none;border-bottom:2px solid transparent;padding-bottom:2px}
+.bar-nav .link:hover{border-color:#fff}
+
+.hero{background:linear-gradient(135deg,#eaf6f1 0%,#f8fbfa 70%),var(--bg);padding:2.5rem 0}
+.hero-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:1.25rem}
+@media (max-width:920px){.hero-grid{grid-template-columns:1fr}}
+
+.stat-pill{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.35rem .6rem;margin-bottom:.5rem;font-weight:700}
+.accent{color:var(--green)}
+.hero-cta{margin-top:1rem}
+.btn-lg{font-size:1.05rem;padding:0.9rem 1.2rem}
+
+.minihead{margin:.25rem 0 .5rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-size:.85rem}
+.steps{margin:.25rem 0 0 1rem;padding:0}
+.steps li{margin:.35rem 0}
+.divider{height:1px;background:var(--line);margin:.75rem 0}
+
+.section{padding:2rem 0}
+.section.alt{background:#fff}
+.grid.two{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.grid.three{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media (max-width:920px){.grid.two,.grid.three{grid-template-columns:1fr}}
+
+.step .badge{background:var(--green);color:#fff;border:none}
+.list ul{margin:.25rem 0 0 1.25rem}
+.trust h2{margin-top:0}
+
+.footer{background:#0f5a38;color:#cfe9dd;padding:1rem 0}
+.footer-grid{display:flex;justify-content:space-between;align-items:center}
+@media (max-width:700px){.footer-grid{flex-direction:column;gap:.5rem}}
+.micro{font-size:.85rem;color:var(--muted)}
+.footnote{font-size:.8rem;color:var(--muted);margin-top:.5rem}
+.checks{display:grid;gap:.35rem;margin:.75rem 0}
+.check{position:relative;padding-left:1.4rem}
+.check:before{content:"✓";position:absolute;left:0;top:0;color:var(--green);font-weight:700}
