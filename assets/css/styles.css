@@ -62,3 +62,35 @@ a.payhip-buy-button{display:inline-block;margin-right:10px;margin-top:6px}
 .checks{display:grid;gap:.35rem;margin:.75rem 0}
 .check{position:relative;padding-left:1.4rem}
 .check:before{content:"✓";position:absolute;left:0;top:0;color:var(--green);font-weight:700}
+/* Controls & chips */
+.controls{display:flex;gap:.75rem;flex-wrap:wrap}
+.control{display:flex;align-items:center;gap:.5rem}
+select{padding:.45rem .6rem;border:1px solid var(--line);border-radius:8px;background:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:.25rem .6rem;font-size:.9rem}
+
+/* Role cards */
+.role{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1rem}
+.role-head{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:.6rem}
+.meta{display:flex;flex-wrap:wrap;gap:.6rem;margin:.25rem 0 .4rem}
+.meta-item{padding:.2rem .5rem;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:.85rem}
+.outlook.olx-fastest{border-color:#11865e;color:#0b5b40}
+.outlook.olx-faster{border-color:#34a853;color:#1f7a3e}
+.outlook.olx-average{border-color:#999;color:#666}
+.outlook.olx-slower{border-color:#c0392b;color:#8c2a20}
+.outlook.olx-unknown{border-color:#cfcfcf;color:#888}
+.match-badge{background:#e8f5ef;border:1px solid #cfe9dd;color:#0f5a38;border-radius:999px;padding:.25rem .55rem;font-weight:700;font-size:.85rem;align-self:start}
+.match-badge.m80{background:#e8f9ef;border-color:#b5ebc8}
+.match-badge.m70{background:#f2fbec;border-color:#d7f0c5}
+.match-badge.m60{background:#f9fceb;border-color:#eef5c8}
+.match-badge.m50{background:#fff8e7;border-color:#f0e1b5}
+.band.badge{margin-left:.25rem}
+.next-steps{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+.btn.ghost{background:#fff;color:var(--green);border:1px solid var(--green)}
+
+/* Reveal list */
+.reveal-list{margin:.25rem 0 0 1.1rem}
+.bullets{margin:.25rem 0 0 1.1rem}
+
+/* Minor layout niceties */
+label.micro{display:block;margin-bottom:.25rem}
