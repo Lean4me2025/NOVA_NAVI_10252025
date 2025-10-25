@@ -1,34 +1,18 @@
-// Shared helpers + simple state
-const DEBUG = true;
-export const log = (...a) => DEBUG && console.debug('[NOVA]', ...a);
-
-export async function getJSON(path) {
-  const res = await fetch(path, { cache: 'no-store' });
-  if (!res.ok) throw new Error(`Fetch failed ${res.status}: ${path}`);
-  return res.json();
-}
-
-export const state = {
-  get categories() { return JSON.parse(sessionStorage.getItem('categories')||'[]'); },
-  set categories(v){ sessionStorage.setItem('categories', JSON.stringify(v||[])); },
-  get traits()     { return JSON.parse(sessionStorage.getItem('traits')||'[]'); },
-  set traits(v)    { sessionStorage.setItem('traits', JSON.stringify(v||[])); },
-  saveIdentity(email, pin){ localStorage.setItem('identity', JSON.stringify({email, pin})); },
-  get identity(){ try{return JSON.parse(localStorage.getItem('identity')||'null')}catch{return null} }
-};
-
-// tiny DOM helpers
-export const $  = (sel, root=document) => root.querySelector(sel);
-export const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
-
-// selection helper
-export function toggleSelect(el, set, max){
-  const id = el.dataset.id;
-  const i  = set.indexOf(id);
-  if (i>=0){ set.splice(i,1); el.classList.remove('selected'); }
-  else{
-    if (set.length>=max) return; // hard cap
-    set.push(id); el.classList.add('selected');
+<script>
+(async function(){
+  try{
+    await NOVA.loadAll(); NOVA.loadState();
+    const page = document.body.getAttribute('data-page');
+    if(page==='categories') CategoryFlow.init();
+    if(page==='traits') TraitsFlow.init();
+    if(page==='roles') ResultsRenderer.init();
+    if(page==='invest') SaveReturn.init();
+  }catch(err){
+    console.error(err);
+    const host = document.getElementById('app-error')||document.body;
+    const div=document.createElement('div');
+    div.className='note'; div.textContent='Problem loading data. Confirm ./data/*.json exists and paths are relative.';
+    host.prepend(div);
   }
-  return set;
-}
+})();
+</script>
