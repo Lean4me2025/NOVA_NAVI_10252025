@@ -1,0 +1,25 @@
+:root {
+  --green:#1b7b4c; --bg:#f5f9f6; --ink:#222; --muted:#6b7280; --line:#e5e7eb;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;background:var(--bg);color:var(--ink)}
+.bar{display:flex;gap:.75rem;align-items:center;padding:1rem 1.25rem;background:var(--green);color:#fff}
+.logo{height:32px}
+.wrap{max-width:980px;margin:1.25rem auto;padding:0 1rem}
+.lead{font-size:1.1rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.stack{display:grid;gap:12px}
+.btn{background:var(--green);color:#fff;border:0;border-radius:8px;padding:.75rem 1rem;font-weight:600;cursor:pointer}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:1rem}
+.badge{display:inline-block;padding:.25rem .5rem;border:1px solid var(--line);border-radius:999px;background:#fff}
+.tile{background:#fff;border:2px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;display:flex;gap:.5rem;align-items:flex-start}
+.tile.selected{border-color:var(--green);box-shadow:0 0 0 3px rgba(27,123,76,.15)}
+.tile h3{margin:.25rem 0 .25rem;font-size:1rem}
+.tile p{margin:0;color:var(--muted);font-size:.9rem}
+.actions{margin-top:1rem;display:flex;gap:.75rem}
+.role{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+.role h3{margin:.25rem 0}
+.role .meta{color:var(--muted);font-size:.9rem}
+input[type="email"],input[type="password"]{width:100%;padding:.7rem .9rem;border:1px solid var(--line);border-radius:8px;margin:.4rem 0}
+a.payhip-buy-button{display:inline-block;margin-right:10px;margin-top:6px}
