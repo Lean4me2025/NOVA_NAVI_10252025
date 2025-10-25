@@ -1,39 +1,37 @@
-import { getJSON, state, log, $, $$, toggleSelect } from './app.js';
-
-(async function init(){
-  const MAX = 3;
-  const listEl = $('#catList');
-  const nextBtn = $('#next');
-
-  const categories = await getJSON('data/categories.json'); // ["Business","Healthcare",...]
-  const chosen = state.categories || [];
-
-  // Render
-  listEl.innerHTML = categories.map(c => `
-    <div class="tile ${chosen.includes(c) ? 'selected':''}" data-id="${c}" role="button" tabindex="0">
-      <div class="badge">Category</div>
-      <div><h3>${c}</h3><p>Tap to select</p></div>
-    </div>
-  `).join('');
-
-  // Interactions
-  $$('.tile', listEl).forEach(tile=>{
-    tile.addEventListener('click', ()=>{
-      const set = [...(state.categories||[])];
-      const updated = toggleSelect(tile, set, MAX);
-      if (updated){ state.categories = updated; }
-      nextBtn.disabled = (state.categories.length===0);
+<script>
+window.CategoryFlow = (function(){
+  const MAX = 999; // no hard cap now
+  function render(){
+    const wrap = document.getElementById('categoriesContainer');
+    const list = NOVA.data.categories || [];
+    wrap.innerHTML = '';
+    const sel = NOVA.state.selectedCategories || [];
+    list.forEach(cat=>{
+      const chip = document.createElement('button');
+      chip.type='button';
+      chip.className='nv-chip' + (sel.includes(cat.id)?' active':'');
+      chip.innerHTML = `<strong>${cat.name}</strong>${cat.desc?`<small>${cat.desc}</small>`:''}`;
+      chip.onclick = ()=>toggle(cat.id);
+      wrap.appendChild(chip);
     });
-  });
-
-  // Carry forward
-  nextBtn.onclick = ()=>{
-    if (!state.categories.length){ return; }
-    state.traits = []; // reset downstream
-    window.location.href = 'traits.html';
-  };
-
-  // enable if preselected
-  nextBtn.disabled = (state.categories.length===0);
-  log('Categories loaded:', categories.length);
-})().catch(err=>{ console.error(err); alert('Failed to load categories.'); });
+    updateNext();
+  }
+  function toggle(id){
+    const sel = NOVA.state.selectedCategories;
+    const i = sel.indexOf(id);
+    if(i>=0) sel.splice(i,1);
+    else if(sel.length<MAX) sel.push(id);
+    NOVA.saveState();
+    render();
+  }
+  function updateNext(){
+    const btn = document.getElementById('toTraits');
+    const ok = (NOVA.state.selectedCategories||[]).length>0;
+    if(btn) btn.toggleAttribute('disabled', !ok);
+  }
+  async function init(){
+    await NOVA.loadAll(); NOVA.loadState(); render();
+  }
+  return { init };
+})();
+</script>
