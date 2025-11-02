@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NOVA • Categories</title>
-  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <link rel="stylesheet" href="assets/css/styles.css?v=3"/>
 </head>
 <body>
   <div class="container">
@@ -14,16 +14,21 @@
     </div>
 
     <div class="kicker">Step 1 of 5</div>
-    <div class="h1">Choose your focus area</div>
-    <p class="p">Pick the area that feels most “you” right now. You can refine with traits next.</p>
+    <div class="h1">Choose your focus area(s)</div>
+    <p class="p">Select <strong>1–2</strong> categories that fit you best. You can refine with traits next.</p>
 
-    <div id="categoryGrid" class="grid" aria-live="polite"></div>
+    <div class="actions" style="margin:10px 0">
+      <span class="kicker">Selected: <strong id="catCount">0</strong> / 2</span>
+      <button id="catsContinue" class="btn" disabled>Continue →</button>
+    </div>
 
-    <hr/>
-    <div class="footer">© NOVA</div>
+    <!-- ✅ Two-column centered tiles -->
+    <section id="categoryGrid" class="grid grid-2" aria-live="polite"></section>
+
+    <hr/><div class="footer">© NOVA</div>
   </div>
 
-  <script src="assets/app.js"></script>
+  <script src="assets/app.js?v=3"></script>
   <script>renderCategories();</script>
 </body>
 </html>
