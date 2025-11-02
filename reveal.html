@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NOVA • Reveal</title>
-  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <link rel="stylesheet" href="assets/css/styles.css?v=8"/>
 </head>
 <body>
   <div class="container">
@@ -15,24 +15,32 @@
 
     <div class="kicker">Step 4 of 5</div>
     <div class="h1">Your reveal & reflection</div>
-    <div id="summary"></div>
 
-    <div class="card" style="margin-top:14px">
+    <article class="card">
+      <div class="h3">Your Direction</div>
+      <div class="p"><strong>Focus Area(s):</strong> <span id="focusNames">—</span></div>
+      <div class="p"><strong>Top Traits:</strong> <span id="topTraits">—</span></div>
+    </article>
+
+    <div style="margin-top:14px" class="h3">Suggested Roles</div>
+    <section id="topRoles" class="roles-grid" aria-live="polite"></section>
+
+    <article class="card" style="margin-top:16px">
       <div class="h3">Reflection (optional but powerful)</div>
       <p class="p">What stood out? How does this align with what others notice about you?</p>
-      <textarea id="reflection" rows="6" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--border)"></textarea>
-      <div class="note" style="margin-top:10px">Your notes save in your browser so you can return later.</div>
-      <div style="margin-top:12px" class="inline">
-        <a class="btn secondary" href="roles.html">← Back</a>
-        <button class="btn" id="toInvest">Invest in yourself →</button>
-      </div>
+      <textarea id="notes" rows="6" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fff"></textarea>
+      <p class="p" style="margin-top:8px">Your notes save in your browser so you can return later.</p>
+    </article>
+
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+      <a class="btn secondary" href="roles.html">← Back</a>
+      <a class="btn" href="invest.html">Invest in yourself →</a>
     </div>
 
-    <hr/>
-    <div class="footer">© NOVA</div>
+    <hr/><div class="footer">© NOVA</div>
   </div>
 
-  <script src="assets/app.js"></script>
+  <script src="assets/js/app.js?v=8"></script>
   <script>renderReveal();</script>
 </body>
 </html>
