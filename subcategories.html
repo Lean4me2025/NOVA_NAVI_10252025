@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>NOVA • Refine</title>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="brand">NOVA</div>
+      <nav class="nav">
+        <a href="categories.html">Back</a>
+      </nav>
+    </header>
+
+    <div class="kicker">Step 1.5 of 5</div>
+    <h1>Refine your focus</h1>
+    <p class="p">Pick up to <strong>3</strong> sub-areas across these families. This helps tailor your trait list.</p>
+
+    <div class="bar">
+      <span>Selected: <span id="subCount">0</span> / 3</span>
+      <div class="spacer"></div>
+      <button id="subsContinue" class="btn" disabled>Continue → Traits</button>
+      <a id="clearSubs" class="link" href="#">Clear</a>
+    </div>
+
+    <!-- Grouped by family labels (Create, Analyze, Guide, Care, Story, Protect) -->
+    <div id="subcatWrap" class="stack"></div>
+
+    <footer class="footer">© NOVA</footer>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+  <script>renderSubcategories();</script>
+</body>
+</html>
