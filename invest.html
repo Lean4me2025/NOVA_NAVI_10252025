@@ -5,51 +5,94 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NOVA • Invest</title>
   <link rel="stylesheet" href="assets/styles.css"/>
+
+  <!-- Payhip embed script (include once) -->
+  <script type="text/javascript" src="https://payhip.com/payhip.js"></script>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <div class="brand">NOVA</div>
-      <div class="nav"><a href="reveal.html">Back</a></div>
+      <nav class="nav"><a href="reveal.html">Back</a></nav>
     </div>
 
     <div class="kicker">Step 5 of 5</div>
-    <div class="h1">Invest in your next step</div>
-    <p class="p">Pick the plan that fits you best. You can cancel anytime.</p>
+    <h2 class="h1">Invest in Yourself</h2>
+    <p class="p">
+      You surfaced real strengths. Choose a plan to unlock deeper guidance and keep your momentum —
+      or continue without purchasing and save your progress.
+    </p>
 
-    <div class="payhip card">
-      <!-- Replace with your real Payhip embeds (Starter / Pro / Mastery) -->
-      <!-- Example product button: -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
-        <div class="card">
-          <div class="h3">Starter</div>
-          <p class="p">Nova 50-trait discovery + PDF</p>
-          <a class="btn" href="https://payhip.com/b/STARTER" target="_blank" rel="noopener">Choose Starter</a>
-        </div>
-        <div class="card">
-          <div class="h3">Pro</div>
-          <p class="p">Includes Resume rewrite AI + Cover letters + Company intel</p>
-          <a class="btn" href="https://payhip.com/b/PRO" target="_blank" rel="noopener">Choose Pro</a>
-        </div>
-        <div class="card">
-          <div class="h3">Mastery</div>
-          <p class="p">Everything in Pro + 1:1 coaching & roadmap</p>
-          <a class="btn" href="https://payhip.com/b/MASTERY" target="_blank" rel="noopener">Choose Mastery</a>
-        </div>
-      </div>
-      <p class="p" style="margin-top:10px">After checkout, you’ll get instant access and your results are saved.</p>
-    </div>
+    <!-- Plans Grid (3 columns on desktop; 2/1 on smaller screens per styles.css) -->
+    <section class="grid grid-3" style="margin-top:18px">
 
-    <div class="toolbar">
-      <a class="btn secondary" href="reveal.html">← Back</a>
-      <button class="btn" id="toNavi">Go to NAVI →</button>
+      <!-- Starter (NAVI Starter Plan) -->
+      <article class="card">
+        <h3 class="h3">Starter</h3>
+        <p class="p">Save your results (email + PIN), top role matches, downloadable snapshot (PDF).</p>
+        <div class="actions" style="margin-top:10px">
+          <!-- Using your provided Payhip embed exactly -->
+          <a href="https://payhip.com/b/GdfU7"
+             class="payhip-buy-button"
+             data-theme="green"
+             data-product="GdfU7">Buy Now</a>
+        </div>
+      </article>
+
+      <!-- Pro (NAVI PRO Plan) -->
+      <article class="card">
+        <h3 class="h3">Pro</h3>
+        <p class="p">Everything in Starter + expanded role matches with salary/outlook + simple next-step plan.</p>
+        <div class="actions" style="margin-top:10px">
+          <a href="https://payhip.com/b/knC1Z"
+             class="payhip-buy-button"
+             data-theme="green"
+             data-product="knC1Z">Buy Now</a>
+        </div>
+      </article>
+
+      <!-- Mastery Plan -->
+      <article class="card">
+        <h3 class="h3">Mastery</h3>
+        <p class="p">Everything in Pro + deeper role insights, alternatives, and guided reflection workbook.</p>
+        <div class="actions" style="margin-top:10px">
+          <a href="https://payhip.com/b/re4Hy"
+             class="payhip-buy-button"
+             data-theme="green"
+             data-product="re4Hy">Buy Now</a>
+        </div>
+      </article>
+
+      <!-- BONUS: Purpose Book (How to know your Purpose) -->
+      <article class="card">
+        <h3 class="h3">“How to Know Your Purpose” (Book)</h3>
+        <p class="p">A concise guide to clarify calling and take your next step with confidence.</p>
+        <div class="actions" style="margin-top:10px">
+          <a href="https://payhip.com/b/N7Lvg"
+             class="payhip-buy-button"
+             data-theme="green"
+             data-product="N7Lvg">Buy Now</a>
+        </div>
+      </article>
+
+    </section>
+
+    <p class="p small" style="text-align:center;margin-top:12px">
+      Secure checkout opens in a new tab on Payhip. You can return here anytime.
+    </p>
+
+    <div class="center" style="margin-top:18px">
+      <a id="skipBtn" class="btn secondary" href="login.html">Continue without purchase → Login</a>
     </div>
 
     <hr/>
-    <div class="footer">© NOVA</div>
+    <footer class="footer">© NOVA</footer>
   </div>
 
   <script src="assets/app.js"></script>
-  <script>renderInvest();</script>
+  <script>
+    // Optional: If you want a "Go to NAVI" button after purchase later,
+    // we can add it here and wire it to navi.html.
+  </script>
 </body>
 </html>
