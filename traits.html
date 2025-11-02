@@ -4,47 +4,37 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NOVA • Traits</title>
-  <link rel="stylesheet" href="assets/css/styles.css?v=6"/>
-  <style>
-    .actions-bar{
-      position: sticky; top: 0; z-index: 10;
-      background: var(--bg);
-      padding: 10px 0 12px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 12px;
-      display:flex; gap:12px; align-items:center;
-    }
-    .actions-bar .btn{font-size:16px; padding:12px 18px; border-radius:12px}
-    .count-pill{
-      display:inline-block;background:#f1f5f9;border-radius:999px;
-      padding:6px 10px;font-size:13px;color:var(--muted)
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <div class="brand">NOVA</div>
-      <div class="nav"><a href="categories.html">Back</a></div>
-    </div>
+    <header class="header">
+      <div class="brand">NOVA • Traits</div>
+      <nav class="nav">
+        <a href="subcategories.html">Back</a>
+      </nav>
+    </header>
 
     <div class="kicker">Step 2 of 5</div>
-    <div class="h1">Select the traits that fit you</div>
-    <p class="p">Focus: <strong id="catName">—</strong>. Choose at least <strong>5</strong> traits.</p>
+    <h1>Select the traits that fit you</h1>
+    <p class="p">
+      Focus: <strong id="focusNames">—</strong> &nbsp;•&nbsp; Sub-areas: <strong id="subNames">—</strong><br/>
+      Choose at least <strong>5</strong> traits. Click again to unselect.
+    </p>
 
-    <!-- Always-visible controls -->
-    <div class="actions-bar">
-      <span class="count-pill">Selected: <strong id="traitCount">0</strong></span>
+    <div class="bar">
+      <span>Selected: <span id="traitCount">0</span></span>
+      <div class="spacer"></div>
       <button id="toRoles" class="btn" disabled>Continue → Roles</button>
     </div>
 
-    <!-- Two-column, centered tiles -->
-    <section id="traitsGrid" class="grid grid-2" aria-live="polite"></section>
+    <!-- 2-col adaptive grid of traits filtered by chosen sub-areas -->
+    <section id="traitsGrid" class="grid-2"></section>
 
-    <hr/><div class="footer">© NOVA</div>
+    <footer class="footer">© NOVA</footer>
   </div>
 
-  <script src="assets/app.js?v=6"></script>
+  <script src="assets/js/app.js"></script>
   <script>renderTraits();</script>
 </body>
 </html>
