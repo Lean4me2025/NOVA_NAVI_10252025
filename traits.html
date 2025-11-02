@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NOVA • Traits</title>
-  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <link rel="stylesheet" href="assets/css/styles.css?v=3"/>
 </head>
 <body>
   <div class="container">
@@ -15,20 +15,20 @@
 
     <div class="kicker">Step 2 of 5</div>
     <div class="h1">Select the traits that fit you</div>
-    <p class="p">Category: <strong id="catName">—</strong>. Choose at least <strong>5</strong> traits.</p>
+    <p class="p">Focus: <strong id="catName">—</strong>. Choose at least <strong>5</strong> traits.</p>
 
-    <div class="toolbar">
-      <div class="inline"><span class="badge">Selected: <span id="traitCount">0</span></span></div>
-      <button class="btn" id="toRoles">Continue →</button>
+    <div class="actions" style="margin:10px 0">
+      <span class="kicker">Selected: <strong id="traitCount">0</strong></span>
+      <button id="toRoles" class="btn" disabled>Continue →</button>
     </div>
 
-    <div id="traitsGrid" class="grid" aria-live="polite"></div>
+    <!-- ✅ Two-column centered tiles -->
+    <section id="traitsGrid" class="grid grid-2" aria-live="polite"></section>
 
-    <hr/>
-    <div class="footer">© NOVA</div>
+    <hr/><div class="footer">© NOVA</div>
   </div>
 
-  <script src="assets/app.js"></script>
+  <script src="assets/app.js?v=3"></script>
   <script>renderTraits();</script>
 </body>
 </html>
