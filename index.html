@@ -4,45 +4,96 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NOVA • Welcome</title>
-  <link rel="stylesheet" href="assets/styles.css"/>
+
+  <!-- Optional: your global styles (safe to keep) -->
+  <link rel="stylesheet" href="/assets/styles.css"/>
+
+  <!-- Page-specific styles to match your screenshot exactly -->
+  <style>
+    :root{
+      --ink:#1d2433; --muted:#5b6472;
+      --teal1:#36bdb5; --teal2:#3cc2bb;
+      --card:#ffffff;  --bg:#ffffff; --border:#e6edf4;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);
+         font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .wrap{max-width:1060px;margin:28px auto;padding:0 18px}
+    .hero{
+      background:linear-gradient(135deg,var(--teal1),var(--teal2));
+      color:#fff;border-radius:22px;padding:34px 28px;box-shadow:0 18px 28px rgba(0,0,0,.10);
+    }
+    .hero h1{margin:0 0 6px;font-size:28px;letter-spacing:.2px}
+    .hero p{margin:0;opacity:.92}
+    .headline{font-size:20px;font-weight:800;margin:18px 6px 12px}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    @media (max-width:900px){ .grid{grid-template-columns:1fr} }
+    .card{
+      background:var(--card);border:1px solid var(--border);
+      border-radius:14px;padding:16px;box-shadow:0 6px 14px rgba(0,0,0,.04)
+    }
+    .card h3{margin:4px 0 6px;font-size:16px}
+    .card p{margin:0;color:var(--muted);line-height:1.45}
+    .why{margin-top:12px}
+    .expect{
+      margin-top:12px;background:#eef9f7;border:1px solid #d3efec;color:#2d5b58;
+      border-radius:14px;padding:10px 14px;font-size:13px
+    }
+    .center{text-align:center}
+    .btn{
+      display:inline-block;margin-top:16px;background:#34b8b0;color:#fff;
+      font-weight:800;border:none;border-radius:12px;padding:12px 18px;
+      text-decoration:none;box-shadow:0 10px 20px rgba(52,184,176,.30)
+    }
+    .btn:hover{filter:brightness(.96)}
+    .footer{margin:26px 0 8px;color:#6b7280;font-size:12px;text-align:center}
+  </style>
 </head>
 <body>
+  <div class="wrap">
 
-  <!-- Hero Section -->
-  <div style="background:linear-gradient(135deg,#36bdb5,#3cc2bb);padding:60px 20px;text-align:center;color:#fff;">
-    <h1 style="font-size:40px;margin:0;font-weight:800;">NOVA</h1>
-    <p style="font-size:20px;margin:8px 0 0;">Discover why you were created</p>
+    <!-- Teal rounded hero -->
+    <div class="hero">
+      <h1>Welcome to NOVA</h1>
+      <p>Clarity about your work. Confidence about your next steps.</p>
+    </div>
+
+    <!-- 89% fact -->
+    <div class="headline">89% of people do not know their purpose.</div>
+
+    <!-- Three cards -->
+    <div class="grid" style="margin-bottom:10px">
+      <div class="card">
+        <h3>How it works</h3>
+        <p>Pick your focus area, choose a few traits, then see roles and next steps with outlook and salary context.</p>
+      </div>
+      <div class="card">
+        <h3>What you’ll get</h3>
+        <p>A short list of roles that fit you, plus a reflection step to point your next actions.</p>
+      </div>
+      <div class="card">
+        <h3>Time needed</h3>
+        <p>About 6–10 minutes. You can start now and finish later.</p>
+      </div>
+    </div>
+
+    <!-- Why NOVA -->
+    <div class="card why">
+      <h3>Why NOVA</h3>
+      <p class="muted">Designed around mind, heart, drive, and spirit—practical, encouraging, and actionable.</p>
+    </div>
+
+    <!-- What to expect -->
+    <div class="expect">
+      What to expect: <strong>Welcome → Categories → Traits → Roles → Reflection → Invest</strong> (then log in to NAVI).
+    </div>
+
+    <!-- Start button -->
+    <div class="center">
+      <a class="btn" href="categories.html">Start My Purpose Journey →</a>
+    </div>
+
+    <div class="footer">© NOVA</div>
   </div>
-
-  <!-- Main Content -->
-  <div class="container" style="text-align:center;margin-top:40px;">
-
-    <!-- ✅ 89% Fact — fully visible -->
-    <p class="h2" style="margin-bottom:10px;color:#1d2433;font-size:28px;font-weight:700;">
-      89% of people do not know their purpose.
-    </p>
-
-    <p class="p" style="max-width:600px;margin:0 auto 30px;">
-      Most go through life without clarity of calling.
-      Nova will help you identify your unique purpose—
-      rooted in your strengths, traits, and the roles that fit you best.
-    </p>
-
-    <!-- ✅ Journey Button -->
-    <a class="btn" href="categories.html" style="font-size:18px;padding:14px 26px;">
-      Start My Purpose Journey →
-    </a>
-
-    <!-- Supporting message -->
-    <p class="p" style="max-width:620px;margin:32px auto;">
-      This is about direction, not perfection. Your purpose evolves.
-      Let’s begin with who you already are.
-    </p>
-  </div>
-
-  <div class="footer">
-    © NOVA • Purpose Discovery
-  </div>
-
 </body>
 </html>
