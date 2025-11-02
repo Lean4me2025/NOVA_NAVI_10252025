@@ -4,9 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NOVA • Traits</title>
-  <link rel="stylesheet" href="assets/css/styles.css?v=4"/>
-
-  <!-- Keep the action bar visible and the button large -->
+  <link rel="stylesheet" href="assets/css/styles.css?v=6"/>
   <style>
     .actions-bar{
       position: sticky; top: 0; z-index: 10;
@@ -14,13 +12,12 @@
       padding: 10px 0 12px;
       border-bottom: 1px solid var(--border);
       margin-bottom: 12px;
+      display:flex; gap:12px; align-items:center;
     }
-    .actions-bar .btn{
-      font-size: 16px; padding: 12px 18px; border-radius: 12px;
-    }
+    .actions-bar .btn{font-size:16px; padding:12px 18px; border-radius:12px}
     .count-pill{
-      display:inline-block;background:#f1f5f9;border-radius:999px;padding:6px 10px;
-      font-size:13px;color:var(--muted);margin-right:10px
+      display:inline-block;background:#f1f5f9;border-radius:999px;
+      padding:6px 10px;font-size:13px;color:var(--muted)
     }
   </style>
 </head>
@@ -47,7 +44,7 @@
     <hr/><div class="footer">© NOVA</div>
   </div>
 
-  <script src="assets/app.js?v=4"></script>
+  <script src="assets/app.js?v=6"></script>
   <script>renderTraits();</script>
 </body>
 </html>
