@@ -1,43 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NOVA — Pick Categories</title>
-  <link rel="stylesheet" href="./assets/css/styles.css"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>NOVA • Categories</title>
+  <link rel="stylesheet" href="assets/styles.css"/>
 </head>
-<body data-page="categories">
-  <header class="nv-header">
-    <h1>Choose Your Categories</h1>
-    <p class="nv-sub">Pick **all** that fit you. (No 3-category cap.)</p>
-  </header>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="brand">NOVA</div>
+      <div class="nav"><a href="index.html">Welcome</a></div>
+    </div>
 
-  <main class="nv-main">
-    <div id="app-error"></div>
-    <section class="nv-card">
-      <div id="categoriesContainer" class="nv-grid"></div>
-      <div class="nv-actions">
-        <a class="nv-btn light" href="./index.html">← Back</a>
-        <a id="toTraits" class="nv-btn" href="./traits.html" disabled>Next: Traits →</a>
-      </div>
-    </section>
-  </main>
+    <div class="kicker">Step 1 of 5</div>
+    <div class="h1">Choose your focus area</div>
+    <p class="p">Pick the area that feels most “you” right now. You can refine with traits next.</p>
 
-  <footer class="nv-footer">
-    <nav>
-      <a href="./index.html">Welcome</a> ·
-      <a href="./categories.html">Categories</a> ·
-      <a href="./traits.html">Traits</a> ·
-      <a href="./roles.html">Roles</a> ·
-      <a href="./invest.html">Invest</a>
-    </nav>
-  </footer>
+    <div id="categoryGrid" class="grid" aria-live="polite"></div>
 
-  <script src="./js/DataLoader.js"></script>
-  <script src="./js/CategoryFlow.js"></script>
-  <script src="./js/TraitsFlow.js"></script>
-  <script src="./js/ResultsRenderer.js"></script>
-  <script src="./js/SaveReturn.js"></script>
-  <script src="./js/app.js"></script>
+    <hr/>
+    <div class="footer">© NOVA</div>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script>renderCategories();</script>
 </body>
 </html>
