@@ -1,0 +1,84 @@
+{
+  "categories": [
+    {"id":"build","group":"Create","name":"Builders & Makers","summary":"Design, make, improve systems and things."},
+    {"id":"solve","group":"Analyze","name":"Problem Solvers","summary":"Diagnose, model, optimize, and decide."},
+    {"id":"lead","group":"Guide","name":"Leaders & Organizers","summary":"Set direction, align people, drive results."},
+    {"id":"serve","group":"Care","name":"Helpers & Teachers","summary":"Coach, teach, support, and encourage."},
+    {"id":"express","group":"Story","name":"Communicators & Creatives","summary":"Write, design, persuade, inspire."},
+    {"id":"secure","group":"Protect","name":"Security & Reliability","summary":"Keep people, info, and systems safe."}
+  ],
+  "traits": [
+    {"id":"t01","categoryId":"build","name":"System Thinker","desc":"Sees how parts fit into a larger whole."},
+    {"id":"t02","categoryId":"build","name":"Process Improver","desc":"Loves streamlining and standardizing."},
+    {"id":"t03","categoryId":"build","name":"Hands-on Maker","desc":"Enjoys building prototypes and tools."},
+    {"id":"t04","categoryId":"build","name":"Tech Curious","desc":"Eager to learn new tools and stacks."},
+    {"id":"t05","categoryId":"build","name":"Quality First","desc":"Cares about details and reliability."},
+
+    {"id":"t06","categoryId":"solve","name":"Data-Driven","desc":"Decisions backed by facts."},
+    {"id":"t07","categoryId":"solve","name":"Root-Cause Finder","desc":"Asks 5 Whys until the real issue shows."},
+    {"id":"t08","categoryId":"solve","name":"Modeler","desc":"Turns complexity into simple models."},
+    {"id":"t09","categoryId":"solve","name":"Optimizer","desc":"Maximizes outcomes with fewer inputs."},
+    {"id":"t10","categoryId":"solve","name":"Risk Aware","desc":"Weighs tradeoffs and mitigations."},
+
+    {"id":"t11","categoryId":"lead","name":"Vision Setter","desc":"Sees the future and rallies people."},
+    {"id":"t12","categoryId":"lead","name":"Project Orchestrator","desc":"Coordinates people and timelines."},
+    {"id":"t13","categoryId":"lead","name":"Decision Maker","desc":"Chooses paths under uncertainty."},
+    {"id":"t14","categoryId":"lead","name":"Influencer","desc":"Persuades across functions."},
+    {"id":"t15","categoryId":"lead","name":"Accountable","desc":"Owns outcomes; delivers."},
+
+    {"id":"t16","categoryId":"serve","name":"Coach","desc":"Develops others with patience."},
+    {"id":"t17","categoryId":"serve","name":"Empathetic","desc":"Understands feelings and context."},
+    {"id":"t18","categoryId":"serve","name":"Teacher","desc":"Explains clearly and simply."},
+    {"id":"t19","categoryId":"serve","name":"Service Minded","desc":"Finds joy in helping."},
+    {"id":"t20","categoryId":"serve","name":"Community Builder","desc":"Connects people and resources."},
+
+    {"id":"t21","categoryId":"express","name":"Storyteller","desc":"Crafts narratives that move people."},
+    {"id":"t22","categoryId":"express","name":"Designer’s Eye","desc":"Balances aesthetics with clarity."},
+    {"id":"t23","categoryId":"express","name":"Presenter","desc":"Comfortable on stage or camera."},
+    {"id":"t24","categoryId":"express","name":"Copywriter","desc":"Chooses words that convert."},
+    {"id":"t25","categoryId":"express","name":"Social Amplifier","desc":"Builds engaged audiences."},
+
+    {"id":"t26","categoryId":"secure","name":"Policy Minded","desc":"Understands frameworks and regs."},
+    {"id":"t27","categoryId":"secure","name":"Threat Aware","desc":"Anticipates failure & attack paths."},
+    {"id":"t28","categoryId":"secure","name":"Controls Builder","desc":"Implements guardrails and audits."},
+    {"id":"t29","categoryId":"secure","name":"Incident Ready","desc":"Responds calmly under pressure."},
+    {"id":"t30","categoryId":"secure","name":"Privacy First","desc":"Protects data and trust."},
+
+    {"id":"t31","categoryId":"build","name":"Automation Oriented","desc":"Eliminates repetitive work."},
+    {"id":"t32","categoryId":"solve","name":"Financially Literate","desc":"Understands unit economics."},
+    {"id":"t33","categoryId":"lead","name":"Stakeholder Manager","desc":"Aligns execs, teams, and vendors."},
+    {"id":"t34","categoryId":"serve","name":"Patient Listener","desc":"Lets people be fully heard."},
+    {"id":"t35","categoryId":"express","name":"Visual Thinker","desc":"Communicates with diagrams."},
+
+    {"id":"t36","categoryId":"build","name":"SOP Writer","desc":"Documents the right way to work."},
+    {"id":"t37","categoryId":"solve","name":"Experimenter","desc":"Runs tests to learn fast."},
+    {"id":"t38","categoryId":"lead","name":"Change Agent","desc":"Guides teams through transitions."},
+    {"id":"t39","categoryId":"serve","name":"Mentor","desc":"Champions growth over time."},
+    {"id":"t40","categoryId":"express","name":"Brand Voice","desc":"Keeps messaging consistent."},
+
+    {"id":"t41","categoryId":"secure","name":"Compliance Fluent","desc":"HIPAA, GDPR, CCPA, etc."},
+    {"id":"t42","categoryId":"build","name":"Lean Six Sigma","desc":"DMAIC, Kaizen, waste reduction."},
+    {"id":"t43","categoryId":"solve","name":"Forecasting","desc":"Projects scenarios and outcomes."},
+    {"id":"t44","categoryId":"lead","name":"Resource Planner","desc":"Right people, right time."},
+    {"id":"t45","categoryId":"serve","name":"Conflict Resolver","desc":"Finds fair, calm paths."},
+
+    {"id":"t46","categoryId":"express","name":"UX Empathy","desc":"Designs from the user’s view."},
+    {"id":"t47","categoryId":"secure","name":"Data Governance","desc":"Lineage, quality, access."},
+    {"id":"t48","categoryId":"build","name":"API Friendly","desc":"Connects systems cleanly."},
+    {"id":"t49","categoryId":"solve","name":"Optimization Math","desc":"Loves ratios and gradients."},
+    {"id":"t50","categoryId":"lead","name":"OKR Driver","desc":"Sets goals and measures impact."}
+  ],
+  "roles": [
+    {"title":"Process Improvement Manager","outlook":"Growing","salary":"$95k–$140k","traits":["t02","t36","t42","t31","t15"],"why":"Lead continuous improvement initiatives, map value streams, and deliver measurable savings."},
+    {"title":"Operations Analyst","outlook":"Stable","salary":"$75k–$105k","traits":["t06","t07","t09","t43","t32"],"why":"Analyze performance, build dashboards, and recommend changes backed by data."},
+    {"title":"Product Manager","outlook":"Strong","salary":"$110k–$165k","traits":["t11","t12","t33","t46","t50"],"why":"Translate user needs into roadmaps and ship outcomes with cross-functional teams."},
+    {"title":"Program Coordinator","outlook":"Stable","salary":"$65k–$90k","traits":["t12","t15","t44","t20","t33"],"why":"Keep complex programs on track—people, timelines, budgets."},
+    {"title":"Security Compliance Analyst","outlook":"Growing","salary":"$90k–$125k","traits":["t41","t26","t28","t30","t47"],"why":"Implement controls and ensure regulatory readiness (HIPAA/GDPR/CCPA)."},
+
+    {"title":"UX Writer / Content Designer","outlook":"Growing","salary":"$85k–$130k","traits":["t21","t24","t46","t35","t40"],"why":"Make products clear and helpful with the right words and flows."},
+    {"title":"Customer Success Manager","outlook":"Growing","salary":"$70k–$115k","traits":["t16","t17","t19","t33","t45"],"why":"Guide customers to outcomes; reduce churn and expand value."},
+    {"title":"Automation Engineer (No-code)","outlook":"Strong","salary":"$85k–$120k","traits":["t31","t48","t36","t02","t42"],"why":"Automate repetitive work using APIs and workflow platforms."},
+    {"title":"Project Manager (IT/Operations)","outlook":"Strong","salary":"$95k–$135k","traits":["t12","t15","t44","t33","t07"],"why":"Own schedules, risks, and delivery for cross-team initiatives."},
+    {"title":"Training & Enablement Lead","outlook":"Stable","salary":"$80k–$120k","traits":["t18","t20","t16","t22","t23"],"why":"Design learning paths and enable teams to perform at their best."}
+  ]
+}
