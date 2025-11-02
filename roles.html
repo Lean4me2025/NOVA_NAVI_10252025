@@ -4,34 +4,33 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NOVA • Roles</title>
-  <link rel="stylesheet" href="assets/css/styles.css?v=8"/>
-  <style>
-    .actions-bar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:8px 0 14px}
-    .actions-bar .btn{padding:12px 18px;font-size:16px;border-radius:12px}
-  </style>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <div class="brand">NOVA</div>
-      <div class="nav"><a href="traits.html">Back</a></div>
-    </div>
+    <header class="header">
+      <div class="brand">NOVA • Roles</div>
+      <nav class="nav">
+        <a href="traits.html">Edit traits</a>
+      </nav>
+    </header>
 
     <div class="kicker">Step 3 of 5</div>
-    <div class="h1">Roles that fit your traits</div>
-    <p class="p">We rank roles by how strongly they match your selected traits and focus areas.</p>
+    <h1>Roles that fit your traits</h1>
+    <p class="p">We rank roles by how strongly they match your selected traits.</p>
 
-    <div class="actions-bar">
-      <a class="btn secondary" href="traits.html">← Edit traits</a>
+    <div class="bar">
+      <div class="spacer"></div>
       <button id="toReveal" class="btn">Continue → Reveal</button>
     </div>
 
-    <section id="rolesList" class="roles-grid" aria-live="polite"></section>
+    <!-- 2-col cards with badges and meter bar -->
+    <section id="rolesList" class="grid-2"></section>
 
-    <hr/><div class="footer">© NOVA</div>
+    <footer class="footer">© NOVA</footer>
   </div>
 
-  <script src="assets/js/app.js?v=8"></script>
+  <script src="assets/js/app.js"></script>
   <script>renderRoles();</script>
 </body>
 </html>
