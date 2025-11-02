@@ -1,7 +1,8 @@
-// NOVA App Core (vanilla JS) — resilient loader
-// - Loads unified JSON at data/nova_data.json
-// - Falls back to sample data if fetch fails (so UI still renders)
-// - Logs helpful messages to console
+// NOVA App Core (resilient navigation)
+// - Categories tiles are real links to traits.html?cat=<id>
+// - Still saves state on click
+// - Traits can read ?cat=... if state missing
+// - JSON loader tries common paths; falls back to sample data
 
 const NOVA_KEY = 'nova_state_v1';
 
@@ -18,30 +19,20 @@ const App = {
 
   async init() {
     if (this.data) return;
-
-    const candidates = [
-      'data/nova_data.json',
-      './data/nova_data.json',
-      '/data/nova_data.json'
-    ];
-
-    let lastErr = null;
+    const candidates = ['data/nova_data.json','./data/nova_data.json','/data/nova_data.json'];
     for (const url of candidates) {
       try {
         const res = await fetch(url, { cache: 'no-store' });
-        if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         this.data = normalizeData(json);
         console.info('[NOVA] Loaded data from', url);
         return;
       } catch (e) {
-        lastErr = e;
         console.warn('[NOVA] Could not load', url, e);
       }
     }
-
-    // Fallback so the page still renders and we can verify UI
-    console.error('[NOVA] Falling back to sample data. Fix /data/nova_data.json path or JSON.');
+    console.error('[NOVA] Using sample data fallback.');
     this.data = normalizeData(sampleData());
   },
 
@@ -81,6 +72,11 @@ function normalizeData(d){
   return d;
 }
 
+function getQuery(key){
+  const u = new URL(location.href);
+  return u.searchParams.get(key);
+}
+
 /* ---------- Page Renderers ---------- */
 
 async function renderCategories(){
@@ -90,34 +86,35 @@ async function renderCategories(){
 
   const cats = App.data.categories || [];
   if (!cats.length){
-    grid.innerHTML = `<div class="card">No categories found. Check /data/nova_data.json exists and is valid.</div>`;
+    grid.innerHTML = `<div class="card">No categories found. Check /data/nova_data.json.</div>`;
     return;
   }
 
+  // Each tile is a real link for guaranteed navigation
   grid.innerHTML = cats.map(c=>`
-    <article class="tile" data-id="${c.id}" tabindex="0" aria-label="${c.name}">
+    <a class="tile" data-id="${c.id}" href="traits.html?cat=${encodeURIComponent(c.id)}" aria-label="${c.name}">
       <div class="kicker">${c.group || ''}</div>
       <div class="h3">${c.name}</div>
       <p class="p">${c.summary || ''}</p>
-    </article>
+    </a>
   `).join('');
 
-  const go = (id)=>{ App.setCategory(id); location.href='traits.html'; };
-
+  // Save the chosen category to state on click (so Traits knows)
   grid.addEventListener('click', e=>{
     const t = e.target.closest('.tile'); if(!t) return;
-    go(t.dataset.id);
-  });
-  grid.addEventListener('keydown', e=>{
-    if(e.key==='Enter' || e.key===' '){
-      const t = e.target.closest('.tile'); if(!t) return;
-      e.preventDefault(); go(t.dataset.id);
-    }
+    App.setCategory(t.dataset.id);
   });
 }
 
 async function renderTraits(){
   await App.init();
+
+  // If no state, accept ?cat=<id> from the URL
+  if (!App.state.categoryId) {
+    const q = getQuery('cat');
+    if (q) { App.setCategory(q); }
+  }
+
   const cat = (App.data.categories||[]).find(c=>c.id===App.state.categoryId);
   if (!cat){ location.href='categories.html'; return; }
 
@@ -221,7 +218,7 @@ async function renderInvest(){
 
 function renderNavi(){ /* static */ }
 
-/* ---------- Local sample (only used if JSON fails) ---------- */
+/* ---------- Sample data (fallback only) ---------- */
 function sampleData(){
   return {
     categories: [
