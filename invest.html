@@ -2,34 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>NOVA • Invest</title>
-  <link rel="stylesheet" href="assets/css/styles.css"/>
 
-  <!-- Payhip embed script (include once) -->
+  <!-- Unified NOVA styles -->
+  <link rel="stylesheet" href="assets/css/styles.css?v=2"/>
+
+  <!-- Payhip embed (required for the Buy buttons) -->
   <script type="text/javascript" src="https://payhip.com/payhip.js"></script>
+
+  <style>
+    /* Light page-specific polish (keeps with your theme) */
+    .plan-card .h3{ margin:0 0 6px }
+    .plan-card .p{ margin:0 0 10px }
+    .plan-card .price{ font-weight:800; margin:2px 0 12px }
+    .grid-4{ grid-template-columns:repeat(4,1fr) }
+    @media (max-width:1200px){ .grid-4{ grid-template-columns:repeat(3,1fr) } }
+    @media (max-width:900px){  .grid-4{ grid-template-columns:repeat(2,1fr) } }
+    @media (max-width:560px){  .grid-4{ grid-template-columns:1fr } }
+    .center{ text-align:center }
+  </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <div class="brand">NOVA</div>
-      <nav class="nav"><a href="reveal.html">Back</a></nav>
+      <div class="nav"><a href="reveal.html">Back</a></div>
     </div>
 
     <div class="kicker">Step 5 of 5</div>
-    <h2 class="h1">Invest in Yourself</h2>
+    <div class="h1">Invest in Yourself</div>
     <p class="p">
-      You surfaced real strengths. Choose a plan to unlock deeper guidance and keep your momentum —
-      or continue without purchasing and save your progress.
+      Choose a plan to unlock deeper guidance — or continue without purchasing and keep moving into Navi.
     </p>
 
-    <!-- 🔁 Changed from grid-3 to grid-4 -->
+    <!-- 4-across plan grid -->
     <section class="grid grid-4" style="margin-top:18px">
-
-      <!-- Starter (NAVI Starter Plan) -->
-      <article class="card">
-        <h3 class="h3">Starter</h3>
-        <p class="p">Save your results (email + PIN), top role matches, downloadable snapshot (PDF).</p>
+      <!-- Starter -->
+      <article class="card plan-card">
+        <div class="h3">Starter</div>
+        <div class="price">$19 one-time</div>
+        <p class="p">Save results (email+PIN), top matches, snapshot PDF.</p>
         <div class="actions" style="margin-top:10px">
           <a href="https://payhip.com/b/GdfU7"
              class="payhip-buy-button"
@@ -38,10 +51,11 @@
         </div>
       </article>
 
-      <!-- Pro (NAVI PRO Plan) -->
-      <article class="card">
-        <h3 class="h3">Pro</h3>
-        <p class="p">Everything in Starter + expanded role matches with salary/outlook + simple next-step plan.</p>
+      <!-- Pro (NAVI PRO) -->
+      <article class="card plan-card">
+        <div class="h3">Pro</div>
+        <div class="price">$49 one-time</div>
+        <p class="p">Everything in Starter + salary/outlook + next-step template.</p>
         <div class="actions" style="margin-top:10px">
           <a href="https://payhip.com/b/knC1Z"
              class="payhip-buy-button"
@@ -50,10 +64,11 @@
         </div>
       </article>
 
-      <!-- Mastery Plan -->
-      <article class="card">
-        <h3 class="h3">Mastery</h3>
-        <p class="p">Everything in Pro + deeper role insights, alternatives, and guided reflection workbook.</p>
+      <!-- Mastery -->
+      <article class="card plan-card">
+        <div class="h3">Mastery</div>
+        <div class="price">$99 one-time</div>
+        <p class="p">Everything in Pro + deeper insights + guided workbook.</p>
         <div class="actions" style="margin-top:10px">
           <a href="https://payhip.com/b/re4Hy"
              class="payhip-buy-button"
@@ -62,10 +77,11 @@
         </div>
       </article>
 
-      <!-- BONUS: Purpose Book -->
-      <article class="card">
-        <h3 class="h3">“How to Know Your Purpose” (Book)</h3>
-        <p class="p">A concise guide to clarify calling and take your next step with confidence.</p>
+      <!-- Book -->
+      <article class="card plan-card">
+        <div class="h3">“How to Know Your Purpose” (Book)</div>
+        <div class="price">$—</div>
+        <p class="p">A concise guide to clarify calling and act.</p>
         <div class="actions" style="margin-top:10px">
           <a href="https://payhip.com/b/N7Lvg"
              class="payhip-buy-button"
@@ -73,21 +89,23 @@
              data-product="N7Lvg">Buy Now</a>
         </div>
       </article>
-
     </section>
 
-    <p class="p small" style="text-align:center;margin-top:12px">
-      Secure checkout opens in a new tab on Payhip. You can return here anytime.
+    <p class="p small center" style="margin-top:12px">
+      Secure checkout opens in a new tab on Payhip.
     </p>
 
+    <!-- Skip path (no login to avoid 404) -->
     <div class="center" style="margin-top:18px">
-      <a id="skipBtn" class="btn secondary" href="login.html">Continue without purchase → Login</a>
+      <a class="btn secondary" href="navi.html">Continue without purchase → Navi</a>
     </div>
 
     <hr/>
-    <footer class="footer">© NOVA</footer>
+    <div class="footer">© NOVA</div>
   </div>
 
-  <script src="assets/app.js"></script>
+  <!-- Optional app hooks (safe to keep consistent across pages) -->
+  <script src="assets/app.js?v=2"></script>
+  <script>/* renderInvest(); // not required, page is static */</script>
 </body>
 </html>
