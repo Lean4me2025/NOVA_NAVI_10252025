@@ -4,7 +4,25 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NOVA • Traits</title>
-  <link rel="stylesheet" href="assets/css/styles.css?v=3"/>
+  <link rel="stylesheet" href="assets/css/styles.css?v=4"/>
+
+  <!-- Keep the action bar visible and the button large -->
+  <style>
+    .actions-bar{
+      position: sticky; top: 0; z-index: 10;
+      background: var(--bg);
+      padding: 10px 0 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .actions-bar .btn{
+      font-size: 16px; padding: 12px 18px; border-radius: 12px;
+    }
+    .count-pill{
+      display:inline-block;background:#f1f5f9;border-radius:999px;padding:6px 10px;
+      font-size:13px;color:var(--muted);margin-right:10px
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -17,18 +35,19 @@
     <div class="h1">Select the traits that fit you</div>
     <p class="p">Focus: <strong id="catName">—</strong>. Choose at least <strong>5</strong> traits.</p>
 
-    <div class="actions" style="margin:10px 0">
-      <span class="kicker">Selected: <strong id="traitCount">0</strong></span>
-      <button id="toRoles" class="btn" disabled>Continue →</button>
+    <!-- Always-visible controls -->
+    <div class="actions-bar">
+      <span class="count-pill">Selected: <strong id="traitCount">0</strong></span>
+      <button id="toRoles" class="btn" disabled>Continue → Roles</button>
     </div>
 
-    <!-- ✅ Two-column centered tiles -->
+    <!-- Two-column, centered tiles -->
     <section id="traitsGrid" class="grid grid-2" aria-live="polite"></section>
 
     <hr/><div class="footer">© NOVA</div>
   </div>
 
-  <script src="assets/app.js?v=3"></script>
+  <script src="assets/app.js?v=4"></script>
   <script>renderTraits();</script>
 </body>
 </html>
