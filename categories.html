@@ -4,31 +4,33 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NOVA • Categories</title>
-  <link rel="stylesheet" href="assets/css/styles.css?v=3"/>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
 </head>
 <body>
   <div class="container">
-    <div class="header">
+    <header class="header">
       <div class="brand">NOVA</div>
       <div class="nav"><a href="index.html">Welcome</a></div>
-    </div>
+    </header>
 
     <div class="kicker">Step 1 of 5</div>
-    <div class="h1">Choose your focus area(s)</div>
-    <p class="p">Select <strong>1–2</strong> categories that fit you best. You can refine with traits next.</p>
+    <h1>Choose your focus area(s)</h1>
+    <p class="p">Select <strong>1–2</strong> categories that fit you best. You can refine with sub-areas next.</p>
 
-    <div class="actions" style="margin:10px 0">
-      <span class="kicker">Selected: <strong id="catCount">0</strong> / 2</span>
+    <div class="bar">
+      <span>Selected: <span id="catCount">0</span> / 2</span>
+      <div class="spacer"></div>
       <button id="catsContinue" class="btn" disabled>Continue →</button>
+      <a id="resetAll" class="link" href="#">Reset</a>
     </div>
 
-    <!-- ✅ Two-column centered tiles -->
-    <section id="categoryGrid" class="grid grid-2" aria-live="polite"></section>
+    <!-- 2-col adaptive grid of top categories (from config.json) -->
+    <section id="categoryGrid" class="grid-2"></section>
 
-    <hr/><div class="footer">© NOVA</div>
+    <footer class="footer">© NOVA</footer>
   </div>
 
-  <script src="assets/app.js?v=3"></script>
+  <script src="assets/js/app.js"></script>
   <script>renderCategories();</script>
 </body>
 </html>
