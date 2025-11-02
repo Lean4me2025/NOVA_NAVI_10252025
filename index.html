@@ -1,117 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Welcome to NOVA</title>
-
-  <!-- Self-contained critical styles so this page renders exactly like your photo -->
-  <style>
-    :root{
-      --brand-700:#0ca39a; --brand-500:#36c2b4; --brand-200:#c5f2ed;
-      --ink-900:#1c1c1c; --ink-700:#444; --ink-600:#666;
-      --bg:#f5f9f6; --card:#fff; --border:#e7eeea;
-      --r-lg:18px; --r-md:14px;
-      --shadow-lg:0 14px 32px rgba(0,0,0,.12);
-      --shadow-sm:0 2px 6px rgba(0,0,0,.06);
-      --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--ink-900);font-family:var(--font)}
-    .container{width:min(1120px,92vw);margin:0 auto}
-    .hero{
-      margin:24px auto; border-radius:var(--r-lg); box-shadow:var(--shadow-lg);
-      background:linear-gradient(135deg,var(--brand-700),var(--brand-500));
-      color:#fff; padding:clamp(28px,6vw,56px);
-    }
-    .hero h1{margin:0 0 6px;font-size:clamp(28px,6vw,46px)}
-    .hero .sub{margin:0;font-size:clamp(16px,2.8vw,20px);opacity:.96}
-    .section{margin:24px 0}
-    .fact{
-      margin:16px 0 10px; font-weight:800; font-size:clamp(20px,3.8vw,28px);
-      color:var(--ink-900); background:transparent !important; opacity:1 !important; text-shadow:none !important;
-    }
-    .intro{color:var(--ink-700); font-size:16px}
-    .grid-3{display:grid;gap:18px;grid-template-columns:repeat(3,1fr)}
-    @media(max-width:900px){.grid-3{grid-template-columns:1fr}}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);box-shadow:var(--shadow-sm);padding:18px}
-    .card h3{margin:0 0 8px;font-size:20px}
-    .steps{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;color:var(--ink-700);font-size:14px}
-    .steps .dot{width:6px;height:6px;border-radius:50%;background:var(--brand-500);display:inline-block;margin:0 4px}
-    .breadcrumb{margin:28px 0 8px;text-align:center;color:var(--ink-600);font-size:14px}
-    footer{color:#7a7a7a;text-align:center;padding:18px 0 42px;font-size:13px}
-    /* Hide any host 'congratulations' or toast banners */
-    [class*="congrat"],[id*="congrat"],[class*="toast"],[id*="toast"]{display:none!important}
-  </style>
-
-  <meta name="description" content="NOVA helps you discover why you're here, then maps it to real roles and next steps." />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>NOVA • Welcome</title>
+  <link rel="stylesheet" href="assets/styles.css"/>
 </head>
 <body>
-  <header class="container">
-    <div class="hero">
-      <h1>Welcome to NOVA</h1>
-      <p class="sub">Clarity about your work. Confidence about your next step.</p>
-    </div>
-  </header>
 
-  <main class="container">
-    <!-- Your fact line: exactly as requested, no blackout -->
-    <div class="fact">89% of people do not know their purpose.</div>
+  <!-- Hero Section -->
+  <div style="background:linear-gradient(135deg,#36bdb5,#3cc2bb);padding:60px 20px;text-align:center;color:#fff;">
+    <h1 style="font-size:40px;margin:0;font-weight:800;">NOVA</h1>
+    <p style="font-size:20px;margin:8px 0 0;">Discover why you were created</p>
+  </div>
 
-    <section class="section">
-      <p class="intro">
-        NOVA helps you discover why you're here — then maps it to real roles and next steps.
-        No long tests. No fluff. We surface what your life has already been saying and turn it into a clear path.
-      </p>
-    </section>
+  <!-- Main Content -->
+  <div class="container" style="text-align:center;margin-top:40px;">
 
-    <section class="section grid-3">
-      <div class="card">
-        <h3>How it works</h3>
-        <p>Pick your focus areas, choose a few traits, then see roles that fit — with outlook and salary context.</p>
-      </div>
-      <div class="card">
-        <h3>What you’ll get</h3>
-        <p>A short list of roles that match you, plus a simple next-step plan.</p>
-      </div>
-      <div class="card">
-        <h3>Time needed</h3>
-        <p>About 2–5 minutes for your first pass. You can always refine later.</p>
-      </div>
-    </section>
+    <!-- ✅ 89% Fact — fully visible -->
+    <p class="h2" style="margin-bottom:10px;color:#1d2433;font-size:28px;font-weight:700;">
+      89% of people do not know their purpose.
+    </p>
 
-    <section class="section card">
-      <h3>Why NOVA</h3>
-      <p>Designed around mind, heart, drive, and spirit — practical, encouraging, and actionable.</p>
-    </section>
+    <p class="p" style="max-width:600px;margin:0 auto 30px;">
+      Most go through life without clarity of calling.
+      Nova will help you identify your unique purpose—
+      rooted in your strengths, traits, and the roles that fit you best.
+    </p>
 
-    <section class="section card">
-      <h3>What to expect</h3>
-      <div class="steps" aria-label="NOVA steps">
-        <span>Welcome</span><span class="dot"></span>
-        <span>Categories</span><span class="dot"></span>
-        <span>Traits</span><span class="dot"></span>
-        <span>Roles</span><span class="dot"></span>
-        <span>Reflection</span><span class="dot"></span>
-        <span>Invest</span><span class="dot"></span>
-        <span>Login (save with email + PIN)</span>
-      </div>
-    </section>
+    <!-- ✅ Journey Button -->
+    <a class="btn" href="categories.html" style="font-size:18px;padding:14px 26px;">
+      Start My Purpose Journey →
+    </a>
 
-    <!-- Optional start button (uncomment if you want it visible)
-    <section class="section" style="text-align:center;">
-      <a class="btn" href="categories.html">Start → Categories</a>
-    </section>
-    -->
+    <!-- Supporting message -->
+    <p class="p" style="max-width:620px;margin:32px auto;">
+      This is about direction, not perfection. Your purpose evolves.
+      Let’s begin with who you already are.
+    </p>
+  </div>
 
-    <div class="breadcrumb">Welcome → Categories → Traits → Roles → Reflection → Invest → Login</div>
-  </main>
+  <div class="footer">
+    © NOVA • Purpose Discovery
+  </div>
 
-  <footer class="container">
-    <small>© <span id="y"></span> NOVA. All rights reserved.</small>
-  </footer>
-
-  <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
 </body>
 </html>
