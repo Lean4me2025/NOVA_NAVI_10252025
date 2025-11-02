@@ -1,256 +1,45 @@
-/* ===========================
-   NOVA GLOBAL THEME
-   Version: H1 Final
-   =========================== */
-
-:root {
-  /* Brand Palette */
-  --brand-900: #05867e;
-  --brand-800: #099187;
-  --brand-700: #0ca39a;   /* main teal */
-  --brand-600: #12b4a9;
-  --brand-500: #36c2b4;   /* mint accent */
-  --brand-200: #c5f2ed;
-
-  /* Neutral / Ink */
-  --ink-900: #1c1c1c;
-  --ink-800: #2e2e2e;
-  --ink-700: #444;
-  --ink-600: #666;
-  --ink-500: #888;
-  --ink-300: #ccc;
-
-  /* Background / Surfaces */
-  --bg: #f5f9f6;
-  --card: #ffffff;
-  --border: #e7eeea;
-
-  /* Effects */
-  --shadow-sm: 0 2px 6px rgba(0,0,0,.06);
-  --shadow-md: 0 6px 16px rgba(0,0,0,.08);
-  --shadow-lg: 0 14px 32px rgba(0,0,0,.12);
-
-  /* Radii */
-  --r-sm: 10px;
-  --r-md: 14px;
-  --r-lg: 18px;
-
-  /* Typography */
-  --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+:root{
+  --bg:#ffffff;
+  --ink:#1d2433;
+  --muted:#5b6472;
+  --teal:#36bdb5;     /* primary button (A) */
+  --teal-600:#24a89e;
+  --pink:#ff4da6;     /* accent */
+  --card:#f6f9fc;
+  --border:#e6edf4;
+  --ring:#bee7e4;
+  --success:#1f9d55;
+  --warn:#e3a008;
 }
-
-/* Base */
-* { box-sizing: border-box; }
-html, body { height: 100%; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink-900);
-  font-family: var(--font);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Containers */
-.container {
-  width: min(1120px, 92vw);
-  margin: 0 auto;
-}
-.section { margin: clamp(18px, 3.8vw, 28px) 0; }
-
-/* Hero Header */
-.hero {
-  margin: clamp(18px, 3.5vw, 28px) auto;
-  background: linear-gradient(135deg, var(--brand-700), var(--brand-500));
-  color: #fff;
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-lg);
-  padding: clamp(28px, 6vw, 56px);
-}
-.hero h1 {
-  margin: 0 0 6px;
-  font-size: clamp(30px, 6vw, 46px);
-}
-.hero .sub {
-  margin: 0;
-  font-size: clamp(16px, 2.8vw, 20px);
-  opacity: 0.96;
-}
-.badge {
-  display: inline-block;
-  margin-bottom: 8px;
-  padding: 6px 10px;
-  background: rgba(255,255,255,0.16);
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 13px;
-}
-
-/* Fact line */
-.fact {
-  margin: 16px 0 10px;
-  font-weight: 800;
-  font-size: clamp(20px, 3.8vw, 28px);
-  color: var(--ink-900);
-  background: transparent !important;
-  text-shadow: none !important;
-  opacity: 1 !important;
-  filter: none !important;
-}
-
-/* Intro text */
-.intro {
-  color: var(--ink-700);
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-/* Cards */
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  box-shadow: var(--shadow-sm);
-  padding: clamp(16px, 3vw, 22px);
-}
-.card h3 {
-  margin: 0 0 8px;
-  font-size: 20px;
-}
-.card p { margin: 0; color: var(--ink-700); }
-
-/* Grid layouts */
-.grid-2 {
-  display: grid;
-  gap: clamp(14px, 2.4vw, 22px);
-  grid-template-columns: repeat(2, 1fr);
-}
-.grid-3 {
-  display: grid;
-  gap: clamp(14px, 2.4vw, 22px);
-  grid-template-columns: repeat(3, 1fr);
-}
-@media (max-width: 900px) {
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
-}
-
-/* Buttons */
-.btn {
-  --btn-bg: var(--brand-700);
-  --btn-bg-hover: var(--brand-600);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--btn-bg);
-  color: #fff;
-  text-decoration: none;
-  font-weight: 700;
-  padding: 12px 18px;
-  border-radius: 12px;
-  border: none;
-  box-shadow: var(--shadow-md);
-  cursor: pointer;
-  transition: transform .06s ease, background .2s ease, box-shadow .2s ease;
-}
-.btn:hover {
-  background: var(--btn-bg-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-lg);
-}
-.btn:active { transform: translateY(0); }
-
-/* Steps line (Welcome → Categories → etc.) */
-.steps {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 14px;
-  align-items: center;
-  color: var(--ink-700);
-  font-size: 14px;
-}
-.steps .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--brand-500);
-  display: inline-block;
-  margin: 0 4px;
-}
-
-/* Breadcrumb */
-.breadcrumb {
-  margin: clamp(24px, 4vw, 36px) 0 8px;
-  color: var(--ink-600);
-  font-size: 14px;
-  text-align: center;
-}
-
-/* Audio box */
-.audio-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  padding: 10px 12px;
-  box-shadow: var(--shadow-sm);
-}
-
-/* Inputs (for Reflection/Login pages) */
-.input, select, textarea {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: #fff;
-  color: var(--ink-900);
-  font: inherit;
-  box-shadow: var(--shadow-sm);
-}
-label {
-  font-weight: 700;
-  color: var(--ink-800);
-  display: block;
-  margin-bottom: 6px;
-}
-
-/* Role cards */
-.role-card {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
-  align-items: start;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  padding: 16px;
-  box-shadow: var(--shadow-sm);
-}
-.role-title { margin: 0; font-size: 1.1rem; }
-.role-meta { display: flex; gap: 8px; flex-wrap: wrap; }
-.meta {
-  font-size: 12px;
-  padding: 6px 10px;
-  background: var(--brand-200);
-  color: var(--brand-800);
-  border-radius: 999px;
-  font-weight: 700;
-}
-.role-body { color: var(--ink-700); }
-.role-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-
-/* Footer */
-footer {
-  color: var(--ink-500);
-  text-align: center;
-  padding: 18px 0 42px;
-  font-size: 13px;
-}
-
-/* Hide any host-injected "congratulations" banners */
-[class*="congrat"], [id*="congrat"],
-[class*="toast"], [id*="toast"] {
-  display: none !important;
-}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--teal);text-decoration:none}
+.container{max-width:1024px;margin:0 auto;padding:24px}
+.header{display:flex;justify-content:space-between;align-items:center;margin:8px 0 24px}
+.brand{font-weight:800;letter-spacing:.4px}
+.nav a{margin-left:14px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.btn{display:inline-block;background:var(--teal);color:#fff;border:none;border-radius:12px;padding:12px 18px;font-weight:700;box-shadow:0 4px 14px rgba(54,189,181,.25);transition:.15s}
+.btn:hover{background:var(--teal-600);transform:translateY(-1px)}
+.btn.secondary{background:#fff;color:var(--teal);border:1px solid var(--teal)}
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:4px 10px;font-size:12px;border:1px solid var(--border);background:#fff;color:var(--muted);gap:6px}
+.kicker{font-size:13px;color:var(--muted);margin-bottom:6px}
+.h1{font-size:32px;font-weight:800;margin:0 0 10px}
+.h2{font-size:22px;font-weight:800;margin:0 0 10px}
+.h3{font-size:16px;font-weight:700;margin:0 0 6px}
+.p{color:var(--muted);line-height:1.45}
+.footer{margin:32px 0 8px;color:var(--muted);font-size:12px;text-align:center}
+.tile{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:.15s}
+.tile:hover{box-shadow:0 6px 18px rgba(0,0,0,.06);transform:translateY(-1px)}
+.tile.selected{outline:3px solid var(--ring)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin:16px 0}
+.progress{height:6px;background:var(--border);border-radius:999px;overflow:hidden}
+.progress > span{display:block;height:6px;background:linear-gradient(90deg,var(--teal),var(--pink));width:0%}
+.inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:6px;margin:10px 0}
+hr{border:0;border-top:1px solid var(--border);margin:18px 0}
+.role{padding:16px;border:1px solid var(--border);border-radius:14px;background:#fff}
+.role .meta{display:flex;gap:8px;margin:8px 0 10px;flex-wrap:wrap}
+.note{background:#fff9f1;border:1px dashed #f7d7a2;color:#8e6a22;padding:12px;border-radius:12px}
+.payhip{max-width:720px;margin:0 auto}
