@@ -4,43 +4,47 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NOVA • Reveal</title>
-  <link rel="stylesheet" href="assets/css/styles.css?v=8"/>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
 </head>
 <body>
   <div class="container">
-    <div class="header">
+    <header class="header">
       <div class="brand">NOVA</div>
-      <div class="nav"><a href="roles.html">Back</a></div>
-    </div>
+      <nav class="nav">
+        <a href="roles.html">Back</a>
+      </nav>
+    </header>
 
     <div class="kicker">Step 4 of 5</div>
-    <div class="h1">Your reveal & reflection</div>
+    <h1>Your reveal & reflection</h1>
 
-    <article class="card">
-      <div class="h3">Your Direction</div>
-      <div class="p"><strong>Focus Area(s):</strong> <span id="focusNames">—</span></div>
-      <div class="p"><strong>Top Traits:</strong> <span id="topTraits">—</span></div>
-    </article>
+    <section class="card stack">
+      <h3 class="h3">Your Direction</h3>
+      <p class="p"><strong>Focus:</strong> <span id="focusNames">—</span></p>
+      <p class="p"><strong>Sub-areas:</strong> <span id="subNames">—</span></p>
+      <p class="p"><strong>Top traits:</strong> <span id="topTraits">—</span></p>
+    </section>
 
-    <div style="margin-top:14px" class="h3">Suggested Roles</div>
-    <section id="topRoles" class="roles-grid" aria-live="polite"></section>
+    <section class="stack">
+      <h3 class="h3">Top Roles</h3>
+      <div id="topRoles" class="grid-2"></div>
+    </section>
 
-    <article class="card" style="margin-top:16px">
-      <div class="h3">Reflection (optional but powerful)</div>
+    <section class="card stack">
+      <h3 class="h3">Reflection (optional but powerful)</h3>
       <p class="p">What stood out? How does this align with what others notice about you?</p>
-      <textarea id="notes" rows="6" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fff"></textarea>
-      <p class="p" style="margin-top:8px">Your notes save in your browser so you can return later.</p>
-    </article>
+      <textarea id="notes" rows="6" class="input"></textarea>
+      <div class="bar">
+        <a class="link" href="roles.html">← Back</a>
+        <div class="spacer"></div>
+        <a class="btn" href="invest.html">Invest in yourself →</a>
+      </div>
+    </section>
 
-    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
-      <a class="btn secondary" href="roles.html">← Back</a>
-      <a class="btn" href="invest.html">Invest in yourself →</a>
-    </div>
-
-    <hr/><div class="footer">© NOVA</div>
+    <footer class="footer">© NOVA</footer>
   </div>
 
-  <script src="assets/js/app.js?v=8"></script>
+  <script src="assets/js/app.js"></script>
   <script>renderReveal();</script>
 </body>
 </html>
