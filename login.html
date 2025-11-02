@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>NOVA • Save & Return</title>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <style>
+    .form{max-width:520px;margin:0 auto}
+    .field{margin:10px 0}
+    .input{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header"><div class="brand">NOVA</div><div class="nav"><a href="invest.html">Back</a></div></div>
+    <div class="h1">Save your results to return later</div>
+    <p class="p">We store your NOVA results locally in your browser. Use your email + a 4-digit PIN to re-open them.</p>
+
+    <section class="card form">
+      <div class="field"><div class="h3">Email</div>
+        <input id="email" class="input" type="email" placeholder="you@example.com" required/>
+      </div>
+      <div class="field"><div class="h3">PIN (4 digits)</div>
+        <input id="pin" class="input" type="password" inputmode="numeric" maxlength="4" placeholder="1234" required/>
+      </div>
+      <div class="actions">
+        <button id="save" class="btn">Save & Continue →</button>
+        <a class="btn secondary" href="navi.html">Skip</a>
+      </div>
+      <p class="p small">Note: clearing browser storage removes your save on this device.</p>
+    </section>
+
+    <hr/><div class="footer">© NOVA</div>
+  </div>
+  <script>
+    const NOVA_STATE_KEY='nova_state_v1', NOVA_PROFILE_KEY='nova_profile';
+    document.getElementById('save').addEventListener('click',()=>{
+      const email=(document.getElementById('email').value||'').trim().toLowerCase();
+      const pin=(document.getElementById('pin').value||'').trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return alert('Enter a valid email.');
+      if(!/^\d{4}$/.test(pin)) return alert('PIN must be 4 digits.');
+      const stateRaw=localStorage.getItem(NOVA_STATE_KEY)||'{}';
+      localStorage.setItem(NOVA_PROFILE_KEY, JSON.stringify({email,pin,saved_at:new Date().toISOString(),state:JSON.parse(stateRaw)}));
+      window.location.href='navi.html';
+    });
+  </script>
+</body>
+</html>
