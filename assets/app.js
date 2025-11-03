@@ -1,205 +1,230 @@
-// ===== Nova unified app.js (Build 9.0 for /assets layout) =====
+// ===== NOVA unified app.js (Baseline) =====
 
-// Cache-buster to avoid stale JSON
+// Avoid stale JSON after deploys
 const CACHE_BUST = `?v=${Date.now()}`;
 
-// JSON loader — checks all common relative paths
+// Robust JSON loader that works locally and on Vercel
 async function loadJSON(file) {
-  const candidates = [
+  const paths = [
     `/assets/data/${file}${CACHE_BUST}`,
     `./assets/data/${file}${CACHE_BUST}`,
     `assets/data/${file}${CACHE_BUST}`
   ];
-  for (const url of candidates) {
+  for (const url of paths) {
     try {
       const res = await fetch(url, { cache: 'no-store' });
       if (res.ok) return await res.json();
     } catch (_) {}
   }
-  throw new Error(`Failed to load ${file}. Verify /assets/data path and filename.`);
+  throw new Error(`Failed to load ${file} from /assets/data`);
 }
 
-// Small inline error helper
-function showInlineError(targetSelector, message) {
-  const host = document.querySelector(targetSelector) || document.body;
-  const el = document.createElement('div');
-  el.style.cssText =
-    'margin:16px;padding:12px;border:1px solid #e33;background:#fff5f5;color:#900;border-radius:8px;font-size:14px;';
-  el.textContent = message;
-  host.prepend(el);
+// ---------- Helpers ----------
+function qs(sel, root = document) { return root.querySelector(sel); }
+function qsa(sel, root = document) { return [...root.querySelectorAll(sel)]; }
+function setLS(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (_) {} }
+function getLS(k, d = null) {
+  try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (_) { return d; }
 }
 
-// ---- PAGE-LEVEL INITS ----
-async function initWelcome() {
-  const btn = document.querySelector('[data-intro-audio]');
-  if (btn) {
-    const audio = new Audio('/assets/audio/intro.mp3');
-    btn.addEventListener('click', () => audio.play());
-  }
-  const next = document.querySelector('[data-next="categories"]');
-  if (next) next.addEventListener('click', () => (window.location.href = 'categories.html'));
+// Normalize unknown category schemas -> {id, name, subtitle}
+function normalizeCategory(c) {
+  const name = c.name ?? c.title ?? c.label ?? c.category ?? c.Category ?? c.cat ?? 'Unnamed';
+  const subtitle = c.subtitle ?? c.sub ?? c.description ?? c.desc ?? '';
+  const idRaw = c.id ?? c.key ?? c.slug ?? name;
+  return { id: String(idRaw), name: String(name), subtitle: String(subtitle) };
 }
 
+// ---------- Welcome ----------
+function initWelcome() {
+  const start = qsa('[data-next="categories"], a[href="categories.html"]')[0];
+  if (start) start.onclick = (e) => { e.preventDefault(); location.href = 'categories.html'; };
+}
+
+// ---------- Categories ----------
 async function initCategories() {
-  let data;
+  const grid = qs('#categoryGrid') || qs('.container');
+  if (!grid) return console.error('Missing #categoryGrid');
+
+  // Load & normalize data
+  let raw = [];
   try {
-    data = await loadJSON('categories.json');
-    if (!Array.isArray(data)) throw new Error('categories.json did not return an array.');
+    raw = await loadJSON('categories.json');
+    if (!Array.isArray(raw)) throw new Error('categories.json should be an array');
   } catch (err) {
     console.error(err);
-    showInlineError('#categoryGrid', 'We couldn’t load categories. Please refresh.');
+    grid.innerHTML = `<div style="color:#900">Couldn’t load categories.json</div>`;
     return;
   }
+  const cats = raw.map(normalizeCategory);
 
-  const grid = document.querySelector('#categoryGrid');
-  if (!grid) return console.error('Missing #categoryGrid container.');
-
+  // Render pills
   grid.innerHTML = '';
-  data.forEach(cat => {
-    const card = document.createElement('button');
-    card.className = 'category-card';
-    card.type = 'button';
-    card.dataset.categoryId = cat.id;
-    card.innerHTML = `
-      <div class="cat-title">${cat.name}</div>
-      <div class="cat-sub">${cat.subtitle || ''}</div>
-    `;
-    card.onclick = () => {
-      try {
-        localStorage.setItem('nova.selectedCategoryId', String(cat.id));
-      } catch (_) {}
-      window.location.href = 'traits.html';
+  const selected = new Set(getLS('nova.selectedCategoryIds', []));
+  const selCountEl = qs('#selCount');
+  const continueBtn = qs('#continueBtn');
+  const resetLink = qs('#resetLink');
+
+  const updateUI = () => {
+    selCountEl && (selCountEl.textContent = String(selected.size));
+    if (continueBtn) continueBtn.disabled = !(selected.size >= 1 && selected.size <= 2);
+  };
+  updateUI();
+
+  cats.forEach(cat => {
+    const el = document.createElement('button');
+    el.className = 'cat-pill';
+    if (selected.has(String(cat.id))) el.classList.add('selected');
+    el.innerHTML = `<strong>${cat.name}</strong><small>${cat.subtitle || ''}</small>`;
+    el.onclick = () => {
+      const id = String(cat.id);
+      if (selected.has(id)) {
+        selected.delete(id);
+      } else {
+        if (selected.size >= 2) return; // limit 2
+        selected.add(id);
+      }
+      setLS('nova.selectedCategoryIds', [...selected]);
+      el.classList.toggle('selected');
+      updateUI();
     };
-    grid.appendChild(card);
+    grid.appendChild(el);
   });
 
-  const step = document.querySelector('[data-progress]');
-  if (step) step.textContent = 'Step 2 of 6';
+  if (continueBtn) {
+    continueBtn.onclick = () => {
+      if (selected.size === 0) return;
+      location.href = 'traits.html';
+    };
+  }
+  if (resetLink) {
+    resetLink.onclick = (e) => {
+      e.preventDefault();
+      localStorage.removeItem('nova.selectedCategoryIds');
+      location.reload();
+    };
+  }
 }
 
+// ---------- Traits ----------
 async function initTraits() {
-  const selectedId = localStorage.getItem('nova.selectedCategoryId');
-  if (!selectedId) return (window.location.href = 'categories.html');
+  const selectedIds = getLS('nova.selectedCategoryIds', []);
+  if (!selectedIds.length) return (location.href = 'categories.html');
 
-  let data;
+  let traitsAll = [];
   try {
-    data = await loadJSON('traits_with_categories.json');
-    if (!Array.isArray(data)) throw new Error('traits_with_categories.json did not return an array.');
+    traitsAll = await loadJSON('traits_with_categories.json');
+    if (!Array.isArray(traitsAll)) throw new Error('traits_with_categories.json must be an array');
   } catch (err) {
     console.error(err);
-    showInlineError('#traitsGrid', 'Couldn’t load traits.');
+    const host = qs('#traitsGrid') || document.body;
+    host.insertAdjacentHTML('afterbegin', `<div style="color:#900">Couldn’t load traits data.</div>`);
     return;
   }
 
-  const traits = data.filter(t => String(t.categoryId) === String(selectedId));
-  const grid = document.querySelector('#traitsGrid');
-  if (!grid) return console.error('Missing #traitsGrid.');
+  const traits = traitsAll.filter(t => selectedIds.includes(String(t.categoryId)) || selectedIds.includes(String(t.category)));
+  const grid = qs('#traitsGrid');
+  if (!grid) return;
 
   grid.innerHTML = '';
   traits.forEach(tr => {
-    const tag = document.createElement('label');
-    tag.className = 'trait-chip';
-    tag.innerHTML = `
-      <input type="checkbox" value="${tr.id}" />
-      <span>${tr.label}</span>
-    `;
-    grid.appendChild(tag);
+    const id = String(tr.id ?? tr.key ?? tr.slug ?? tr.label);
+    const label = String(tr.label ?? tr.name ?? tr.title ?? 'Trait');
+    const node = document.createElement('label');
+    node.className = 'trait-chip';
+    node.innerHTML = `<input type="checkbox" value="${id}" /> <span>${label}</span>`;
+    grid.appendChild(node);
   });
 
-  const next = document.querySelector('[data-next="roles"]');
-  if (next)
+  const next = qsa('[data-next="roles"]')[0] || qs('#toRoles');
+  if (next) {
     next.onclick = () => {
-      const checked = [...grid.querySelectorAll('input:checked')].map(i => i.value);
-      try {
-        localStorage.setItem('nova.selectedTraitIds', JSON.stringify(checked));
-      } catch (_) {}
-      window.location.href = 'roles.html';
+      const chosen = qsa('input[type="checkbox"]:checked', grid).map(i => i.value);
+      setLS('nova.selectedTraitIds', chosen);
+      location.href = 'roles.html';
     };
-
-  const step = document.querySelector('[data-progress]');
-  if (step) step.textContent = 'Step 3 of 6';
+  }
 }
 
+// ---------- Roles ----------
 async function initRoles() {
-  let roles;
+  let roles = [];
   try {
     roles = await loadJSON('roles_400.json');
-    if (!Array.isArray(roles)) throw new Error('roles_400.json did not return an array.');
+    if (!Array.isArray(roles)) throw new Error('roles_400.json must be an array');
   } catch (err) {
     console.error(err);
-    showInlineError('#rolesGrid', 'Couldn’t load roles.');
+    const host = qs('#rolesGrid') || document.body;
+    host.insertAdjacentHTML('afterbegin', `<div style="color:#900">Couldn’t load roles data.</div>`);
     return;
   }
 
-  const selectedTraits = JSON.parse(localStorage.getItem('nova.selectedTraitIds') || '[]');
+  const pickedTraits = new Set(getLS('nova.selectedTraitIds', []));
   const scored = roles
     .map(r => {
-      const overlap = (r.traitIds || []).filter(id => selectedTraits.includes(String(id))).length;
+      const ids = (r.traitIds || r.traits || []).map(String);
+      const overlap = ids.filter(id => pickedTraits.has(id)).length;
       return { ...r, score: overlap };
     })
     .sort((a, b) => b.score - a.score);
 
-  const grid = document.querySelector('#rolesGrid');
-  if (!grid) return console.error('Missing #rolesGrid.');
-
+  const grid = qs('#rolesGrid');
+  if (!grid) return;
   grid.innerHTML = '';
   scored.slice(0, 12).forEach(role => {
+    const title = role.title ?? role.name ?? 'Role';
+    const outlook = role.outlook ?? '—';
+    const salary = role.salary ?? '—';
+    const why = role.whyFit ?? '';
+    const id = String(role.id ?? title);
+
     const card = document.createElement('div');
     card.className = 'role-card';
     card.innerHTML = `
-      <div class="role-title">${role.title}</div>
+      <div class="role-title">${title}</div>
       <div class="role-meta">
-        <span class="badge">Outlook: ${role.outlook || '—'}</span>
-        <span class="badge">Salary: ${role.salary || '—'}</span>
+        <span class="badge">Outlook: ${outlook}</span>
+        <span class="badge">Salary: ${salary}</span>
       </div>
-      <p class="role-why">${role.whyFit || ''}</p>
-      <button class="btn btn-primary" data-role="${role.id}">Select</button>
+      <p class="role-why">${why}</p>
+      <button class="btn btn-primary" data-role="${id}">Select</button>
     `;
     card.querySelector('button').onclick = () => {
-      try {
-        localStorage.setItem('nova.selectedRoleId', String(role.id));
-      } catch (_) {}
-      window.location.href = 'reveal.html';
+      setLS('nova.selectedRoleId', id);
+      location.href = 'reveal.html';
     };
     grid.appendChild(card);
   });
-
-  const step = document.querySelector('[data-progress]');
-  if (step) step.textContent = 'Step 4 of 6';
 }
 
+// ---------- Reveal / Invest (light stubs) ----------
 function initReveal() {
-  const btn = document.querySelector('[data-next="invest"]');
-  if (btn) btn.onclick = () => (window.location.href = 'invest.html');
-
-  const step = document.querySelector('[data-progress]');
-  if (step) step.textContent = 'Step 5 of 6';
+  const btn = qsa('[data-next="invest"]')[0] || qs('#toInvest');
+  if (btn) btn.onclick = () => (location.href = 'invest.html');
 }
+function initInvest() { /* no-op for now */ }
 
-function initInvest() {
-  const step = document.querySelector('[data-progress]');
-  if (step) step.textContent = 'Step 6 of 6';
-}
-
-// ---- ROUTER ----
+// ---------- Simple Router ----------
 document.addEventListener('DOMContentLoaded', () => {
-  const p = (location.pathname || '').toLowerCase().replace(/[?#].*$/, '');
-  const is = name =>
-    p.endsWith(`/${name}`) || p.endsWith(`/${name}.html`) || p.includes(`/${name}/`);
+  const p = (location.pathname || '').toLowerCase();
+  const ends = (name) =>
+    p.endsWith(`/${name}`) || p.endsWith(`/${name}.html`);
 
-  if (is('') || is('index')) return void initWelcome();
-  if (is('categories')) return void initCategories();
-  if (is('traits')) return void initTraits();
-  if (is('roles')) return void initRoles();
-  if (is('reveal')) return void initReveal();
-  if (is('invest')) return void initInvest();
+  if (ends('index') || p.endsWith('/') || p === '') return initWelcome();
+  if (ends('categories')) return initCategories();
+  if (ends('traits')) return initTraits();
+  if (ends('roles')) return initRoles();
+  if (ends('reveal')) return initReveal();
+  if (ends('invest')) return initInvest();
 
+  // default to welcome if unknown route
   initWelcome();
 });
 
-// ---- GLOBAL SHIMS ----
+// ---------- Global shims (legacy support) ----------
+window.initWelcome = initWelcome;
 window.initCategories = initCategories;
-window.renderCategories = initCategories; // backward compatibility
+window.renderCategories = initCategories; // legacy name used in older pages
 window.initTraits = initTraits;
 window.initRoles = initRoles;
 window.initReveal = initReveal;
