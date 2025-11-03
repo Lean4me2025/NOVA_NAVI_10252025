@@ -1,7 +1,22 @@
-{
-  "Business": ["Analytical Thinking", "Leadership", "Negotiation", "Detail-Oriented"],
-  "Healthcare": ["Compassion", "Attention to Detail", "Calm Under Pressure", "Teamwork"],
-  "Technology": ["Problem Solving", "Systems Thinking", "Curiosity", "Precision"],
-  "Education": ["Communication", "Patience", "Organization", "Mentoring"],
-  "Creative": ["Design Sense", "Storytelling", "Originality", "Aesthetic Judgment"]
-}
+[
+  {"name":"Analytical Thinker","categories":["Data & Analytics","Technology","Business"]},
+  {"name":"Creative Problem-Solver","categories":["Creative","Product Management","Design"]},
+  {"name":"Detail Oriented","categories":["Quality Assurance","Operations","Manufacturing"]},
+  {"name":"Systems Thinker","categories":["Project & Program Management","Technology","Operations"]},
+  {"name":"People Centric","categories":["Human Resources","Customer Support","Sales"]},
+  {"name":"Storyteller","categories":["Marketing","Creative","Media & Communications"]},
+  {"name":"Process Improver","categories":["Operations","Quality Assurance","Public Sector"]},
+  {"name":"Security Minded","categories":["Cybersecurity","Cloud Computing","Technology"]},
+  {"name":"Data Curious","categories":["Data & Analytics","Artificial Intelligence","Research & Development"]},
+  {"name":"Empathetic Listener","categories":["Healthcare","Customer Support","Human Resources"]},
+  {"name":"Decision Maker","categories":["Business","Product Management","Operations"]},
+  {"name":"Teacher/Coach","categories":["Education","Human Resources","Public Sector"]},
+  {"name":"Hands-On Builder","categories":["Field Services","Construction","Manufacturing"]},
+  {"name":"Compliance First","categories":["Legal","Compliance","Public Sector"]},
+  {"name":"Financially Savvy","categories":["Finance","Business","Sales"]},
+  {"name":"UX-Minded","categories":["Design","Product Management","Technology"]},
+  {"name":"Cloud Native","categories":["Cloud Computing","Technology","Artificial Intelligence"]},
+  {"name":"Customer Obsessed","categories":["Customer Support","Sales","Marketing"]},
+  {"name":"Innovator","categories":["Research & Development","Product Management","Artificial Intelligence"]},
+  {"name":"Operational Leader","categories":["Operations","Supply Chain","Energy & Utilities"]}
+]
