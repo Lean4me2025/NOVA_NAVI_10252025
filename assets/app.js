@@ -1,80 +1,45 @@
-// ===== NOVA unified app.js (full) =====
-
-// Bust caches after deploys
+// ===== NOVA unified app.js (full pipeline, with REVEAL) =====
 const CACHE_BUST = `?v=${Date.now()}`;
 
-// ---------- Utilities ----------
-function qs(sel, root = document) { return root.querySelector(sel); }
-function qsa(sel, root = document) { return [...root.querySelectorAll(sel)]; }
+// --------- helpers ----------
+const qs = (s, r=document) => r.querySelector(s);
+const qsa = (s, r=document) => [...r.querySelectorAll(s)];
+const setLS = (k,v)=>{ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} };
+const getLS = (k,d=null)=>{ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch{ return d; } };
 
-function setLS(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (_) {} }
-function getLS(k, d = null) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (_) { return d; } }
-
-// Normalize unknown category schema -> { id, name, subtitle }
-function normalizeCategory(c, idx) {
-  if (typeof c === 'string') {
-    return { id: String(idx + 1), name: c, subtitle: '' };
-  }
-  const name = c.name ?? c.title ?? c.label ?? c.category ?? c.Category ?? `Item ${idx+1}`;
-  const subtitle = c.subtitle ?? c.sub ?? c.description ?? c.desc ?? '';
-  const idRaw = c.id ?? c.key ?? c.slug ?? name;
-  return { id: String(idRaw), name: String(name), subtitle: String(subtitle) };
-}
-
-// Robust JSON loader (absolute path from site root)
-async function loadJSON(filename) {
-  // Always fetch from /assets/data/ so it works at any route depth
-  const url = `/assets/data/${filename}${CACHE_BUST}`;
-  const res = await fetch(url, { cache: 'no-store' });
-  if (!res.ok) {
-    throw new Error(`HTTP ${res.status} loading ${url}`);
-  }
+async function loadJSON(name){
+  const url = `/assets/data/${name}${CACHE_BUST}`;
+  const res = await fetch(url, { cache:'no-store' });
+  if(!res.ok) throw new Error(`HTTP ${res.status} loading ${name}`);
   return res.json();
 }
 
-// ---------- Welcome ----------
-function initWelcome() {
-  // nothing dynamic yet; placeholder for any future welcome logic
-  // keep for router completeness
-}
-
-// ---------- Categories ----------
-async function renderCategories() {
+// ======================================
+// Step 1 — Categories
+// ======================================
+async function renderCategories(){
   const grid = qs('#categoryGrid');
-  if (!grid) return;
-
-  // Reset grid
+  if(!grid) return;
   grid.innerHTML = '';
-
-  // Load categories.json (supports 5 or 35 items)
-  let raw;
-  try {
-    raw = await loadJSON('categories.json');
-  } catch (err) {
-    grid.innerHTML = `<p style="color:#b00020">Could not load categories.json<br>${err.message}</p>`;
-    console.error('[categories] load error:', err);
+  let cats;
+  try{
+    cats = await loadJSON('categories.json');
+  }catch(err){
+    grid.innerHTML = `<p style="color:red;">Failed to load categories.json<br>${err.message}</p>`;
+    return;
+  }
+  if(!Array.isArray(cats) || cats.length===0){
+    grid.innerHTML = `<p style="color:red;">No categories found.</p>`;
     return;
   }
 
-  if (!Array.isArray(raw) || raw.length === 0) {
-    grid.innerHTML = `<p style="color:#b00020">No categories found in categories.json</p>`;
-    return;
-  }
-
-  const cats = raw.map((c, i) => normalizeCategory(c, i));
-
-  // Render pills/cards
   const frag = document.createDocumentFragment();
-  cats.forEach(cat => {
+  cats.forEach(name=>{
     const a = document.createElement('a');
-    a.href = '#';
-    a.className = 'cat-pill';
-    a.dataset.id = cat.id;
-    a.innerHTML = `
-      <strong>${cat.name ?? 'Unnamed'}</strong>
-      <small>${cat.subtitle ?? ''}</small>
-    `;
-    a.addEventListener('click', (e) => {
+    a.href='#';
+    a.className='cat-pill';
+    a.textContent = name;
+    a.addEventListener('click',e=>{
       e.preventDefault();
       a.classList.toggle('selected');
       updateCategorySelectionUI();
@@ -82,117 +47,231 @@ async function renderCategories() {
     frag.appendChild(a);
   });
   grid.appendChild(frag);
-
-  // After initial render, sync UI with stored selection if any
-  const saved = getLS('selectedCategories', []);
-  if (Array.isArray(saved) && saved.length) {
-    qsa('.cat-pill').forEach(el => {
-      if (saved.includes(el.dataset.id)) el.classList.add('selected');
-    });
-  }
   updateCategorySelectionUI();
 }
 
-function updateCategorySelectionUI() {
-  const limit = 2;
+function updateCategorySelectionUI(){
+  const limit=2;
   const pills = qsa('.cat-pill');
-  const selected = pills.filter(p => p.classList.contains('selected'));
-  const ids = selected.map(p => p.dataset.id);
+  const selected = pills.filter(p=>p.classList.contains('selected'));
+  const chosen = selected.map(p=>p.textContent.trim());
+  setLS('selectedCategories', chosen);
 
-  // Store selection
-  setLS('selectedCategories', ids);
-
-  // Counter: "Selected: x / 2"
   const bar = qs('.bar');
-  if (bar) {
-    const existing = qs('#selCount') || (() => {
-      const s = document.createElement('span');
-      s.id = 'selCount';
-      return bar.appendChild(s);
-    })();
-    existing.textContent = `Selected: ${ids.length} / ${limit}`;
-  }
+  if(bar) bar.textContent = `Selected: ${chosen.length} / ${limit}`;
 
-  // Enforce limit visually
-  if (selected.length >= limit) {
-    pills.forEach(p => { if (!p.classList.contains('selected')) p.classList.add('disabled'); });
-  } else {
-    pills.forEach(p => p.classList.remove('disabled'));
-  }
-
-  // Continue button enabled when 1–2 selected
   const btn = qs('#continueBtn');
-  if (btn) {
-    btn.disabled = !(selected.length >= 1 && selected.length <= limit);
-    btn.onclick = (e) => {
+  if(btn){
+    btn.disabled = !(chosen.length>=1 && chosen.length<=limit);
+    btn.onclick = (e)=>{
       e.preventDefault();
-      if (!btn.disabled) {
-        // go to traits step
-        location.href = 'traits.html';
-      }
-    };
-  }
-
-  // Reset link
-  const reset = qs('#resetLink');
-  if (reset) {
-    reset.onclick = (e) => {
-      e.preventDefault();
-      pills.forEach(p => p.classList.remove('selected', 'disabled'));
-      updateCategorySelectionUI();
+      if(!btn.disabled) location.href='traits.html';
     };
   }
 }
 
-async function initCategories() {
-  // Ensure target mount exists
-  if (!qs('#categoryGrid')) {
-    console.warn('[categories] #categoryGrid not found');
+async function initCategories(){
+  await renderCategories();
+  const fallbackBtn = qs('#continueBtn');
+  if(!fallbackBtn){
+    const actions = qs('.actions');
+    if(actions){
+      const b=document.createElement('button');
+      b.id='continueBtn'; b.className='btn'; b.textContent='Continue →';
+      b.disabled=true; actions.appendChild(b);
+      updateCategorySelectionUI();
+    }
+  }
+}
+
+// ======================================
+// Step 2 — Traits
+// ======================================
+async function initTraits(){
+  const grid = qs('#traitGrid');
+  if(!grid){ console.warn('No #traitGrid on this page'); return; }
+
+  const cats = getLS('selectedCategories', []);
+  qs('#focusCats') && (qs('#focusCats').textContent = cats.join(', ') || '—');
+
+  if(!cats.length){
+    grid.innerHTML = `<p style="color:red;">No categories selected. <a href="categories.html">Go back</a>.</p>`;
     return;
   }
-  await renderCategories();
+
+  let data;
+  try{
+    data = await loadJSON('traits_with_categories.json');
+  }catch(err){
+    grid.innerHTML = `<p style="color:red;">Failed to load traits data.<br>${err.message}</p>`;
+    return;
+  }
+
+  const traits = (Array.isArray(data)?data:[])
+    .filter(t => Array.isArray(t.categories) && t.categories.some(c => cats.includes(c)));
+
+  if(traits.length===0){
+    grid.innerHTML = `<p>No traits found for ${cats.join(', ')}.</p>`;
+    return;
+  }
+
+  const selected = new Set(getLS('selectedTraits', []));
+  grid.innerHTML = '';
+  const frag = document.createDocumentFragment();
+  traits.forEach(t=>{
+    const div = document.createElement('a');
+    div.href='#';
+    div.className='trait-pill';
+    div.textContent = t.name || 'Unnamed';
+    if(selected.has(t.name)) div.classList.add('selected');
+    div.addEventListener('click', e=>{
+      e.preventDefault();
+      if(div.classList.toggle('selected')) selected.add(t.name);
+      else selected.delete(t.name);
+      updateTraitsUI(selected);
+    });
+    frag.appendChild(div);
+  });
+  grid.appendChild(frag);
+  updateTraitsUI(selected);
 }
 
-// Expose for console / safety
-window.renderCategories = renderCategories;
+function updateTraitsUI(selectedSet){
+  const min = 5;
+  const count = selectedSet.size;
+  setLS('selectedTraits', [...selectedSet]);
+  qs('#traitCount') && (qs('#traitCount').textContent = String(count));
 
-// ---------- Traits (stub – reads traits later) ----------
-async function initTraits() {
-  // Placeholder; we keep router intact
-  // In future: load traits_with_categories.json and render by selectedCategories
+  const btn = qs('#toRolesBtn');
+  if(btn){
+    btn.disabled = count < min;
+    btn.onclick = (e)=>{
+      e.preventDefault();
+      if(!btn.disabled) location.href='roles.html';
+    };
+  }
+  const reset = qs('#resetTraits');
+  if(reset){
+    reset.onclick = (e)=>{
+      e.preventDefault();
+      setLS('selectedTraits', []);
+      qsa('.trait-pill').forEach(el => el.classList.remove('selected'));
+      updateTraitsUI(new Set());
+    };
+  }
 }
 
-// ---------- Roles (stub) ----------
-async function initRoles() {
-  // Placeholder; in future load roles_400.json filtered by selected traits
+// ======================================
+// Step 3 — Roles
+// ======================================
+async function initRoles(){
+  const grid = qs('#rolesGrid');
+  if(!grid){ console.warn('No #rolesGrid'); return; }
+
+  const cats = getLS('selectedCategories', []);
+  const traits = getLS('selectedTraits', []);
+  qs('#focusCats2') && (qs('#focusCats2').textContent = cats.join(', ') || '—');
+  qs('#focusTraits') && (qs('#focusTraits').textContent = traits.slice(0,8).join(', ') || '—');
+
+  let roles;
+  try{
+    roles = await loadJSON('roles_400.json');
+  }catch(err){
+    grid.innerHTML = `<p style="color:red;">Failed to load roles_400.json<br>${err.message}</p>`;
+    return;
+  }
+
+  const list = Array.isArray(roles) ? roles : [];
+  const lc = s => String(s||'').toLowerCase();
+
+  const matches = list.filter(r=>{
+    const rTraits = Array.isArray(r.traits) ? r.traits.map(lc) : [];
+    const rCats = Array.isArray(r.categories) ? r.categories.map(lc)
+                 : (r.category ? [lc(r.category)] : []);
+    const hasTrait = traits.some(t => rTraits.includes(lc(t)));
+    const hasCat   = cats.some(c => rCats.includes(lc(c)));
+    return hasTrait || hasCat;
+  }).slice(0, 24);
+
+  if(matches.length===0){
+    grid.innerHTML = `<p>No roles matched yet. Try selecting different traits or categories.</p>`;
+  }else{
+    const frag = document.createDocumentFragment();
+    matches.forEach(r=>{
+      const card = document.createElement('div');
+      card.className = 'card';
+      const title = r.title || r.name || 'Role';
+      const summary = r.summary || r.description || '';
+      const outlook = r.outlook || r.growth || '';
+      const pay = r.salary || r.pay || '';
+
+      card.innerHTML = `
+        <strong>${title}</strong>
+        ${summary ? `<p>${summary}</p>`:''}
+        <div class="badges">
+          ${outlook ? `<span class="badge">Outlook: ${outlook}</span>`:''}
+          ${pay ? `<span class="badge">Pay: ${pay}</span>`:''}
+        </div>
+      `;
+      frag.appendChild(card);
+    });
+    grid.innerHTML = '';
+    grid.appendChild(frag);
+  }
+
+  const toReveal = qs('#toReflectionBtn') || qs('#toRevealBtn');
+  if(toReveal){
+    toReveal.onclick = (e)=>{
+      e.preventDefault();
+      location.href='reveal.html';
+    };
+  }
 }
 
-// ---------- Reflection ----------
-function initReflection() {
-  const box = qs('#reflectionBox');
-  if (box) box.innerHTML = `<p>Take a moment to reflect on your selections…</p>`;
+// ======================================
+// Step 4 — Reveal  (your naming)
+// ======================================
+function initReveal(){
+  const box = qs('#revealBox');
+  if(!box) return;
+  const cats = getLS('selectedCategories', []);
+  const traits = getLS('selectedTraits', []);
+  box.innerHTML = `
+    <p><strong>Your focus:</strong> ${cats.join(', ') || '—'}</p>
+    <p><strong>Your traits:</strong> ${traits.join(', ') || '—'}</p>
+    <p>Take a moment to reflect on how these align with the roles you’re drawn to.</p>
+  `;
+  const btn = qs('#toInvestBtn');
+  if(btn){
+    btn.onclick = (e)=>{ e.preventDefault(); location.href='invest.html'; };
+  }
 }
 
-// ---------- Invest ----------
-function initInvest() {
+// ======================================
+// Step 5 — Invest
+// ======================================
+function initInvest(){
   const box = qs('#investBox');
-  if (box) box.innerHTML = `<p>Now invest in yourself — your purpose journey begins here.</p>`;
+  if(!box) return;
+  box.innerHTML = `
+    <p>Ready to invest in your next step? (Payhip embed or purchase options go here.)</p>
+    <p>We recommend saving your results and booking your Pro toolkit when you’re ready.</p>
+  `;
 }
 
-// ---------- Simple Router ----------
-document.addEventListener('DOMContentLoaded', () => {
-  const path = location.pathname.toLowerCase();
+// -------- simple router --------
+document.addEventListener('DOMContentLoaded', ()=>{
+  const p = location.pathname.toLowerCase();
+  if(p.includes('categories')) return initCategories();
+  if(p.includes('traits'))     return initTraits();
+  if(p.includes('roles'))      return initRoles();
+  if(p.includes('reveal'))     return initReveal();
+  if(p.includes('invest'))     return initInvest();
 
-  if (path.includes('index'))   return initWelcome();
-  if (path.includes('categories')) return initCategories();
-  if (path.includes('traits'))  return initTraits();
-  if (path.includes('roles'))   return initRoles();
-  if (path.includes('reflection')) return initReflection();
-  if (path.includes('invest'))  return initInvest();
-
-  // Fallback: if the router doesn't match, try categories (useful in flat previews)
-  try { renderCategories(); } catch (_) {}
-  console.warn('[router] No page match for', path);
+  // If flat preview without a route, show categories
+  try{ renderCategories(); }catch{}
 });
-window.renderTraits = initTraits;
-// ===== END of app.js =====
+
+// Expose for console/manual retries
+window.renderCategories = renderCategories;
+window.renderTraits     = initTraits;
