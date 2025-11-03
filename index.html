@@ -3,32 +3,121 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NOVA • Welcome</title>
+  <title>Welcome • NOVA</title>
   <link rel="stylesheet" href="/assets/css/style.css" />
   <style>
-    /* Keep visuals exactly like your screenshot */
-    body{margin:0;background:#fff;color:#333;font-family:"Segoe UI",Arial,sans-serif;text-align:center}
-    header{
-      background: linear-gradient(90deg,#20b2aa,#3aa0d0);
-      color:#fff;padding:50px 20px 40px;border-radius:0 0 40px 40px
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #ffffff;
+      color: #222;
+      text-align: center;
     }
-    header h1{margin:0;font-size:2rem;letter-spacing:.3px}
-    header p{margin:8px 0 0;font-size:1rem;opacity:.95}
-    .content{max-width:960px;margin:40px auto;padding:0 20px}
-    .purpose-fact{font-weight:700;font-size:1.2rem;margin:0 0 25px;color:#111}
-    .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin:0 0 30px}
-    .card{flex:1 1 260px;min-width:240px;text-align:left;background:#fafafa;border:1px solid #e0e0e0;border-radius:10px;padding:20px}
-    .card h3{margin:0 0 6px;font-size:1rem;color:#333}
-    .card p{margin:0;color:#444;line-height:1.4;font-size:.95rem}
-    .why,.expect{max-width:700px;margin:20px auto;background:#f7f8fa;border:1px solid #e0e0e0;border-radius:10px;padding:20px;font-size:.95rem}
-    .expect strong{color:#20b2aa}
-    .center{margin-top:25px}
-    .btn{display:inline-block;background:#20b2aa;color:#fff;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;transition:background .3s}
-    .btn:hover{background:#17918a}
-    .footer{margin:40px 0 20px;color:#999;font-size:.85rem}
+
+    /* ✅ TEAL BANNER ONLY — no blue */
+    header {
+      background-color: #20b2aa; /* teal */
+      color: white;
+      padding: 50px 20px 45px;
+      border-radius: 0 0 40px 40px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      font-size: 1rem;
+      opacity: 0.95;
+    }
+
+    .content {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .purpose-fact {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #111;
+      margin-bottom: 25px;
+    }
+
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      flex: 1 1 260px;
+      min-width: 240px;
+      background: #fafafa;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      text-align: left;
+      padding: 20px;
+    }
+
+    .card h3 {
+      margin: 0 0 6px;
+      color: #333;
+      font-size: 1rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: #444;
+      line-height: 1.4;
+      font-size: 0.95rem;
+    }
+
+    .why,
+    .expect {
+      background: #f7f8fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 700px;
+      font-size: 0.95rem;
+    }
+
+    .expect strong {
+      color: #20b2aa;
+    }
+
+    .center {
+      margin-top: 25px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #20b2aa;
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+      padding: 14px 28px;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #17918a;
+    }
+
+    .footer {
+      margin: 40px 0 20px;
+      color: #999;
+      font-size: 0.85rem;
+    }
   </style>
 </head>
-
 <body>
   <header>
     <h1>Welcome to NOVA</h1>
@@ -43,10 +132,12 @@
         <h3>How it works</h3>
         <p>Pick your focus area, choose a few traits, then see roles and next steps with outlook and salary context.</p>
       </div>
+
       <div class="card">
         <h3>What you'll get</h3>
         <p>A short list of roles that fit you, plus a reflection step to point your next actions.</p>
       </div>
+
       <div class="card">
         <h3>Time needed</h3>
         <p>About 6–10 minutes. You can start now and finish later.</p>
@@ -61,17 +152,16 @@
     <div class="expect">
       What to expect:
       <strong>Welcome → Categories → Traits → Roles → Reflection → Invest</strong>
-      <em> (then log in to NAVI)</em>
+      <em>(then log in to NAVI)</em>
     </div>
 
     <div class="center">
-      <a class="btn" href="categories.html" data-next="categories">Start My Purpose Journey →</a>
+      <a href="categories.html" class="btn">Start My Purpose Journey →</a>
     </div>
 
     <div class="footer">© NOVA</div>
   </div>
 
-  <!-- Only necessary script load -->
   <script src="/assets/app.js" defer></script>
 </body>
 </html>
