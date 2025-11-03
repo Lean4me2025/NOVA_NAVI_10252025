@@ -139,5 +139,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   console.warn("[router] No page match for", path);
 });
-
+window.renderCategories=renderCategories;
 // --- END of app.js ---
