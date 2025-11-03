@@ -1,37 +1,65 @@
-<script>
-window.TraitsFlow = (function(){
-  function filteredTraits(){
-    const s = new Set(NOVA.state.selectedCategories||[]);
-    const all = NOVA.data.traits || [];
-    if(s.size===0) return [];
-    return all.filter(t => (t.categories||t.categoryIds||[]).some(id=>s.has(id)));
-  }
-  function render(){
-    const wrap = document.getElementById('traitsContainer');
-    wrap.innerHTML='';
-    const sel = new Set(NOVA.state.selectedTraits||[]);
-    filteredTraits().forEach(tr=>{
-      const chip=document.createElement('button');
-      chip.type='button';
-      chip.className='nv-chip'+(sel.has(tr.id)?' active':'');
-      chip.innerHTML=`<strong>${tr.name}</strong>${tr.desc?`<small>${tr.desc}</small>`:''}`;
-      chip.onclick=()=>toggle(tr.id);
-      wrap.appendChild(chip);
+// TraitsFlow.js — choose >=5 traits from selected categories
+(function () {
+  const CAT_KEY = "nova.selectedCategories";
+  const TRAIT_KEY = "nova.selectedTraits";
+
+  function loadCatIds() { try { return JSON.parse(sessionStorage.getItem(CAT_KEY)) || []; } catch { return []; } }
+  function saveTraits(ids) { sessionStorage.setItem(TRAIT_KEY, JSON.stringify(ids)); }
+  function loadTraits() { try { return JSON.parse(sessionStorage.getItem(TRAIT_KEY)) || []; } catch { return []; } }
+
+  function renderTraits(traits, categoryNames) {
+    const titleCat = document.getElementById("selectedCategoryNames");
+    if (titleCat) titleCat.textContent = categoryNames.join(" + ");
+
+    const grid = document.getElementById("traitGrid");
+    const counter = document.getElementById("traitCount");
+    const btn = document.getElementById("continueTraits");
+    const back = document.getElementById("backToCategories");
+    const selected = new Set(loadTraits());
+
+    grid.innerHTML = "";
+    traits.forEach(t => {
+      const card = document.createElement("button");
+      card.className = "tile";
+      card.innerHTML = `
+        <div class="title">${t.name}</div>
+        <div class="sub">${t.desc || ""}</div>
+      `;
+      card.setAttribute("data-id", t.id);
+      if (selected.has(t.id)) card.classList.add("selected");
+      card.addEventListener("click", () => {
+        if (selected.has(t.id)) { selected.delete(t.id); card.classList.remove("selected"); }
+        else { selected.add(t.id); card.classList.add("selected"); }
+        counter.textContent = String(selected.size);
+        btn.disabled = selected.size < 5;
+      });
+      grid.appendChild(card);
     });
-    updateNext();
+
+    counter.textContent = String(selected.size);
+    btn.disabled = selected.size < 5;
+
+    btn.addEventListener("click", () => {
+      if (selected.size < 5) return;
+      saveTraits([...selected]);
+      window.location.href = "roles.html";
+    });
+
+    if (back) back.addEventListener("click", () => {
+      window.location.href = "categories.html";
+    });
   }
-  function toggle(id){
-    const sel = NOVA.state.selectedTraits;
-    const i = sel.indexOf(id);
-    if(i>=0) sel.splice(i,1); else sel.push(id);
-    NOVA.saveState(); render();
+
+  async function init() {
+    const catIds = loadCatIds();
+    if (!catIds.length) { window.location.href = "categories.html"; return; }
+    await window.NOVA.DataLoader.loadAll();
+    const categories = window.NOVA.DataLoader.getCategories();
+    const catNames = categories.filter(c => catIds.includes(c.id)).map(c => c.name);
+    const traits = window.NOVA.DataLoader.getTraitsForCategoryIds(catIds);
+    renderTraits(traits, catNames);
   }
-  function updateNext(){
-    const btn=document.getElementById('toRoles');
-    const ok=(NOVA.state.selectedTraits||[]).length>0;
-    if(btn) btn.toggleAttribute('disabled', !ok);
-  }
-  async function init(){ await NOVA.loadAll(); NOVA.loadState(); render(); }
-  return { init };
+
+  window.NOVA = window.NOVA || {};
+  window.NOVA.TraitsFlow = { init };
 })();
-</script>
