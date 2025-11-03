@@ -1,36 +1,59 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NOVA • Categories</title>
-  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <style>
+    /* light, non-intrusive helpers (works with your existing CSS) */
+    body{margin:0;font-family:Segoe UI,Arial,sans-serif;color:#222;background:#fff}
+    .container{max-width:980px;margin:48px auto;padding:0 20px}
+    .kicker{color:#666;margin-bottom:8px}
+    h1{margin:6px 0 10px;font-size:2.2rem}
+    p.p{margin:0 0 16px;color:#555}
+    .bar{margin:8px 0 16px;color:#333}
+    #categoryGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0 14px}
+    .cat-pill{display:block;text-align:left;background:#fafafa;border:1px solid #e5e5e5;border-radius:10px;padding:14px 14px;cursor:pointer}
+    .cat-pill strong{display:block;color:#111;margin-bottom:4px}
+    .cat-pill small{display:block;color:#666}
+    .cat-pill.selected{outline:3px solid #20b2aa}
+    .actions{display:flex;align-items:center;gap:14px;margin-top:10px}
+    .btn{background:#20b2aa;color:#fff;border:0;border-radius:8px;padding:10px 18px;font-weight:600;cursor:pointer}
+    .btn[disabled]{opacity:.4;cursor:not-allowed}
+    a.reset{color:#20b2aa;text-decoration:none}
+    .footer{margin:32px 0 12px;color:#999;font-size:.9rem}
+  </style>
 </head>
+
 <body>
   <div class="container">
-    <header class="header">
-      <div class="brand">NOVA</div>
-      <div class="nav"><a href="index.html">Welcome</a></div>
-    </header>
-
     <div class="kicker">Step 1 of 5</div>
     <h1>Choose your focus area(s)</h1>
-    <p class="p">Select <strong>1–2</strong> categories that fit you best. You can refine with sub-areas next.</p>
+    <p class="p">Select 1–2 categories that fit you best. You can refine with sub-areas next.</p>
 
-    <div class="bar">
-      <span>Selected: <span id="catCount">0</span> / 2</span>
-      <div class="spacer"></div>
-      <button id="catsContinue" class="btn" disabled>Continue →</button>
-      <a id="resetAll" class="link" href="#">Reset</a>
+    <div class="bar">Selected: <span id="selCount">0</span> / 2</div>
+
+    <!-- where the categories will render -->
+    <section id="categoryGrid"></section>
+
+    <div class="actions">
+      <button id="continueBtn" class="btn" disabled>Continue →</button>
+      <a class="reset" href="#" id="resetLink">Reset</a>
     </div>
 
-    <!-- 2-col adaptive grid of top categories (from config.json) -->
-    <section id="categoryGrid" class="grid-2"></section>
-
-    <footer class="footer">© NOVA</footer>
+    <div class="footer">© NOVA</div>
   </div>
 
-  <script src="assets/app.js"></script>
-  <script>renderCategories();</script>
+  <!-- Load app logic (absolute path!) -->
+  <script src="/assets/app.js" defer></script>
+
+  <!-- Guarantee categories render even if the router misses -->
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      if (typeof initCategories === 'function') initCategories();
+      else if (typeof renderCategories === 'function') renderCategories();
+    });
+  </script>
 </body>
 </html>
