@@ -5,116 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NOVA • Welcome</title>
   <link rel="stylesheet" href="/assets/css/style.css" />
-
   <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #ffffff;
-      color: #333;
-      text-align: center;
+    /* Keep visuals exactly like your screenshot */
+    body{margin:0;background:#fff;color:#333;font-family:"Segoe UI",Arial,sans-serif;text-align:center}
+    header{
+      background: linear-gradient(90deg,#20b2aa,#3aa0d0);
+      color:#fff;padding:50px 20px 40px;border-radius:0 0 40px 40px
     }
-    header {
-      background: linear-gradient(90deg, #6c63ff, #42a5f5);
-      color: #fff;
-      padding: 40px 20px;
-    }
-    h1 {
-      margin: 0;
-      font-size: 2.4rem;
-      letter-spacing: 0.5px;
-    }
-    section {
-      padding: 40px 20px;
-      max-width: 700px;
-      margin: 0 auto;
-      text-align: left;
-    }
-    .fact {
-      font-size: 1.2rem;
-      color: #6c63ff;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-    .card {
-      background: #f7f8fa;
-      border: 1px solid #eee;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 15px 0;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 25px;
-      padding: 14px 26px;
-      background: #6c63ff;
-      color: #fff;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.3s;
-    }
-    .btn:hover {
-      background: #5a52e0;
-    }
-    .footer {
-      margin-top: 40px;
-      padding: 10px;
-      font-size: 0.85rem;
-      color: #999;
-    }
+    header h1{margin:0;font-size:2rem;letter-spacing:.3px}
+    header p{margin:8px 0 0;font-size:1rem;opacity:.95}
+    .content{max-width:960px;margin:40px auto;padding:0 20px}
+    .purpose-fact{font-weight:700;font-size:1.2rem;margin:0 0 25px;color:#111}
+    .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin:0 0 30px}
+    .card{flex:1 1 260px;min-width:240px;text-align:left;background:#fafafa;border:1px solid #e0e0e0;border-radius:10px;padding:20px}
+    .card h3{margin:0 0 6px;font-size:1rem;color:#333}
+    .card p{margin:0;color:#444;line-height:1.4;font-size:.95rem}
+    .why,.expect{max-width:700px;margin:20px auto;background:#f7f8fa;border:1px solid #e0e0e0;border-radius:10px;padding:20px;font-size:.95rem}
+    .expect strong{color:#20b2aa}
+    .center{margin-top:25px}
+    .btn{display:inline-block;background:#20b2aa;color:#fff;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;transition:background .3s}
+    .btn:hover{background:#17918a}
+    .footer{margin:40px 0 20px;color:#999;font-size:.85rem}
   </style>
 </head>
 
 <body>
   <header>
     <h1>Welcome to NOVA</h1>
-    <p class="fact">💡 89% of people do not know their purpose.</p>
+    <p>Clarity about your work. Confidence about your next steps.</p>
   </header>
 
-  <section>
-    <div class="card">
-      <h2>Discover why you were created.</h2>
-      <p>
-        NOVA helps you explore your focus areas, traits, and potential roles so you can
-        understand your purpose and take meaningful next steps.
-      </p>
+  <div class="content">
+    <p class="purpose-fact">89% of people do not know their purpose.</p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>How it works</h3>
+        <p>Pick your focus area, choose a few traits, then see roles and next steps with outlook and salary context.</p>
+      </div>
+      <div class="card">
+        <h3>What you'll get</h3>
+        <p>A short list of roles that fit you, plus a reflection step to point your next actions.</p>
+      </div>
+      <div class="card">
+        <h3>Time needed</h3>
+        <p>About 6–10 minutes. You can start now and finish later.</p>
+      </div>
     </div>
 
-    <div class="card">
-      <h3>How it works</h3>
-      <p>
-        Choose your focus area, identify key traits, then explore purpose-aligned
-        roles with real-world insights and next-step guidance.
-      </p>
+    <div class="why">
+      <h3>Why NOVA</h3>
+      <p>Designed around mind, heart, drive, and spirit—practical, encouraging, and actionable.</p>
     </div>
 
-    <div class="card">
-      <h3>Time needed</h3>
-      <p>About 6–10 minutes. You can start now and finish later.</p>
-    </div>
-
-    <div class="card">
-      <h3>Why NOVA?</h3>
-      <p>
-        Designed around mind, heart, drive, and spirit — practical, encouraging,
-        and actionable.
-      </p>
-    </div>
-
-    <div class="card">
-      <strong>What to expect:</strong>
-      <p>Welcome → Categories → Traits → Roles → Reflection → Invest</p>
+    <div class="expect">
+      What to expect:
+      <strong>Welcome → Categories → Traits → Roles → Reflection → Invest</strong>
+      <em> (then log in to NAVI)</em>
     </div>
 
     <div class="center">
-      <a class="btn" href="categories.html">Start My Purpose Journey →</a>
+      <a class="btn" href="categories.html" data-next="categories">Start My Purpose Journey →</a>
     </div>
 
     <div class="footer">© NOVA</div>
-  </section>
+  </div>
 
-  <!-- Load Nova App Script -->
+  <!-- Only necessary script load -->
   <script src="/assets/app.js" defer></script>
 </body>
 </html>
