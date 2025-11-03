@@ -1,99 +1,120 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NOVA • Welcome</title>
+  <link rel="stylesheet" href="/assets/css/style.css" />
 
-  <!-- Optional: your global styles (safe to keep) -->
-  <link rel="stylesheet" href="/assets/css/styles.css"/>
-
-  <!-- Page-specific styles to match your screenshot exactly -->
   <style>
-    :root{
-      --ink:#1d2433; --muted:#5b6472;
-      --teal1:#36bdb5; --teal2:#3cc2bb;
-      --card:#ffffff;  --bg:#ffffff; --border:#e6edf4;
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #ffffff;
+      color: #333;
+      text-align: center;
     }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--ink);
-         font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    .wrap{max-width:1060px;margin:28px auto;padding:0 18px}
-    .hero{
-      background:linear-gradient(135deg,var(--teal1),var(--teal2));
-      color:#fff;border-radius:22px;padding:34px 28px;box-shadow:0 18px 28px rgba(0,0,0,.10);
+    header {
+      background: linear-gradient(90deg, #6c63ff, #42a5f5);
+      color: #fff;
+      padding: 40px 20px;
     }
-    .hero h1{margin:0 0 6px;font-size:28px;letter-spacing:.2px}
-    .hero p{margin:0;opacity:.92}
-    .headline{font-size:20px;font-weight:800;margin:18px 6px 12px}
-    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-    @media (max-width:900px){ .grid{grid-template-columns:1fr} }
-    .card{
-      background:var(--card);border:1px solid var(--border);
-      border-radius:14px;padding:16px;box-shadow:0 6px 14px rgba(0,0,0,.04)
+    h1 {
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: 0.5px;
     }
-    .card h3{margin:4px 0 6px;font-size:16px}
-    .card p{margin:0;color:var(--muted);line-height:1.45}
-    .why{margin-top:12px}
-    .expect{
-      margin-top:12px;background:#eef9f7;border:1px solid #d3efec;color:#2d5b58;
-      border-radius:14px;padding:10px 14px;font-size:13px
+    section {
+      padding: 40px 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: left;
     }
-    .center{text-align:center}
-    .btn{
-      display:inline-block;margin-top:16px;background:#34b8b0;color:#fff;
-      font-weight:800;border:none;border-radius:12px;padding:12px 18px;
-      text-decoration:none;box-shadow:0 10px 20px rgba(52,184,176,.30)
+    .fact {
+      font-size: 1.2rem;
+      color: #6c63ff;
+      font-weight: 600;
+      margin-bottom: 10px;
     }
-    .btn:hover{filter:brightness(.96)}
-    .footer{margin:26px 0 8px;color:#6b7280;font-size:12px;text-align:center}
+    .card {
+      background: #f7f8fa;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 15px 0;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 14px 26px;
+      background: #6c63ff;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #5a52e0;
+    }
+    .footer {
+      margin-top: 40px;
+      padding: 10px;
+      font-size: 0.85rem;
+      color: #999;
+    }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
+  <header>
+    <h1>Welcome to NOVA</h1>
+    <p class="fact">💡 89% of people do not know their purpose.</p>
+  </header>
 
-    <!-- Teal rounded hero -->
-    <div class="hero">
-      <h1>Welcome to NOVA</h1>
-      <p>Clarity about your work. Confidence about your next steps.</p>
+  <section>
+    <div class="card">
+      <h2>Discover why you were created.</h2>
+      <p>
+        NOVA helps you explore your focus areas, traits, and potential roles so you can
+        understand your purpose and take meaningful next steps.
+      </p>
     </div>
 
-    <!-- 89% fact -->
-    <div class="headline">89% of people do not know their purpose.</div>
-
-    <!-- Three cards -->
-    <div class="grid" style="margin-bottom:10px">
-      <div class="card">
-        <h3>How it works</h3>
-        <p>Pick your focus area, choose a few traits, then see roles and next steps with outlook and salary context.</p>
-      </div>
-      <div class="card">
-        <h3>What you’ll get</h3>
-        <p>A short list of roles that fit you, plus a reflection step to point your next actions.</p>
-      </div>
-      <div class="card">
-        <h3>Time needed</h3>
-        <p>About 6–10 minutes. You can start now and finish later.</p>
-      </div>
+    <div class="card">
+      <h3>How it works</h3>
+      <p>
+        Choose your focus area, identify key traits, then explore purpose-aligned
+        roles with real-world insights and next-step guidance.
+      </p>
     </div>
 
-    <!-- Why NOVA -->
-    <div class="card why">
-      <h3>Why NOVA</h3>
-      <p class="muted">Designed around mind, heart, drive, and spirit—practical, encouraging, and actionable.</p>
+    <div class="card">
+      <h3>Time needed</h3>
+      <p>About 6–10 minutes. You can start now and finish later.</p>
     </div>
 
-    <!-- What to expect -->
-    <div class="expect">
-      What to expect: <strong>Welcome → Categories → Traits → Roles → Reflection → Invest</strong> (then log in to NAVI).
+    <div class="card">
+      <h3>Why NOVA?</h3>
+      <p>
+        Designed around mind, heart, drive, and spirit — practical, encouraging,
+        and actionable.
+      </p>
     </div>
 
-    <!-- Start button -->
+    <div class="card">
+      <strong>What to expect:</strong>
+      <p>Welcome → Categories → Traits → Roles → Reflection → Invest</p>
+    </div>
+
     <div class="center">
       <a class="btn" href="categories.html">Start My Purpose Journey →</a>
     </div>
 
     <div class="footer">© NOVA</div>
-  </div>
+  </section>
+
+  <!-- Load Nova App Script -->
+  <script src="/assets/app.js" defer></script>
 </body>
 </html>
