@@ -194,5 +194,5 @@ document.addEventListener('DOMContentLoaded', () => {
   try { renderCategories(); } catch (_) {}
   console.warn('[router] No page match for', path);
 });
-
+window.renderTraits = initTraits;
 // ===== END of app.js =====
