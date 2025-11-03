@@ -1,41 +1,47 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>NOVA • Roles</title>
-  <link rel="stylesheet" href="assets/css/styles.css?v=6"/>
-  <style>
-    .actions-bar{
-      display:flex;gap:12px;align-items:center;justify-content:space-between;
-      margin:8px 0 14px;
+// app.js — page router + tiny helpers
+(function () {
+  function onReady(fn){ if (document.readyState !== "loading") fn(); else document.addEventListener("DOMContentLoaded", fn); }
+
+  onReady(async () => {
+    const path = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+
+    // Shared: ensure DataLoader available
+    window.NOVA = window.NOVA || {};
+    if (!window.NOVA.DataLoader) {
+      console.error("DataLoader missing");
+      return;
     }
-    .actions-bar .btn{padding:12px 18px;font-size:16px;border-radius:12px}
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <div class="brand">NOVA</div>
-      <div class="nav"><a href="traits.html">Back</a></div>
-    </div>
 
-    <div class="kicker">Step 3 of 5</div>
-    <div class="h1">Roles that fit your traits</div>
-    <p class="p">We rank roles by how strongly they match your selected traits.</p>
+    if (path.includes("categories.html")) {
+      await window.NOVA.DataLoader.loadAll();
+      const cats = window.NOVA.DataLoader.getCategories();
+      window.NOVA.CategoryFlow.renderCategories(cats);
+      return;
+    }
 
-    <div class="actions-bar">
-      <a id="editTraits" class="btn secondary" href="traits.html">← Edit traits</a>
-      <button id="continue" class="btn">Continue → Reveal</button>
-    </div>
+    if (path.includes("traits.html")) {
+      await window.NOVA.TraitsFlow.init();
+      return;
+    }
 
-    <!-- 2-column roles grid -->
-    <section id="rolesList" class="roles-grid" aria-live="polite"></section>
+    if (path.includes("roles.html")) {
+      await window.NOVA.ResultsRenderer.init();
+      return;
+    }
 
-    <hr/><div class="footer">© NOVA</div>
-  </div>
-
-  <script src="assets/app.js?v=6"></script>
-  <script>renderRoles();</script>
-</body>
-</html>
+    // Reveal: simple echo of selections
+    if (path.includes("reveal.html")) {
+      const chosenCats = JSON.parse(sessionStorage.getItem("nova.selectedCategories") || "[]");
+      const chosenTraits = JSON.parse(sessionStorage.getItem("nova.selectedTraits") || "[]");
+      await window.NOVA.DataLoader.loadAll();
+      const cats = window.NOVA.DataLoader.getCategories().filter(c => chosenCats.includes(c.id)).map(c => c.name);
+      document.getElementById("revealFocus").textContent = cats.join(" + ") || "—";
+      document.getElementById("revealTraits").textContent = chosenTraits.length ? (chosenTraits.join(", ")) : "—";
+      const investBtn = document.getElementById("toInvest");
+      if (investBtn) investBtn.addEventListener("click", () => location.href = "invest.html");
+      const backBtn = document.getElementById("revealBack");
+      if (backBtn) backBtn.addEventListener("click", () => history.back());
+      return;
+    }
+  });
+})();
