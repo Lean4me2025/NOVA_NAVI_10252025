@@ -1,14 +1,14 @@
-// ===== Nova unified app.js =====
+// ===== Nova unified app.js (Build 9.0 for /assets layout) =====
 
-// Simple cache-buster to avoid stale JSON after deploys
-const CACHE_BUST = `?v=${(window.BUILD_STAMP || Date.now())}`;
+// Cache-buster to avoid stale JSON
+const CACHE_BUST = `?v=${Date.now()}`;
 
-// Robust JSON loader: tries absolute and relative paths automatically
+// JSON loader — checks all common relative paths
 async function loadJSON(file) {
   const candidates = [
-    `/assets/data/${file}${CACHE_BUST}`,   // for /public assets on Vercel
-    `./assets/data/${file}${CACHE_BUST}`,  // for repo-root local testing
-    `assets/data/${file}${CACHE_BUST}`     // final fallback
+    `/assets/data/${file}${CACHE_BUST}`,
+    `./assets/data/${file}${CACHE_BUST}`,
+    `assets/data/${file}${CACHE_BUST}`
   ];
   for (const url of candidates) {
     try {
@@ -16,27 +16,26 @@ async function loadJSON(file) {
       if (res.ok) return await res.json();
     } catch (_) {}
   }
-  throw new Error(`Failed to load ${file}. Check asset paths/public folder.`);
+  throw new Error(`Failed to load ${file}. Verify /assets/data path and filename.`);
 }
 
-// Utility: mount a simple, clear error block for the user
+// Small inline error helper
 function showInlineError(targetSelector, message) {
   const host = document.querySelector(targetSelector) || document.body;
   const el = document.createElement('div');
-  el.style.cssText = 'margin:16px;padding:12px;border:1px solid #e33;background:#fff5f5;color:#900;border-radius:8px;font-size:14px;';
+  el.style.cssText =
+    'margin:16px;padding:12px;border:1px solid #e33;background:#fff5f5;color:#900;border-radius:8px;font-size:14px;';
   el.textContent = message;
   host.prepend(el);
 }
 
-// ---- Page Inits ----
+// ---- PAGE-LEVEL INITS ----
 async function initWelcome() {
-  // Optional: bind voice intro button if present
   const btn = document.querySelector('[data-intro-audio]');
   if (btn) {
     const audio = new Audio('/assets/audio/intro.mp3');
     btn.addEventListener('click', () => audio.play());
   }
-  // Next button wiring (if using data-next)
   const next = document.querySelector('[data-next="categories"]');
   if (next) next.addEventListener('click', () => (window.location.href = 'categories.html'));
 }
@@ -48,62 +47,53 @@ async function initCategories() {
     if (!Array.isArray(data)) throw new Error('categories.json did not return an array.');
   } catch (err) {
     console.error(err);
-    showInlineError('#categoryGrid', 'We couldn’t load categories. Please refresh. If this persists, verify assets/data paths.');
+    showInlineError('#categoryGrid', 'We couldn’t load categories. Please refresh.');
     return;
   }
 
   const grid = document.querySelector('#categoryGrid');
-  if (!grid) {
-    console.error('Missing #categoryGrid container on categories.html');
-    return;
-  }
+  if (!grid) return console.error('Missing #categoryGrid container.');
 
   grid.innerHTML = '';
   data.forEach(cat => {
     const card = document.createElement('button');
     card.className = 'category-card';
     card.type = 'button';
-    card.setAttribute('data-category-id', cat.id);
+    card.dataset.categoryId = cat.id;
     card.innerHTML = `
       <div class="cat-title">${cat.name}</div>
       <div class="cat-sub">${cat.subtitle || ''}</div>
     `;
-    card.addEventListener('click', () => {
-      // Persist selected category and go to traits
-      try { localStorage.setItem('nova.selectedCategoryId', String(cat.id)); } catch (_){}
+    card.onclick = () => {
+      try {
+        localStorage.setItem('nova.selectedCategoryId', String(cat.id));
+      } catch (_) {}
       window.location.href = 'traits.html';
-    });
+    };
     grid.appendChild(card);
   });
 
-  // Progress header (optional)
   const step = document.querySelector('[data-progress]');
   if (step) step.textContent = 'Step 2 of 6';
 }
 
 async function initTraits() {
   const selectedId = localStorage.getItem('nova.selectedCategoryId');
-  if (!selectedId) {
-    window.location.replace('categories.html');
-    return;
-  }
+  if (!selectedId) return (window.location.href = 'categories.html');
 
   let data;
   try {
-    data = await loadJSON('traits.json');
-    if (!Array.isArray(data)) throw new Error('traits.json did not return an array.');
+    data = await loadJSON('traits_with_categories.json');
+    if (!Array.isArray(data)) throw new Error('traits_with_categories.json did not return an array.');
   } catch (err) {
     console.error(err);
-    showInlineError('#traitsGrid', 'We couldn’t load traits. Please refresh. If this persists, verify assets/data paths.');
+    showInlineError('#traitsGrid', 'Couldn’t load traits.');
     return;
   }
 
   const traits = data.filter(t => String(t.categoryId) === String(selectedId));
   const grid = document.querySelector('#traitsGrid');
-  if (!grid) {
-    console.error('Missing #traitsGrid on traits.html');
-    return;
-  }
+  if (!grid) return console.error('Missing #traitsGrid.');
 
   grid.innerHTML = '';
   traits.forEach(tr => {
@@ -116,15 +106,15 @@ async function initTraits() {
     grid.appendChild(tag);
   });
 
-  // Continue button
   const next = document.querySelector('[data-next="roles"]');
-  if (next) {
+  if (next)
     next.onclick = () => {
-      const checked = [...grid.querySelectorAll('input[type="checkbox"]:checked')].map(i => i.value);
-      try { localStorage.setItem('nova.selectedTraitIds', JSON.stringify(checked)); } catch (_){}
+      const checked = [...grid.querySelectorAll('input:checked')].map(i => i.value);
+      try {
+        localStorage.setItem('nova.selectedTraitIds', JSON.stringify(checked));
+      } catch (_) {}
       window.location.href = 'roles.html';
     };
-  }
 
   const step = document.querySelector('[data-progress]');
   if (step) step.textContent = 'Step 3 of 6';
@@ -133,15 +123,14 @@ async function initTraits() {
 async function initRoles() {
   let roles;
   try {
-    roles = await loadJSON('roles.json');
-    if (!Array.isArray(roles)) throw new Error('roles.json did not return an array.');
+    roles = await loadJSON('roles_400.json');
+    if (!Array.isArray(roles)) throw new Error('roles_400.json did not return an array.');
   } catch (err) {
     console.error(err);
-    showInlineError('#rolesGrid', 'We couldn’t load roles. Please refresh.');
+    showInlineError('#rolesGrid', 'Couldn’t load roles.');
     return;
   }
 
-  // Simple relevance scoring by selected traits (can be replaced with your richer logic)
   const selectedTraits = JSON.parse(localStorage.getItem('nova.selectedTraitIds') || '[]');
   const scored = roles
     .map(r => {
@@ -151,10 +140,7 @@ async function initRoles() {
     .sort((a, b) => b.score - a.score);
 
   const grid = document.querySelector('#rolesGrid');
-  if (!grid) {
-    console.error('Missing #rolesGrid on roles.html');
-    return;
-  }
+  if (!grid) return console.error('Missing #rolesGrid.');
 
   grid.innerHTML = '';
   scored.slice(0, 12).forEach(role => {
@@ -170,7 +156,9 @@ async function initRoles() {
       <button class="btn btn-primary" data-role="${role.id}">Select</button>
     `;
     card.querySelector('button').onclick = () => {
-      try { localStorage.setItem('nova.selectedRoleId', String(role.id)); } catch (_){}
+      try {
+        localStorage.setItem('nova.selectedRoleId', String(role.id));
+      } catch (_) {}
       window.location.href = 'reveal.html';
     };
     grid.appendChild(card);
@@ -181,7 +169,6 @@ async function initRoles() {
 }
 
 function initReveal() {
-  // Minimal placeholder: you can add PDF generation wiring here
   const btn = document.querySelector('[data-next="invest"]');
   if (btn) btn.onclick = () => (window.location.href = 'invest.html');
 
@@ -190,23 +177,30 @@ function initReveal() {
 }
 
 function initInvest() {
-  // Payhip embeds already in HTML -> no JS needed beyond step
   const step = document.querySelector('[data-progress]');
   if (step) step.textContent = 'Step 6 of 6';
 }
 
-// ---- Router ----
+// ---- ROUTER ----
 document.addEventListener('DOMContentLoaded', () => {
-  const path = (location.pathname || '').toLowerCase();
+  const p = (location.pathname || '').toLowerCase().replace(/[?#].*$/, '');
+  const is = name =>
+    p.endsWith(`/${name}`) || p.endsWith(`/${name}.html`) || p.includes(`/${name}/`);
 
-  // endsWith is resilient to subpaths (e.g., /app/categories.html)
-  if (path.endsWith('/') || path.endsWith('/index.html') || path.endsWith('index.html')) return void initWelcome();
-  if (path.endsWith('categories.html')) return void initCategories();
-  if (path.endsWith('traits.html')) return void initTraits();
-  if (path.endsWith('roles.html')) return void initRoles();
-  if (path.endsWith('reveal.html')) return void initReveal();
-  if (path.endsWith('invest.html')) return void initInvest();
+  if (is('') || is('index')) return void initWelcome();
+  if (is('categories')) return void initCategories();
+  if (is('traits')) return void initTraits();
+  if (is('roles')) return void initRoles();
+  if (is('reveal')) return void initReveal();
+  if (is('invest')) return void initInvest();
 
-  // Fallback: assume welcome
   initWelcome();
 });
+
+// ---- GLOBAL SHIMS ----
+window.initCategories = initCategories;
+window.renderCategories = initCategories; // backward compatibility
+window.initTraits = initTraits;
+window.initRoles = initRoles;
+window.initReveal = initReveal;
+window.initInvest = initInvest;
