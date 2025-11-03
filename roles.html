@@ -1,36 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NOVA • Roles</title>
-  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
   <div class="container">
-    <header class="header">
-      <div class="brand">NOVA • Roles</div>
-      <nav class="nav">
-        <a href="traits.html">Edit traits</a>
-      </nav>
-    </header>
-
+    <a class="nav" href="traits.html">Back</a>
     <div class="kicker">Step 3 of 5</div>
-    <h1>Roles that fit your traits</h1>
-    <p class="p">We rank roles by how strongly they match your selected traits.</p>
-
+    <h1>Matching roles</h1>
+    <p class="p">Based on your selections. You can refine by going back.</p>
     <div class="bar">
-      <div class="spacer"></div>
-      <button id="toReveal" class="btn">Continue → Reveal</button>
+      Focus: <span id="focusCats2">—</span> • Traits: <span id="focusTraits">—</span>
     </div>
 
-    <!-- 2-col cards with badges and meter bar -->
-    <section id="rolesList" class="grid-2"></section>
+    <!-- where roles render -->
+    <section id="rolesGrid" class="grid-2"></section>
 
-    <footer class="footer">© NOVA</footer>
+    <div class="actions">
+      <button id="toReflectionBtn" class="btn">Continue → Reflection</button>
+      <a id="resetAll" class="reset" href="categories.html">Start over</a>
+    </div>
+
+    <div class="footer">© NOVA</div>
   </div>
 
-  <script src="assets/app.js"></script>
-  <script>renderRoles();</script>
+  <script src="/assets/app.js" defer></script>
 </body>
 </html>
