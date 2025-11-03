@@ -1,47 +1,60 @@
-<script>
-window.ResultsRenderer = (function(){
-  function scoreRole(r){
-    const sCats = new Set(NOVA.state.selectedCategories||[]);
-    const sTraits = new Set(NOVA.state.selectedTraits||[]);
-    const catHits = (r.categories||[]).filter(c=>sCats.has(c)).length;
-    const traitHits = (r.traits||[]).filter(t=>sTraits.has(t)).length;
-    return (catHits*2) + (traitHits*3); // weight traits a bit higher
+// ResultsRenderer.js — compute role matches & render
+(function () {
+  const TRAIT_KEY = "nova.selectedTraits";
+
+  function loadTraits() { try { return JSON.parse(sessionStorage.getItem(TRAIT_KEY)) || []; } catch { return []; } }
+
+  function scoreRoles(roles, chosenTraitIds) {
+    const chosen = new Set(chosenTraitIds);
+    const chosenCount = Math.max(1, chosen.size);
+    return roles.map(r => {
+      // Expect r.traits is array of trait ids; tolerate names too
+      const ids = (r.traits || []).map(x => (typeof x === "string" ? x : x.id)).filter(Boolean);
+      let matches = 0;
+      ids.forEach(id => { if (chosen.has(id)) matches += 1; });
+      const fit = Math.round((matches / chosenCount) * 100);
+      return { ...r, _matches: matches, _fit: isFinite(fit) ? fit : 0 };
+    }).sort((a, b) => b._fit - a._fit || b._matches - a._matches);
   }
-  function getMatches(){
-    const roles = NOVA.data.roles||[];
-    return roles
-      .map(r=>({role:r,score:scoreRole(r)}))
-      .filter(x=>x.score>0)
-      .sort((a,b)=>b.score-a.score)
-      .slice(0,30);
-  }
-  function pillList(arr,label){
-    if(!arr||!arr.length) return '';
-    return `<div class="small kicker">${label}</div>`+
-      `<div>${arr.map(v=>`<span class="badge">${v}</span>`).join('')}</div>`;
-  }
-  function render(){
-    const list = getMatches();
-    const out = document.getElementById('rolesContainer');
-    const none = document.getElementById('noMatches');
-    out.innerHTML='';
-    if(list.length===0){ none.style.display='block'; return; }
-    none.style.display='none';
-    list.forEach(({role,score})=>{
-      const el = document.createElement('article'); el.className='role';
-      const cats = (role.categoryNames||role.categories||[]).map(x=>String(x));
-      const trs = (role.traitNames||role.traits||[]).map(x=>String(x));
-      el.innerHTML = `
-        <h3>${role.title||'Role'}</h3>
-        <div class="small">Match score: ${score}</div>
-        ${pillList(cats,'Categories')}
-        ${pillList(trs,'Traits')}
-        ${role.summary?`<p class="kicker">${role.summary}</p>`:''}
+
+  function renderRoles(scored) {
+    const grid = document.getElementById("rolesGrid");
+    const btn = document.getElementById("continueRoles");
+    const edit = document.getElementById("editTraits");
+
+    grid.innerHTML = "";
+    scored.forEach(r => {
+      const card = document.createElement("div");
+      card.className = "tile";
+      const outlook = r.outlook || r.Outlook || "—";
+      const salary  = r.salary  || r.Salary  || "—";
+      const desc    = r.desc || r.description || r.summary || "";
+      const fitChip = r._fit >= 60 ? `Great — ${r._fit}%` : r._fit >= 30 ? `Consider — ${r._fit}%` : `Explore — ${r._fit}%`;
+
+      card.innerHTML = `
+        <div class="title">${r.title || r.name || "Role"}</div>
+        <div class="chips">
+          <span class="chip">Outlook: ${outlook}</span>
+          <span class="chip">Salary: ${salary}</span>
+          <span class="chip">${fitChip}</span>
+        </div>
+        <div class="sub">${desc}</div>
       `;
-      out.appendChild(el);
+      grid.appendChild(card);
     });
+
+    btn.addEventListener("click", () => { window.location.href = "reveal.html"; });
+    if (edit) edit.addEventListener("click", () => { window.location.href = "traits.html"; });
   }
-  async function init(){ await NOVA.loadAll(); NOVA.loadState(); render(); }
-  return { init };
+
+  async function init() {
+    const chosen = loadTraits();
+    if (!chosen.length) { window.location.href = "traits.html"; return; }
+    await window.NOVA.DataLoader.loadAll();
+    const roles = window.NOVA.DataLoader.getRoles();
+    renderRoles(scoreRoles(roles, chosen));
+  }
+
+  window.NOVA = window.NOVA || {};
+  window.NOVA.ResultsRenderer = { init };
 })();
-</script>
