@@ -1,111 +1,132 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NOVA • Invest</title>
-
-  <!-- Unified NOVA styles -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=2"/>
-
-  <!-- Payhip embed (required for the Buy buttons) -->
-  <script type="text/javascript" src="https://payhip.com/payhip.js"></script>
-
-  <style>
-    /* Light page-specific polish (keeps with your theme) */
-    .plan-card .h3{ margin:0 0 6px }
-    .plan-card .p{ margin:0 0 10px }
-    .plan-card .price{ font-weight:800; margin:2px 0 12px }
-    .grid-4{ grid-template-columns:repeat(4,1fr) }
-    @media (max-width:1200px){ .grid-4{ grid-template-columns:repeat(3,1fr) } }
-    @media (max-width:900px){  .grid-4{ grid-template-columns:repeat(2,1fr) } }
-    @media (max-width:560px){  .grid-4{ grid-template-columns:1fr } }
-    .center{ text-align:center }
-  </style>
+  <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <div class="brand">NOVA</div>
-      <div class="nav"><a href="reveal.html">Back</a></div>
-    </div>
-
+    <a class="nav" href="reveal.html">Back</a>
     <div class="kicker">Step 5 of 5</div>
-    <div class="h1">Invest in Yourself</div>
-    <p class="p">
-      Choose a plan to unlock deeper guidance — or continue without purchasing and keep moving into Navi.
-    </p>
+    <h1>Invest in yourself</h1>
+    <p class="p">Lock in momentum. Save your results and choose the toolkit that fits your next step.</p>
 
-    <!-- 4-across plan grid -->
-    <section class="grid grid-4" style="margin-top:18px">
-      <!-- Starter -->
-      <article class="card plan-card">
-        <div class="h3">Starter</div>
-        <div class="price">$19 one-time</div>
-        <p class="p">Save results (email+PIN), top matches, snapshot PDF.</p>
-        <div class="actions" style="margin-top:10px">
-          <a href="https://payhip.com/b/GdfU7"
-             class="payhip-buy-button"
-             data-theme="green"
-             data-product="GdfU7">Buy Now</a>
-        </div>
-      </article>
-
-      <!-- Pro (NAVI PRO) -->
-      <article class="card plan-card">
-        <div class="h3">Pro</div>
-        <div class="price">$49 one-time</div>
-        <p class="p">Everything in Starter + salary/outlook + next-step template.</p>
-        <div class="actions" style="margin-top:10px">
-          <a href="https://payhip.com/b/knC1Z"
-             class="payhip-buy-button"
-             data-theme="green"
-             data-product="knC1Z">Buy Now</a>
-        </div>
-      </article>
-
-      <!-- Mastery -->
-      <article class="card plan-card">
-        <div class="h3">Mastery</div>
-        <div class="price">$99 one-time</div>
-        <p class="p">Everything in Pro + deeper insights + guided workbook.</p>
-        <div class="actions" style="margin-top:10px">
-          <a href="https://payhip.com/b/re4Hy"
-             class="payhip-buy-button"
-             data-theme="green"
-             data-product="re4Hy">Buy Now</a>
-        </div>
-      </article>
-
-      <!-- Book -->
-      <article class="card plan-card">
-        <div class="h3">“How to Know Your Purpose” (Book)</div>
-        <div class="price">$—</div>
-        <p class="p">A concise guide to clarify calling and act.</p>
-        <div class="actions" style="margin-top:10px">
-          <a href="https://payhip.com/b/N7Lvg"
-             class="payhip-buy-button"
-             data-theme="green"
-             data-product="N7Lvg">Buy Now</a>
-        </div>
-      </article>
+    <!-- Results summary -->
+    <section class="card">
+      <strong>Your focus:</strong>
+      <div id="sumCats" style="margin:6px 0 12px;">—</div>
+      <strong>Your traits:</strong>
+      <div id="sumTraits" style="margin:6px 0;">—</div>
     </section>
 
-    <p class="p small center" style="margin-top:12px">
-      Secure checkout opens in a new tab on Payhip.
-    </p>
+    <!-- Save & return -->
+    <section class="card">
+      <h3 style="margin:0 0 10px;">Save & return</h3>
+      <div class="actions">
+        <button id="downloadBtn" class="btn">Download my results (JSON)</button>
+        <button id="emailBtn" class="btn">Email me my results</button>
+        <a class="reset" href="categories.html">Start over</a>
+      </div>
+    </section>
 
-    <!-- Skip path (no login to avoid 404) -->
-    <div class="center" style="margin-top:18px">
-      <a class="btn secondary" href="navi.html">Continue without purchase → Navi</a>
-    </div>
+    <!-- Plans -->
+    <section class="grid-3">
+      <div class="card">
+        <h3>Starter</h3>
+        <p>Clarity report + basic tools.</p>
+        <ul>
+          <li>NOVA 50-trait discovery PDF</li>
+          <li>Basic resume & cover letter</li>
+          <li>Job match suggestions</li>
+          <li>Newsletter: Golden Nugget</li>
+        </ul>
+        <div class="actions">
+          <!-- Replace href with your Payhip buy link -->
+          <a class="btn" href="#" id="buyStarter">Get Starter — $29.99/mo</a>
+        </div>
+      </div>
 
-    <hr/>
+      <div class="card">
+        <h3>Pro</h3>
+        <p>Everything in Starter + pro tools.</p>
+        <ul>
+          <li>Resume rewrite AI (pro)</li>
+          <li>Unlimited cover letters</li>
+          <li>Company intelligence reports</li>
+          <li>Advanced job filters & alerts</li>
+          <li>Priority support</li>
+        </ul>
+        <div class="actions">
+          <!-- Replace href with your Payhip buy link -->
+          <a class="btn" href="#" id="buyPro">Get Pro — $99/mo</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Mastery</h3>
+        <p>Coaching + full toolkit.</p>
+        <ul>
+          <li>Everything in Pro</li>
+          <li>1:1 coaching & roadmap PDF</li>
+          <li>Extended doc library</li>
+          <li>Quarterly masterclass invite</li>
+          <li>Early access to features</li>
+        </ul>
+        <div class="actions">
+          <!-- Replace href with your Payhip buy link -->
+          <a class="btn" href="#" id="buyMastery">Get Mastery — $149/mo</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust & assurances -->
+    <section class="card">
+      <div class="badges">
+        <span class="badge">Secure checkout</span>
+        <span class="badge">Instant access</span>
+        <span class="badge">Cancel any time</span>
+      </div>
+      <p class="p" style="margin-top:10px;">
+        All plans include save/return, upgrades at any time, and prioritized help if you get stuck.
+      </p>
+    </section>
+
     <div class="footer">© NOVA</div>
   </div>
 
-  <!-- Optional app hooks (safe to keep consistent across pages) -->
-  <script src="assets/app.js?v=2"></script>
-  <script>/* renderInvest(); // not required, page is static */</script>
+  <script src="/assets/app.js" defer></script>
+  <script>
+    // Fill summary from localStorage
+    const cats = JSON.parse(localStorage.getItem('selectedCategories') || '[]');
+    const traits = JSON.parse(localStorage.getItem('selectedTraits') || '[]');
+    document.getElementById('sumCats').textContent = cats.length ? cats.join(', ') : '—';
+    document.getElementById('sumTraits').textContent = traits.length ? traits.join(', ') : '—';
+
+    // Download selections as JSON
+    document.getElementById('downloadBtn').onclick = () => {
+      const payload = { categories: cats, traits: traits, savedAt: new Date().toISOString() };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'nova-results.json'; a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    // Email selections (opens mail client)
+    document.getElementById('emailBtn').onclick = () => {
+      const subject = encodeURIComponent('My NOVA results');
+      const body = encodeURIComponent(
+        `Focus: ${cats.join(', ') || '—'}\nTraits: ${traits.join(', ') || '—'}\n\n(Attached or paste your JSON download.)`
+      );
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    };
+
+    // TODO: replace with your real Payhip links
+    document.getElementById('buyStarter').href = '#';
+    document.getElementById('buyPro').href = '#';
+    document.getElementById('buyMastery').href = '#';
+  </script>
 </body>
 </html>
