@@ -223,7 +223,7 @@ async function renderTraits(){
 }
 
 async function initTraits(){
-  if(!getFirst(['traitsGrid','traitGrid'])){ console.warn('[traits] mount not found'); return; }
+  if(!getFirst(['traitGrid','traitGrid'])){ console.warn('[traits] mount not found'); return; }
   await renderTraits();
 }
 
