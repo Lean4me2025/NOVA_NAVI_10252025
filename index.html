@@ -1,167 +1,242 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome • NOVA</title>
-  <link rel="stylesheet" href="/assets/css/style.css" />
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #ffffff;
-      color: #222;
-      text-align: center;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nova — Discover Your Purpose</title>
 
-    /* ✅ TEAL BANNER ONLY — no blue */
-    header {
-      background-color: #20b2aa; /* teal */
-      color: white;
-      padding: 50px 20px 45px;
-      border-radius: 0 0 40px 40px;
-    }
+<!-- Design System (light, centered, your palette via CSS variables) -->
+<style>
+  :root{
+    --bg:#f8fafc;           /* page background (light) */
+    --card:#ffffff;         /* cards */
+    --ink:#0f172a;          /* primary text */
+    --muted:#475569;        /* secondary text */
+    --brand:#5b8def;        /* brand accent (adjust to your “standard” palette) */
+    --brand-2:#7fd1ae;      /* secondary accent */
+    --warn:#ef4444;         /* warnings */
+    --ok:#10b981;           /* success */
+    --ring: 0 0 0 3px rgba(91,141,239,.25);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    color:var(--ink); background:var(--bg);
+    display:flex; min-height:100svh; align-items:center; justify-content:center;
+  }
+  .wrap{ width:min(980px, 92vw); margin:48px auto; }
+  header{ display:flex; gap:16px; align-items:center; margin:0 0 24px; }
+  header img{ width:40px; height:40px }
+  .card{
+    background:var(--card); border:1px solid #e5e7eb; border-radius:var(--radius);
+    padding:28px; box-shadow:0 8px 24px rgba(15,23,42,.06);
+  }
+  h1{ font-size:32px; line-height:1.2; margin:0 0 8px }
+  h2{ font-size:22px; margin:0 0 8px; color:var(--muted) }
+  p.lead{ color:var(--muted); margin:8px 0 18px }
+  .grid{ display:grid; gap:14px }
+  .grid.cols-2{ grid-template-columns:repeat(2,minmax(0,1fr)) }
+  .grid.cols-3{ grid-template-columns:repeat(3,minmax(0,1fr)) }
+  .btn{
+    appearance:none; border:0; background:var(--brand); color:#fff; padding:12px 16px;
+    border-radius:12px; font-weight:600; cursor:pointer; box-shadow:0 6px 16px rgba(91,141,239,.35);
+  }
+  .btn.secondary{ background:#e2e8f0; color:#0f172a; box-shadow:none }
+  .btn.ghost{ background:transparent; color:var(--brand); box-shadow:none }
+  .pill{
+    display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px;
+    background:#eef2ff; color:#3730a3; font-weight:600; font-size:12px;
+  }
+  .item{
+    border:1px solid #e5e7eb; border-radius:14px; padding:14px; background:#fff; cursor:pointer;
+  }
+  .item.active{ outline:var(--ring); border-color:var(--brand) }
+  .footer{ display:flex; justify-content:space-between; margin-top:16px }
+  .note{ font-size:13px; color:var(--muted) }
+  .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+  input, textarea, select{
+    width:100%; padding:12px 12px; border-radius:10px; border:1px solid #cbd5e1; background:#fff;
+  }
+  textarea{ min-height:120px; resize:vertical }
+  .center{ text-align:center }
+  .hide{ display:none !important }
+  .hero-stat{
+    display:inline-block; background:#fff; border:1px dashed #94a3b8; color:#0f172a;
+    padding:8px 12px; border-radius:10px; font-weight:700;
+  }
+</style>
 
-    header h1 {
-      font-size: 2rem;
-      margin: 0;
-    }
-
-    header p {
-      margin: 8px 0 0;
-      font-size: 1rem;
-      opacity: 0.95;
-    }
-
-    .content {
-      max-width: 960px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    .purpose-fact {
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: #111;
-      margin-bottom: 25px;
-    }
-
-    .grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 30px;
-    }
-
-    .card {
-      flex: 1 1 260px;
-      min-width: 240px;
-      background: #fafafa;
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
-      text-align: left;
-      padding: 20px;
-    }
-
-    .card h3 {
-      margin: 0 0 6px;
-      color: #333;
-      font-size: 1rem;
-    }
-
-    .card p {
-      margin: 0;
-      color: #444;
-      line-height: 1.4;
-      font-size: 0.95rem;
-    }
-
-    .why,
-    .expect {
-      background: #f7f8fa;
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 20px auto;
-      max-width: 700px;
-      font-size: 0.95rem;
-    }
-
-    .expect strong {
-      color: #20b2aa;
-    }
-
-    .center {
-      margin-top: 25px;
-    }
-
-    .btn {
-      display: inline-block;
-      background: #20b2aa;
-      color: #fff;
-      font-weight: 600;
-      text-decoration: none;
-      border-radius: 8px;
-      padding: 14px 28px;
-      transition: background 0.3s;
-    }
-
-    .btn:hover {
-      background: #17918a;
-    }
-
-    .footer {
-      margin: 40px 0 20px;
-      color: #999;
-      font-size: 0.85rem;
-    }
-  </style>
+<!-- jsPDF + html2canvas for PDF -->
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
 </head>
+
 <body>
+<div class="wrap">
   <header>
-    <h1>Welcome to NOVA</h1>
-    <p>Clarity about your work. Confidence about your next steps.</p>
+    <img src="assets/img/logo.svg" alt="Nova logo" />
+    <div>
+      <div style="font-weight:800; letter-spacing:.2px;">Nova</div>
+      <div class="note">Discover • Align • Advance</div>
+    </div>
   </header>
 
-  <div class="content">
-    <p class="purpose-fact">89% of people do not know their purpose.</p>
+  <!-- Router outlet -->
+  <main id="view" class="card"></main>
+</div>
 
-    <div class="grid">
-      <div class="card">
-        <h3>How it works</h3>
-        <p>Pick your focus area, choose a few traits, then see roles and next steps with outlook and salary context.</p>
-      </div>
+<script>
+/** ----------------------------
+ *  Minimal State + Storage
+ * -------------------------- */
+const S = {
+  step: 'welcome',
+  chosenCategory: null,
+  chosenTraits: new Set(),
+  chosenRole: null,
+  reflection: '',
+  email: '',
+};
+const save = () => localStorage.setItem('nova.q8', JSON.stringify({
+  step:S.step, cat:S.chosenCategory, traits:[...S.chosenTraits], role:S.chosenRole, reflection:S.reflection, email:S.email
+}));
+const load = () => {
+  try{
+    const v = JSON.parse(localStorage.getItem('nova.q8')||'{}');
+    if(v.step) S.step = v.step;
+    if(v.cat) S.chosenCategory = v.cat;
+    if(v.traits) S.chosenTraits = new Set(v.traits);
+    if(v.role) S.chosenRole = v.role;
+    if(v.reflection) S.reflection = v.reflection;
+    if(v.email) S.email = v.email;
+  }catch(e){}
+};
+load();
 
-      <div class="card">
-        <h3>What you'll get</h3>
-        <p>A short list of roles that fit you, plus a reflection step to point your next actions.</p>
-      </div>
+/** ----------------------------
+ *  Data Loader (robust filenames)
+ * -------------------------- */
+async function loadJSON(pathOptions){
+  const paths = Array.isArray(pathOptions) ? pathOptions : [pathOptions];
+  for(const p of paths){
+    try{
+      const r = await fetch(p);
+      if(r.ok) return await r.json();
+    }catch(e){}
+  }
+  throw new Error('Data file not found: '+paths.join(' or '));
+}
+const Data = {
+  categories: null,
+  traits: null,
+  roles: null,
+  async ensure(){
+    if(!this.categories) this.categories = await loadJSON(['assets/data/categories.json']);
+    if(!this.traits) this.traits = await loadJSON(['assets/data/traits_with_categories.json','assets/data/traitswithcategories.json']);
+    if(!this.roles) this.roles = await loadJSON(['assets/data/roles.json']);
+  }
+};
 
-      <div class="card">
-        <h3>Time needed</h3>
-        <p>About 6–10 minutes. You can start now and finish later.</p>
-      </div>
-    </div>
+/** ----------------------------
+ *  Small Helpers
+ * -------------------------- */
+const $ = sel => document.querySelector(sel);
+function nav(step){ S.step = step; save(); location.hash = '#/'+step }
+function formatSalary(band){ return band ? `$${band.min.toLocaleString()}–$${band.max.toLocaleString()}` : '—' }
 
-    <div class="why">
-      <h3>Why NOVA</h3>
-      <p>Designed around mind, heart, drive, and spirit—practical, encouraging, and actionable.</p>
-    </div>
+/** ----------------------------
+ *  VIEWS
+ * -------------------------- */
+const V = {};
 
-    <div class="expect">
-      What to expect:
-      <strong>Welcome → Categories → Traits → Roles → Reflection → Invest</strong>
-      <em>(then log in to NAVI)</em>
-    </div>
-
-    <div class="center">
-      <a href="categories.html" class="btn">Start My Purpose Journey →</a>
-    </div>
-
-    <div class="footer">© NOVA</div>
+V.welcome = () => `
+  <h1 class="center">Welcome to Nova</h1>
+  <p class="lead center">
+    ${'<span class="hero-stat">89% of people don’t know their purpose.</span>'}
+  </p>
+  <p class="center">We’ll guide you through eight clear steps to discover your fit — then generate a polished PDF and next steps.</p>
+  <div class="center" style="margin-top:16px">
+    <button class="btn" onclick="nav('categories')">Discover Your Purpose</button>
+    <div class="note" style="margin-top:8px">Your progress auto-saves — you can return later.</div>
   </div>
+`;
 
-  <script src="/assets/app.js" defer></script>
-</body>
-</html>
+V.categories = () => {
+  const items = Data.categories.map(c=>`
+    <div class="item ${S.chosenCategory===c.id?'active':''}" onclick="(S.chosenCategory='${c.id}', save(), render())">
+      <div class="row"><span class="pill">${c.label}</span></div>
+      <div class="note">${c.summary||''}</div>
+    </div>`).join('');
+  return `
+    <h1>Choose a Category</h1>
+    <p class="lead">Start broad. Your category anchors the trait set we’ll explore next.</p>
+    <div class="grid cols-3">${items}</div>
+    <div class="footer">
+      <button class="btn ghost" onclick="nav('welcome')">Back</button>
+      <button class="btn" ${S.chosenCategory?`onclick="nav('traits')"`:'disabled'}>Next: Traits</button>
+    </div>
+  `;
+};
+
+V.traits = () => {
+  const list = Data.traits.filter(t=>t.categoryId===S.chosenCategory);
+  const items = list.map(t=>{
+    const on = S.chosenTraits.has(t.id);
+    return `<div class="item ${on?'active':''}" onclick="toggleTrait('${t.id}')">
+      <strong>${t.label}</strong><div class="note">${t.desc||''}</div>
+    </div>`
+  }).join('');
+  return `
+    <h1>Select Traits</h1>
+    <p class="lead">Pick 5–10 traits that feel true. You can adjust as you go.</p>
+    <div class="grid cols-3">${items}</div>
+    <div class="footer">
+      <button class="btn ghost" onclick="nav('categories')">Back</button>
+      <div class="row">
+        <span class="note">Selected: ${S.chosenTraits.size}</span>
+        <button class="btn" ${S.chosenTraits.size>=5?`onclick="nav('roles')"`:'disabled'}>Next: Roles</button>
+      </div>
+    </div>
+  `;
+};
+window.toggleTrait = (id)=>{
+  if(S.chosenTraits.has(id)) S.chosenTraits.delete(id); else S.chosenTraits.add(id);
+  save(); render();
+};
+
+V.roles = () => {
+  // Simple matching: roles with the most overlapping traits
+  const picks = Data.roles
+    .map(r=>({ ...r, score: r.traits.filter(t=>S.chosenTraits.has(t)).length }))
+    .filter(x=>x.score>0)
+    .sort((a,b)=>b.score-a.score)
+    .slice(0,9);
+
+  const items = picks.map(r=>`
+   <div class="item ${S.chosenRole===r.id?'active':''}" onclick="(S.chosenRole='${r.id}', save(), render())">
+     <div class="row">
+       <span class="pill">Match: ${r.score}</span>
+       <span class="pill" style="background:#ecfeff;color:#155e75">Outlook: ${r.outlook||'—'}</span>
+       <span class="pill" style="background:#fef9c3;color:#92400e">Salary: ${formatSalary(r.salary)}</span>
+     </div>
+     <div style="margin-top:6px; font-weight:700">${r.title}</div>
+     <div class="note">${r.why || 'This role aligns with your selected strengths.'}</div>
+     <div class="note" style="margin-top:6px"><em>Next Steps:</em> ${r.next||'Shadow a practitioner • Take a foundational course • Draft a 30-60-90 plan'}</div>
+   </div>
+  `).join('');
+
+  return `
+    <h1>Recommended Roles</h1>
+    <p class="lead">We’ve ranked roles by trait overlap. Pick the one that lights you up.</p>
+    <div class="grid cols-3">${items || '<div class="note">No matches yet — add a few more traits.</div>'}</div>
+    <div class="footer">
+      <button class="btn ghost" onclick="nav('traits')">Back</button>
+      <button class="btn" ${S.chosenRole?`onclick="nav('reflection')"`:'disabled'}>Next: Reflection</button>
+    </div>
+  `;
+};
+
+V.reflection = () => `
+  <h1>Reflect & Capture</h1>
+  <p
