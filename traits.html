@@ -7,23 +7,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{--teal4:#37c7bd;--teal5:#1aa5a0;--ink:#1d2538;--muted:#6b7280;--border:#e8ecf2;--shadow:0 10px 30px rgba(13,52,58,.12)}
-    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#fff;color:var(--ink)}
     .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
     .hero{background:linear-gradient(135deg,var(--teal4),var(--teal5));color:#fff;padding:38px 0 26px;border-bottom-left-radius:28px;border-bottom-right-radius:28px;box-shadow:var(--shadow)}
-    .hero h1{margin:0 0 6px;font-size:34px;font-weight:800;letter-spacing:-.02em}
+    .hero h1{font-size:34px;font-weight:800;margin:0 0 6px;letter-spacing:-.02em}
     .hero p{margin:0;opacity:.95}
+    a.back{color:#0e6e6c;text-decoration:none;border-bottom:1px solid #7de3d6;padding-bottom:2px}
     .top{margin:18px 0 8px;color:var(--muted)}
-    .count{font-weight:700;color:#0b1020}
     .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:12px 0 4px}
-    .chip{border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;background:#fff;transition:all .12s ease}
-    .chip:hover{box-shadow:var(--shadow)}
+    .chip{background:#fff;border:1px solid var(--border);padding:12px 14px;border-radius:12px;cursor:pointer;text-align:left;transition:.12s ease}
     .chip.active{background:linear-gradient(135deg,#e6fbf7,#c8f5ee);border-color:#7de3d6}
     .footer{display:flex;align-items:center;gap:16px;margin:18px 0 36px}
-    .btn{background:linear-gradient(135deg,var(--teal4),var(--teal5));color:#fff;border:0;border-radius:14px;padding:12px 18px;font-weight:800;cursor:pointer;box-shadow:var(--shadow);opacity:.5}
+    .btn{background:linear-gradient(135deg,var(--teal4),var(--teal5));color:#fff;border:0;border-radius:14px;padding:12px 18px;font-weight:800;cursor:pointer;opacity:.5}
     .btn.enabled{opacity:1}
-    a.back{color:#0e6e6c;text-decoration:none;border-bottom:1px solid #7de3d6;padding-bottom:2px}
     .empty{background:#fff;border:1px dashed #cdd9e3;border-radius:12px;padding:16px 14px;color:#5a657a;margin:12px 0}
-    @media (max-width:900px){ .grid{grid-template-columns:1fr} }
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -35,10 +33,12 @@
     </div>
   </header>
 
-  <!-- 👇 THIS is the mount your console error complained about -->
+  <!-- mount -->
   <main id="traits" class="wrap" data-page="traits"></main>
 
-  <!-- Page-specific logic only for Traits -->
-  <script defer src="traits.js"></script>
+  <!-- scripts -->
+  <script defer src="/assets/js/DataLoader.js"></script>
+  <script defer src="/assets/js/traits.js"></script>
+  <script defer src="/assets/js/SaveReturn.js"></script> <!-- optional; safe -->
 </body>
 </html>
