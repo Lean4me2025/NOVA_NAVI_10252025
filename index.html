@@ -1,242 +1,132 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Nova — Discover Your Purpose</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nova — Start Your Purpose</title>
 
-<!-- Design System (light, centered, your palette via CSS variables) -->
-<style>
-  :root{
-    --bg:#f8fafc;           /* page background (light) */
-    --card:#ffffff;         /* cards */
-    --ink:#0f172a;          /* primary text */
-    --muted:#475569;        /* secondary text */
-    --brand:#5b8def;        /* brand accent (adjust to your “standard” palette) */
-    --brand-2:#7fd1ae;      /* secondary accent */
-    --warn:#ef4444;         /* warnings */
-    --ok:#10b981;           /* success */
-    --ring: 0 0 0 3px rgba(91,141,239,.25);
-    --radius:16px;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0; font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-    color:var(--ink); background:var(--bg);
-    display:flex; min-height:100svh; align-items:center; justify-content:center;
-  }
-  .wrap{ width:min(980px, 92vw); margin:48px auto; }
-  header{ display:flex; gap:16px; align-items:center; margin:0 0 24px; }
-  header img{ width:40px; height:40px }
-  .card{
-    background:var(--card); border:1px solid #e5e7eb; border-radius:var(--radius);
-    padding:28px; box-shadow:0 8px 24px rgba(15,23,42,.06);
-  }
-  h1{ font-size:32px; line-height:1.2; margin:0 0 8px }
-  h2{ font-size:22px; margin:0 0 8px; color:var(--muted) }
-  p.lead{ color:var(--muted); margin:8px 0 18px }
-  .grid{ display:grid; gap:14px }
-  .grid.cols-2{ grid-template-columns:repeat(2,minmax(0,1fr)) }
-  .grid.cols-3{ grid-template-columns:repeat(3,minmax(0,1fr)) }
-  .btn{
-    appearance:none; border:0; background:var(--brand); color:#fff; padding:12px 16px;
-    border-radius:12px; font-weight:600; cursor:pointer; box-shadow:0 6px 16px rgba(91,141,239,.35);
-  }
-  .btn.secondary{ background:#e2e8f0; color:#0f172a; box-shadow:none }
-  .btn.ghost{ background:transparent; color:var(--brand); box-shadow:none }
-  .pill{
-    display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px;
-    background:#eef2ff; color:#3730a3; font-weight:600; font-size:12px;
-  }
-  .item{
-    border:1px solid #e5e7eb; border-radius:14px; padding:14px; background:#fff; cursor:pointer;
-  }
-  .item.active{ outline:var(--ring); border-color:var(--brand) }
-  .footer{ display:flex; justify-content:space-between; margin-top:16px }
-  .note{ font-size:13px; color:var(--muted) }
-  .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
-  input, textarea, select{
-    width:100%; padding:12px 12px; border-radius:10px; border:1px solid #cbd5e1; background:#fff;
-  }
-  textarea{ min-height:120px; resize:vertical }
-  .center{ text-align:center }
-  .hide{ display:none !important }
-  .hero-stat{
-    display:inline-block; background:#fff; border:1px dashed #94a3b8; color:#0f172a;
-    padding:8px 12px; border-radius:10px; font-weight:700;
-  }
-</style>
+  <!-- Inline favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect rx="10" ry="10" width="48" height="48" fill="%231f72ea"/><path d="M14 34V14h4l12 14V14h4v20h-4L18 20v14h-4z" fill="white"/></svg>'>
 
-<!-- jsPDF + html2canvas for PDF -->
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+  <style>
+    :root{
+      --bg:#f7f9fc;
+      --surface:#ffffff;
+      --ink:#0f172a;
+      --muted:#475569;
+      --brand:#1f72ea;
+      --brand-2:#71a7ff;
+      --ring:rgba(31,114,234,.25);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:system-ui, Arial, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 100% -10%, #dfeeff 0%, transparent 60%),
+        radial-gradient(900px 500px at -10% 110%, #eaf2ff 0%, transparent 60%),
+        var(--bg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+    }
+    .card{
+      width:min(760px,100%);
+      background:var(--surface);
+      border-radius:20px;
+      box-shadow:0 12px 40px rgba(2,6,23,.08);
+      padding:28px clamp(24px,4vw,40px);
+      outline:1px solid rgba(15,23,42,.05);
+      animation:pop .5s ease-out both;
+    }
+    @keyframes pop{from{transform:translateY(8px);opacity:.0}to{transform:none;opacity:1}}
+
+    .brand{display:flex; gap:12px; align-items:center; margin-bottom:10px}
+    .brand__name{font-weight:800; font-size:1.15rem}
+    h1{
+      margin:18px 0 10px;
+      font-size:clamp(1.85rem, 2.2rem + .6vw, 2.6rem);
+      line-height:1.12;
+      color:var(--ink);
+    }
+    .stat{
+      display:inline-block;
+      background:linear-gradient(90deg, var(--brand), var(--brand-2));
+      color:#fff;
+      border-radius:999px;
+      padding:8px 14px;
+      font-weight:700;
+      font-size:.95rem;
+      box-shadow:0 6px 16px var(--ring);
+      margin-bottom:16px;
+    }
+    p{
+      color:var(--muted);
+      font-size:1.05rem;
+      line-height:1.55rem;
+      margin-bottom:24px;
+    }
+    .cta-row{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{
+      appearance:none; border:none; cursor:pointer;
+      background:var(--brand); color:#fff;
+      font-weight:700; padding:14px 18px;
+      border-radius:12px; font-size:1.05rem;
+      box-shadow:0 10px 22px var(--ring);
+      transition:.15s transform, .15s background;
+    }
+    .btn:hover{transform:translateY(-1px); background:#2a7bf0}
+    .btn--ghost{
+      background:transparent; color:var(--brand);
+      border:2px solid rgba(31,114,234,.25);
+      box-shadow:none;
+    }
+    .fine{margin-top:10px; color:var(--muted); font-size:.95rem}
+    footer{margin-top:22px; font-size:.9rem; color:var(--muted)}
+    a.inline{color:var(--brand); text-decoration:none}
+    a.inline:hover{text-decoration:underline}
+  </style>
 </head>
-
 <body>
-<div class="wrap">
-  <header>
-    <img src="assets/img/logo.svg" alt="Nova logo" />
-    <div>
-      <div style="font-weight:800; letter-spacing:.2px;">Nova</div>
-      <div class="note">Discover • Align • Advance</div>
-    </div>
-  </header>
+  <main class="card" role="main" aria-labelledby="title">
 
-  <!-- Router outlet -->
-  <main id="view" class="card"></main>
-</div>
-
-<script>
-/** ----------------------------
- *  Minimal State + Storage
- * -------------------------- */
-const S = {
-  step: 'welcome',
-  chosenCategory: null,
-  chosenTraits: new Set(),
-  chosenRole: null,
-  reflection: '',
-  email: '',
-};
-const save = () => localStorage.setItem('nova.q8', JSON.stringify({
-  step:S.step, cat:S.chosenCategory, traits:[...S.chosenTraits], role:S.chosenRole, reflection:S.reflection, email:S.email
-}));
-const load = () => {
-  try{
-    const v = JSON.parse(localStorage.getItem('nova.q8')||'{}');
-    if(v.step) S.step = v.step;
-    if(v.cat) S.chosenCategory = v.cat;
-    if(v.traits) S.chosenTraits = new Set(v.traits);
-    if(v.role) S.chosenRole = v.role;
-    if(v.reflection) S.reflection = v.reflection;
-    if(v.email) S.email = v.email;
-  }catch(e){}
-};
-load();
-
-/** ----------------------------
- *  Data Loader (robust filenames)
- * -------------------------- */
-async function loadJSON(pathOptions){
-  const paths = Array.isArray(pathOptions) ? pathOptions : [pathOptions];
-  for(const p of paths){
-    try{
-      const r = await fetch(p);
-      if(r.ok) return await r.json();
-    }catch(e){}
-  }
-  throw new Error('Data file not found: '+paths.join(' or '));
-}
-const Data = {
-  categories: null,
-  traits: null,
-  roles: null,
-  async ensure(){
-    if(!this.categories) this.categories = await loadJSON(['assets/data/categories.json']);
-    if(!this.traits) this.traits = await loadJSON(['assets/data/traits_with_categories.json','assets/data/traitswithcategories.json']);
-    if(!this.roles) this.roles = await loadJSON(['assets/data/roles.json']);
-  }
-};
-
-/** ----------------------------
- *  Small Helpers
- * -------------------------- */
-const $ = sel => document.querySelector(sel);
-function nav(step){ S.step = step; save(); location.hash = '#/'+step }
-function formatSalary(band){ return band ? `$${band.min.toLocaleString()}–$${band.max.toLocaleString()}` : '—' }
-
-/** ----------------------------
- *  VIEWS
- * -------------------------- */
-const V = {};
-
-V.welcome = () => `
-  <h1 class="center">Welcome to Nova</h1>
-  <p class="lead center">
-    ${'<span class="hero-stat">89% of people don’t know their purpose.</span>'}
-  </p>
-  <p class="center">We’ll guide you through eight clear steps to discover your fit — then generate a polished PDF and next steps.</p>
-  <div class="center" style="margin-top:16px">
-    <button class="btn" onclick="nav('categories')">Discover Your Purpose</button>
-    <div class="note" style="margin-top:8px">Your progress auto-saves — you can return later.</div>
-  </div>
-`;
-
-V.categories = () => {
-  const items = Data.categories.map(c=>`
-    <div class="item ${S.chosenCategory===c.id?'active':''}" onclick="(S.chosenCategory='${c.id}', save(), render())">
-      <div class="row"><span class="pill">${c.label}</span></div>
-      <div class="note">${c.summary||''}</div>
-    </div>`).join('');
-  return `
-    <h1>Choose a Category</h1>
-    <p class="lead">Start broad. Your category anchors the trait set we’ll explore next.</p>
-    <div class="grid cols-3">${items}</div>
-    <div class="footer">
-      <button class="btn ghost" onclick="nav('welcome')">Back</button>
-      <button class="btn" ${S.chosenCategory?`onclick="nav('traits')"`:'disabled'}>Next: Traits</button>
-    </div>
-  `;
-};
-
-V.traits = () => {
-  const list = Data.traits.filter(t=>t.categoryId===S.chosenCategory);
-  const items = list.map(t=>{
-    const on = S.chosenTraits.has(t.id);
-    return `<div class="item ${on?'active':''}" onclick="toggleTrait('${t.id}')">
-      <strong>${t.label}</strong><div class="note">${t.desc||''}</div>
-    </div>`
-  }).join('');
-  return `
-    <h1>Select Traits</h1>
-    <p class="lead">Pick 5–10 traits that feel true. You can adjust as you go.</p>
-    <div class="grid cols-3">${items}</div>
-    <div class="footer">
-      <button class="btn ghost" onclick="nav('categories')">Back</button>
-      <div class="row">
-        <span class="note">Selected: ${S.chosenTraits.size}</span>
-        <button class="btn" ${S.chosenTraits.size>=5?`onclick="nav('roles')"`:'disabled'}>Next: Roles</button>
+    <div class="brand" aria-label="Nova brand">
+      <svg width="44" height="44" viewBox="0 0 48 48">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#71a7ff"/><stop offset="1" stop-color="#1f72ea"/>
+        </linearGradient></defs>
+        <rect rx="10" ry="10" width="48" height="48" fill="url(#g)"/>
+        <path d="M14 34V14h4l12 14V14h4v20h-4L18 20v14h-4z" fill="#fff"/>
+      </svg>
+      <div>
+        <div class="brand__name">Nova</div>
       </div>
     </div>
-  `;
-};
-window.toggleTrait = (id)=>{
-  if(S.chosenTraits.has(id)) S.chosenTraits.delete(id); else S.chosenTraits.add(id);
-  save(); render();
-};
 
-V.roles = () => {
-  // Simple matching: roles with the most overlapping traits
-  const picks = Data.roles
-    .map(r=>({ ...r, score: r.traits.filter(t=>S.chosenTraits.has(t)).length }))
-    .filter(x=>x.score>0)
-    .sort((a,b)=>b.score-a.score)
-    .slice(0,9);
+    <div class="stat">89% of people do not know their purpose.</div>
 
-  const items = picks.map(r=>`
-   <div class="item ${S.chosenRole===r.id?'active':''}" onclick="(S.chosenRole='${r.id}', save(), render())">
-     <div class="row">
-       <span class="pill">Match: ${r.score}</span>
-       <span class="pill" style="background:#ecfeff;color:#155e75">Outlook: ${r.outlook||'—'}</span>
-       <span class="pill" style="background:#fef9c3;color:#92400e">Salary: ${formatSalary(r.salary)}</span>
-     </div>
-     <div style="margin-top:6px; font-weight:700">${r.title}</div>
-     <div class="note">${r.why || 'This role aligns with your selected strengths.'}</div>
-     <div class="note" style="margin-top:6px"><em>Next Steps:</em> ${r.next||'Shadow a practitioner • Take a foundational course • Draft a 30-60-90 plan'}</div>
-   </div>
-  `).join('');
+    <h1 id="title">You won't be one of them.</h1>
 
-  return `
-    <h1>Recommended Roles</h1>
-    <p class="lead">We’ve ranked roles by trait overlap. Pick the one that lights you up.</p>
-    <div class="grid cols-3">${items || '<div class="note">No matches yet — add a few more traits.</div>'}</div>
-    <div class="footer">
-      <button class="btn ghost" onclick="nav('traits')">Back</button>
-      <button class="btn" ${S.chosenRole?`onclick="nav('reflection')"`:'disabled'}>Next: Reflection</button>
+    <p>
+      Nova helps you <strong>find</strong> and <strong>define</strong> the purpose already inside you —
+      and align your life and career with who you were created to be.
+    </p>
+
+    <div class="cta-row">
+      <button class="btn" onclick="location.href='categories.html'">Start Discovery</button>
+      <button class="btn btn--ghost" onclick="location.href='categories.html'">Skip Intro</button>
     </div>
-  `;
-};
 
-V.reflection = () => `
-  <h1>Reflect & Capture</h1>
-  <p
+    <div class="fine">Takes about 3–5 minutes.</div>
+
+    <footer>
+      Already exploring? <a class="inline" href="categories.html">Continue</a>
+    </footer>
+
+  </main>
+</body>
+</html>
